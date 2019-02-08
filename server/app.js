@@ -1,32 +1,36 @@
 const express = require('express');
 const axios = require('axios');
-const config = require('./config.json');
 const queryString = require('querystring');
+const keys = require('./config/keys');
+const SpotifyWebApi = require('spotify-web-api-node');
  
+
+
 const app = express();
 
-// app.get('/login', function(req, res){
 
-let appState = generateRandomString(16);
+app.get('/login', function(req, res){
 
-
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-
-app.use(cookieParser());
-app.use(session({secret: "Shh, its a secret!"}));
+// let appState = generateRandomString(16);
 
 
+// var cookieParser = require('cookie-parser');
+// var session = require('express-session');
 
-app.get('/', function(req, res){
-   if(req.session.page_views){
-      req.session.page_views++;
-      res.send("You visited this page " + req.session.page_views + " times");
-   } else {
-      req.session.page_views = 1;
-      res.send("Welcome to this page for the first time!");
-   }
-});
+// app.use(cookieParser());
+// app.use(session({secret: "Shh, its a secret!"}));
+
+
+
+// app.get('/', function(req, res){
+//    if(req.session.page_views){
+//       req.session.page_views++;
+//       res.send("You visited this page " + req.session.page_views + " times");
+//    } else {
+//       req.session.page_views = 1;
+//       res.send("Welcome to this page for the first time!");
+//    }
+// });
 
 // res.cookie('spotify_auth_cookie', appState);
 
@@ -75,4 +79,4 @@ app.get('/', function(req, res){
 // };
 
 
-app.listen(8888);
+// app.listen(8888);
