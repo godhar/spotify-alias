@@ -3,80 +3,58 @@ const axios = require('axios');
 const queryString = require('querystring');
 const keys = require('./config/keys');
 const SpotifyWebApi = require('spotify-web-api-node');
- 
+
+
+
 
 
 const app = express();
 
 
-app.get('/login', function(req, res){
+app.get('/login', function (req, res) {
 
-// let appState = generateRandomString(16);
+  console.log('what the fuck?');
+  console.log(process.env);
 
+  var spotifyApi = new SpotifyWebApi({
+    clientId: keys.client_id,
+    clientSecret: keys.client_secret,
+    redirectUri: keys.redirect_uri,
+    state: keys.state
+  });
+});
 
-// var cookieParser = require('cookie-parser');
-// var session = require('express-session');
+app.get('/callback', function (req, res) {
 
-// app.use(cookieParser());
-// app.use(session({secret: "Shh, its a secret!"}));
+  /* Read query parameters */
+  var code = req.query.code; // Read the authorization code from the query parameters
+  var state = req.query.state; // (Optional) Read the state from the query parameter
+  console.log(req);
+  /* Get the access token! */
+  spotifyApi.authorizationCodeGrant(code)
+    .then(function (data) {
+      console.log('The token expires in ' + data['expires_in']);
+      console.log('The access token is ' + data['access_token']);
+      console.log('The refresh token is ' + data['refresh_token']);
 
+      /* Ok. We've got the access token!
+         Save the access token for this user somewhere so that you can use it again.
+         Cookie? Local storage?
+      */
 
+      res.cookie('spotify_token', data['access_token']);
 
-// app.get('/', function(req, res){
-//    if(req.session.page_views){
-//       req.session.page_views++;
-//       res.send("You visited this page " + req.session.page_views + " times");
-//    } else {
-//       req.session.page_views = 1;
-//       res.send("Welcome to this page for the first time!");
-//    }
-// });
+      spotifyApi.setAccessToken(data.body['access_token']);
+      spotifyApi.setRefreshToken(data.body['refresh_token']);
 
-// res.cookie('spotify_auth_cookie', appState);
+      /* Redirecting back to the main page! :-) */
+      res.redirect('/');
 
-// axios.get('https://accounts.spotify.com/authorize?' +
-//     queryString.stringify({
-//       response_type: 'code',
-//       client_id: config.client_id,
-//       scope: config.scope,
-//       redirect_uri: config.redirect_uri,
-//       state: appState
-
-//     })).catch(error => {
-//     console.log(error);
-//   });
-// });
-
-// app.get('/auth_grant_callback', function(req, res) {
-//     let state = req.query.state || null;
-//     let code = req.query.code || null;
-
-//     if(req.error) {
-//         //handle bad auth for browser
-//     }
-//     if(code) {
-//         axios.post('https://accounts.spotify.com/api/token?grant_type=authorization_code&code=' + code +
-//         '&redirect_uri=' + config.redirect_uri, 
-//         { headers: {
-//             'Authorization': 'Basic ' + btoa(config.client_id + ':' + config.client_secret) 
-//         }
-//     }).then( (res) =>  {
-
-//     })
-//     }
-
-// });
+    }, function (err) {
+      res.status(err.code);
+      res.send(err.message);
+    });
+});
 
 
-// const generateRandomString = function(length) {
-//   let text = '';
-//   let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-//   for (let i = 0; i < length; i++) {
-//     text += possible.charAt(Math.floor(Math.random() * possible.length));
-//   }
-//   return text;
-// };
-
-
-// app.listen(8888);
+app.listen(8888);
