@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engines": {
+    "node" : "10.0.0",
+    "npm" : "5.6.0"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "express": "^4.16.4",
@@ -12,9 +16,7 @@
     "nodemon": "^1.18.9"
   },
   "scripts": {
-    // "start": "NODE_ENV=development nodemon app.js",
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC"
