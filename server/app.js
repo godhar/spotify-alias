@@ -1,8 +1,7 @@
 const express = require('express');
-const axios = require('axios');
-const queryString = require('querystring');
-const keys = require('./config/keys');
-const SpotifyWebApi = require('spotify-web-api-node');
+// const axios = require('axios');
+// const queryString = require('querystring');
+// const SpotifyWebApi = require('spotify-web-api-node');
 
 
 const app = express();
