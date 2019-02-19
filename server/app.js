@@ -1,4 +1,5 @@
 const express = require('express');
+const keys = require('./config/keys');
 // const axios = require('axios');
 // const queryString = require('querystring');
 // const SpotifyWebApi = require('spotify-web-api-node');
@@ -10,15 +11,14 @@ const app = express();
 app.get('/', (req, res) => {
 
   res.send({hi: 'there'});
-  // console.log('what the fuck?');
-  // console.log(process.env);
+  console.log(process.env.NODE_ENV);
 
-  // var spotifyApi = new SpotifyWebApi({
-  //   clientId: keys.client_id,
-  //   clientSecret: keys.client_secret,
-  //   redirectUri: keys.redirect_uri,
-  //   state: keys.state
-  // });
+  var spotifyApi = new SpotifyWebApi({
+    clientId: keys.client_id,
+    clientSecret: keys.client_secret,
+    redirectUri: keys.redirect_uri,
+    state: keys.state
+  });
 });
 
 const PORT = process.env.PORT || 5000;
