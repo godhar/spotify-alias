@@ -4,19 +4,23 @@
   "description": "",
   "main": "app.js",
   "engines": {
-    "node" : "10.0.0",
-    "npm" : "5.6.0"
+    "node": "10.0.0",
+    "npm": "5.6.0"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "express": "^4.16.4",
+    "mongoose": "^5.4.14",
+    "passport": "^0.4.0",
+    "passport-spotify": "^1.0.1",
     "spotify-web-api-node": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.9"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon server/app.js"
   },
   "author": "",
   "license": "ISC"
