@@ -19,7 +19,8 @@ passport.deserializeUser((id, done) => {
 passport.use(new SpotifyStrategy({
     clientID: keys.spotifyClientID,
     clientSecret: keys.spotifyClientSecret,
-    callbackURL: keys.redirect_uri,
+    callbackURL: '/auth/spotify/callback',
+    proxy: true
 }, (accessToken, refreshToken, profile, done) => {
     console.log(profile.id)
 
