@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const userSchema = new Schema({
-    spotifyId: String,
+const userCredentialSchema = new Schema({
+    userId: String,
     accessToken: String,
     refreshToken: String,
     name: String
 });
 
 
-mongoose.model('users', userSchema);
+mongoose.model('userCredential', userCredentialSchema);
 

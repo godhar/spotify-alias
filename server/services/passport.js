@@ -3,6 +3,8 @@ const SpotifyStrategy = require('passport-spotify').Strategy;
 const keys = require('../config/keys');
 const mongoose = require('mongoose');
 const User = mongoose.model('users');
+const UserCredential = mongoose.model('userCredential');
+const spotifyService = require('./spotifyDataService');
 
 
 passport.serializeUser((user, done) => {
@@ -11,9 +13,9 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
     User.findById(id)
-    .then((user) => {
-        done(null, user);
-    });
+        .then((user) => {
+            done(null, user);
+        });
 });
 
 passport.use(new SpotifyStrategy({
@@ -21,17 +23,34 @@ passport.use(new SpotifyStrategy({
     clientSecret: keys.spotifyClientSecret,
     callbackURL: '/auth/spotify/callback',
     proxy: true
-}, (accessToken, refreshToken, profile, done) => {
-    console.log(profile.id)
+}, async (accessToken, refreshToken, profile, done) => {
 
-    User.findOne({ spotifyId: profile.id }).then((existingUser) => {
-        if (existingUser) {
-            done(null, existingUser);
-        }
-        else {
-            new User({ spotifyId: profile.id }).save()
-                .then((user) => done(null, user));
-        }
-    });
 
+    const spotifyId = profile.id;
+    const name = profile.displayName;
+    const email = profile.emails[0].value;
+
+
+    const existingUser = await User.findOne({ spotifyId: profile.id });
+
+    if (existingUser) {
+        console.log('yes')
+        console.log(accessToken)
+        let userCredentials = await UserCredential.findOne({ userId: spotifyId });
+
+        if (!userCredentials) {
+            await new UserCredential({ userId: spotifyId, name, accessToken, refreshToken }).save();
+        }
+        userCredentials.accessToken = accessToken;
+        userCredentials.refreshToken = refreshToken;
+        await userCredentials.save();
+
+        return done(null, existingUser);
+    }
+
+
+    const user = await new User({ spotifyId }).save();
+    await new UserCredential({ userId: spotifyId, name, accessToken, refreshToken }).save();
+
+    done(null, user);
 }));

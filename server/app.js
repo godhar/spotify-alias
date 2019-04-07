@@ -6,6 +6,7 @@ const passport = require('passport');
 
 
 require('./Models/User');
+require('./Models/UserCredential');
 require('./services/passport');
 mongoose.connect(keys.mongoURI);
 
@@ -23,13 +24,8 @@ app.use(passport.session());
 
 
 
-// const keys = require('config/keys');
-// const axios = require('axios');
-// const queryString = require('querystring');
-// const SpotifyWebApi = require('spotify-web-api-node');
-
-
 require('./routes/authRoutes')(app);
+require('./routes/spotifyDataRoutes')(app);
 
 
 const PORT = process.env.PORT || 5000;
