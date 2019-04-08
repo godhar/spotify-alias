@@ -10,7 +10,7 @@ module.exports = (app) => {
     app.get('/auth/spotify/callback', passport.authenticate('spotify'),
     (req, res) => {
         console.log('callback successful');
-        res.status(301).redirect("http://localhost:4200/ui/dashboard")
+        res.status(301).redirect("http://localhost:4200/callback")
     });
 
     app.get('/api/logout', (req, res) => {
@@ -20,7 +20,7 @@ module.exports = (app) => {
     });
 
     app.get('/api/current_user', (req, res) => {
-        console.log(req.user);
+        console.log('hit === ',req.user);
         res.send(req.user);
     });
 }
