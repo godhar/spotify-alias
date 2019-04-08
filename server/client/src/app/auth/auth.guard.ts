@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 
 @Injectable({
@@ -9,27 +9,29 @@ import { Observable } from 'rxjs';
 })
 export class AuthGuard implements CanActivate {
 
-  userService: AuthService;
-  router: Router;
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean {
-    console.log('AuthGuard#canActivate called');
+  ) {
 
-    const currentUser = this.userService.isLoggedIn();
+    let authenticated = this.authService.isLoggedIn();
+    let subject = new ReplaySubject<boolean>();
 
-    if (currentUser) {
-      return true;
-    }
+    authenticated.subscribe(
 
-    this.router.navigate(['/login']);
+      (res) => {
+        console.log("onNext guard: " + res);
+        if (!res && state.url !== '/login') {
+          console.log("redirecting to signin")
+          this.router.navigate(['/login']);
+        }
+        subject.next(res);
+      });
 
-    return false;
-
+    return subject.asObservable();
   }
 
 
