@@ -1,38 +1,33 @@
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanActivate, Router } from '@angular/router';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, BehaviorSubject, throwError, Observer } from 'rxjs';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
+import { of } from "rxjs/index";
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
 
+export class AuthGuard implements CanActivate {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ) {
+  canActivate(): Observable<boolean> {
 
-    let authenticated = this.authService.isLoggedIn();
-    let subject = new ReplaySubject<boolean>();
+    return this.authService.isSessionAlive()
+      .pipe(
+      map(res => {
 
-    authenticated.subscribe(
+        if (res) {
+          return true;
 
-      (res) => {
-        console.log("onNext guard: " + res);
-        if (!res && state.url !== '/login') {
-          console.log("redirecting to signin")
+        } else {
           this.router.navigate(['/login']);
+          return false;
         }
-        subject.next(res);
-      });
-
-    return subject.asObservable();
+      })
+      );
   }
-
-
 }
