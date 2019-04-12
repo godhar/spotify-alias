@@ -8,8 +8,13 @@ import { Routes, RouterModule, CanActivate } from '@angular/router';
 
 const routes: Routes = [
    {
-    path: 'callback',
-    pathMatch: 'prefix',
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'login' 
+  },
+   {
+    path: 'callback/success',
+    pathMatch: 'full',
     redirectTo: 'landing' 
   },
   {
