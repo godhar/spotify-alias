@@ -25,32 +25,34 @@ passport.use(new SpotifyStrategy({
     proxy: true
 }, async (accessToken, refreshToken, profile, done) => {
 
-
     const spotifyId = profile.id;
-    const name = profile.displayName;
+    const name = profile.displayName || '';
     const email = profile.emails[0].value;
+    let user;
 
 
     const existingUser = await User.findOne({ spotifyId: profile.id });
 
     if (existingUser) {
-        console.log('yes')
-        console.log(accessToken)
+
         let userCredentials = await UserCredential.findOne({ userId: spotifyId });
 
+        if (userCredentials) {
+            userCredentials.accessToken = accessToken;
+            userCredentials.refreshToken = refreshToken;
+            await userCredentials.save();
+        }
         if (!userCredentials) {
             await new UserCredential({ userId: spotifyId, name, accessToken, refreshToken }).save();
         }
-        userCredentials.accessToken = accessToken;
-        userCredentials.refreshToken = refreshToken;
-        await userCredentials.save();
 
         return done(null, existingUser);
     }
 
-
-    const user = await new User({ spotifyId }).save();
-    await new UserCredential({ userId: spotifyId, name, accessToken, refreshToken }).save();
+    if (!existingUser) {
+        user = await new User({ spotifyId }).save();
+        await new UserCredential({ userId: spotifyId, name, accessToken, refreshToken }).save();
+    }
 
     done(null, user);
 }));

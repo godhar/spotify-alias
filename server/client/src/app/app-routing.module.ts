@@ -10,7 +10,7 @@ const routes: Routes = [
    {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login' 
+    redirectTo: 'landing' 
   },
    {
     path: 'callback/success',
