@@ -4,11 +4,8 @@ const passport = require('passport');
 
 module.exports = (app) => {
 
- app.get('/api/spotify/playlists', isAuth, (req, res) => {
-
-    let allUserPlayLists = spotifyService.getPlaylistsForUser(req.user);
-    console.info('Sending playlists to front');
-
+ app.get('/api/spotify/playlists', isAuth, async (req, res) => {
+    let allUserPlayLists = await spotifyService.getPlaylistsForUser(req.user);
     return res.send(allUserPlayLists);    
  });
 

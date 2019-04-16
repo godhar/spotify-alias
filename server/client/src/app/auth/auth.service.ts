@@ -35,4 +35,13 @@ export class AuthService {
     });
   }
 
+  logOut(): void {
+    this.http.get('api/logout')
+    .subscribe((currentUser) => {
+      if(!currentUser) {
+        this._isAuthenticated = false;
+      }
+    });
+  }
+
 }
