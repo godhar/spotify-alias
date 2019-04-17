@@ -13,7 +13,6 @@ const getPlaylists = async (user) => {
     let playlistData;
 
     let userCreds = await getUserCreds(user);
-    // console.log('AT top!!! ',userCreds);
 
     let status = await tryFetchForPlaylist(userCreds);
 
@@ -65,34 +64,28 @@ async function tryFetchForPlaylist(usersCred) {
 
 async function refreshAccessToken(refreshTok, appUser) {
 
-    console.log('||||||||||||||||| call =++++++++++++++++++++++++++++++++++');
-    let newAccessData;
-
     const params = new URLSearchParams();
     params.append('grant_type', 'refresh_token');
     params.append('refresh_token', refreshTok);
 
-    try {
-        newAuthUserData = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            body: params,
-            headers: {
-                "content-type": "application/x-www-form-urlencoded",
-                'Authorization': 'Basic ' + Buffer.from(`${keys.spotifyClientID}:${keys.spotifyClientSecret}`).toString('base64')
-            }
-        }).then(res => {
-            return res.json();
-        });
-    } catch (err) {
-        console.error(err);
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        body: params,
+        headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic ' + Buffer.from(`${keys.spotifyClientID}:${keys.spotifyClientSecret}`).toString('base64'),
+            'Accept': 'application/json'
+        }
+    });
+
+    const newAuthUserData = await response.json();
+
+    if (response.status !== 200) {
+        console.error(`Invalid response status ${response.status}.`);
+        throw newAuthUserData;
     }
 
-    // save new access token to user
-    const user = await UserCredential.findOne({ userId: appUser });
-    user.accessToken = newAuthUserData.accessToken;
-    user.save();
-
-    return newAuthUserData.accessToken;
+    return newAuthUserData['access_token'];
 }
 
 
