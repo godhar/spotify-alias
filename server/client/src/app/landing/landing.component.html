@@ -1,7 +1,8 @@
-<mat-toolbar style="display: flex;" role="heading">
-  <span style="display: flex;">Pavify Music System with Angular Components</span>
-  <span class="white-space"></span>
-  <button mat-raised-button color="accent" (click)="handleAuth()" >{{ authState }}</button>
+<mat-toolbar fxLayout="row" fxLayoutAlign="start center" role="heading">
+  <mat-toolbar-row>
+    <span fxFlex="90%"><h1 class="text-card">Spotify Alias With Pavify</h1></span>
+    <span fxFlex="10%"><button mat-raised-button color="accent" (click)="handleAuth()"><b>{{ authState }}</b></button></span>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <app-play-lists></app-play-lists>
