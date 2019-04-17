@@ -1,11 +1,17 @@
 <h1>Playlists component</h1>
-<div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-<mat-card class="example-card" *ngFor="let playlist of playlists">
-    <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
-      <span fxFlex="80%">{{ playlist.name }}</span>
-      <mat-icon fxFlex="10%">Tracks</mat-icon>
-      <mat-icon fxFlex="10%">{{ playlist.tracks.total }}</mat-icon>
+
+<div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+  <ng-container *ngFor="let playlist of playlists">
+    <mat-card fxFlex="0 1 calc(33.3% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%" class="mat-card">
+      <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
+      <span class="text-card" fxFlex="60%">{{ playlist.name }}</span>
     </mat-card-title>
-    <img mat-card-image [src]="playlist.image[0]">
-</mat-card>
+      <img mat-card-image [src]="playlist.image[0]">
+       <mat-card-content>
+    <p>
+      Tracks {{ playlist.tracks.total }}
+    </p>
+  </mat-card-content>
+    </mat-card>
+  </ng-container>
 </div>

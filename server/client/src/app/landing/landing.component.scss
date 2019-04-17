@@ -1,5 +1,11 @@
-.white-space {
-  /* This fills the remaining space, by using flexbox. 
-     Every toolbar row uses a flexbox row layout. */
-  flex: 1 1 auto;
-}
+// .white-space {
+//   /* This fills the remaining space, by using flexbox. 
+//      Every toolbar row uses a flexbox row layout. */
+//   flex: 1 1 auto;
+// }
+
+.text-card {
+     white-space: nowrap;
+     color: #50C878;
+     font-family: Arial, Helvetica, sans-serif;
+ }
