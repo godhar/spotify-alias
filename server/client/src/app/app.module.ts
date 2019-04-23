@@ -4,16 +4,29 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MatButtonModule, MatIconModule } from '@angular/material';
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { 
+  MatButtonModule, 
+  MatToolbarModule, 
+  MatIconModule, 
+  MatListModule, 
+  MatCardModule, 
+  MatTableModule,
+  MatInputModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatProgressSpinnerModule
+ } from '@angular/material';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LandingComponent } from './landing/landing.component';
 import { PlayListsComponent } from './playlist/play-lists/play-lists.component';
+import { PlayListComponent } from './playlist/play-list/play-list.component';
+import { PlaylistService } from './services/playlist/playlist.service';
 
 @NgModule({
   declarations: [
@@ -21,8 +34,10 @@ import { PlayListsComponent } from './playlist/play-lists/play-lists.component';
     LoginComponent,
     DashboardComponent,
     LandingComponent,
-    PlayListsComponent
+    PlayListsComponent,
+    PlayListComponent
   ],
+  entryComponents: [PlayListComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -31,9 +46,17 @@ import { PlayListsComponent } from './playlist/play-lists/play-lists.component';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatListModule,
+    MatTableModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    BrowserAnimationsModule,
+    NoopAnimationsModule
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [AuthGuard, AuthService, PlaylistService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
