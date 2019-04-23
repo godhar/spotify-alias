@@ -1,3 +1,4 @@
+import { PlayListComponent } from './playlist/play-list/play-list.component';
 import { AuthGuard } from './auth/auth.guard';
 import { LandingComponent } from './landing/landing.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -25,6 +26,10 @@ const routes: Routes = [
     path: 'landing',
     canActivate: [AuthGuard],
     component: LandingComponent    
+  },
+  {
+    path: 'playlist/:id',
+    component: PlayListComponent   
   }
 ];
 

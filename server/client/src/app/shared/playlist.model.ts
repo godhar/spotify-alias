@@ -1,5 +1,5 @@
 export class Playlist {
-    constructor(public name: string, public imageg: string[], public tracks: any) { }
+    constructor(public name: string, public image: string[], public tracks: any, public playlistId: string) { }
 }
 
 export interface Track {

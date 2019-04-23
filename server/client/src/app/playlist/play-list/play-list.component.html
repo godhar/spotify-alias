@@ -1,0 +1,87 @@
+<!--<div class="example-container">
+  <mat-selection-list>
+    <mat-list-option *ngFor="let pL of playlistItems">
+      {{pL}}
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+<hr>-->
+
+<!--<div class="container">
+  <div fxLayout="row" fxLayoutAlign="center center" class="content">
+    <mat-card class="card">
+      <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
+        <h3>Recent Posts</h3>
+      </mat-card-title>
+      <mat-card-content>
+        <div class="example-container mat-elevation-z8">
+          <mat-table [dataSource]="playlistItems">
+
+            <ng-container matColumnDef="userName">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let user"> Something </td>
+            </ng-container>
+            <!--<ng-container matColumnDef="date_posted">-->
+<!--<mat-header-cell matHeaderCellDef> Date Posted </mat-header-cell>-->
+<!--<mat-cell matCellDef="let element"> each cell </mat-cell>-->
+<!--</ng-container>
+                    <ng-container matColumnDef="title">
+                      <mat-header-cell matHeaderCellDef> Title </mat-header-cell>
+                      <mat-cell matCellDef="let element"> {{element.title}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="category">
+                      <mat-header-cell matHeaderCellDef> Category </mat-header-cell>
+                      <mat-cell matCellDef="let element"> {{element.category}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="delete">
+                      <mat-header-cell matHeaderCellDef></mat-header-cell>
+                      <mat-cell matCellDef="let element">
+                        <a
+                            type="button">
+                          <mat-icon class="icon">delete</mat-icon>
+                        </a>
+                      </mat-cell>
+                    </ng-container>-->
+<!--<mat-header-row matHeaderRowDef="displayedColumns"></mat-header-row>-->
+<!--<mat-row matRowDef="let row; columns: displayedColumns;"></mat-row>-->
+<div class="spinner-container" *ngIf="dataSource.loading$ | async">
+  <mat-spinner></mat-spinner>
+</div>
+
+<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="trackNum" matSortDirection="asc" matSortDisableClear>
+
+  <ng-container matColumnDef="trackNum">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Track</mat-header-cell>
+    <mat-cell *matCellDef="let p">{{ p.track_name }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="trackName">
+    <mat-header-cell *matHeaderCellDef>Number</mat-header-cell>
+    <mat-cell *matCellDef="let p">{{ p.track_num }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="pName">
+    <mat-header-cell *matHeaderCellDef>Playlist</mat-header-cell>
+    <mat-cell class="description-cell" *matCellDef="let p">{{ p.playlist_name}}</mat-cell>
+
+  </ng-container>
+
+  <ng-container matColumnDef="duration">
+    <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+    <mat-cell class="duration-cell" *matCellDef="let p">{{p.track_length}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="artist">
+    <mat-header-cell *matHeaderCellDef>Artist</mat-header-cell>
+    <mat-cell class="duration-cell" *matCellDef="let p">{{p.artists.name}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
+
+</mat-table>
+
+ <mat-paginator #paginator [length]="totalTracks" [pageSize]="3"
+                   [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+
