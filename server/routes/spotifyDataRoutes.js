@@ -9,13 +9,9 @@ module.exports = (app) => {
         return res.send(allUserPlaylists);
     });
 
-    app.get('/api/spotify/playlist-item', isAuth, async (req, res) => {
-        const playlist = await spotifyService.getSinglePlaylist(req.user, req.query.playlistId);
-        return res.send(playlist);
-    });
 
-     app.get('/api/spotify/playlist-item-test', isAuth, async (req, res) => {
-        const playlist = await spotifyService.getSinglePlaylistTest(req.user, req.query);
+     app.get('/api/spotify/playlist-item', isAuth, async (req, res) => {
+        const playlist = await spotifyService.getSinglePlaylist(req.user, req.query);
         console.log('how many tracks ==== ',playlist.length)
         res.status(200).json({payload: playlist});
     });

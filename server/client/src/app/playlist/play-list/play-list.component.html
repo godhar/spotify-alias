@@ -1,42 +1,48 @@
+<div class="playlist-table">
 
-<div class="spinner-container" *ngIf="dataSource.loading$ | async">
-  <mat-spinner></mat-spinner>
+
+  <h2> My playlist </h2>
+
+
+  <mat-table class="pl-table" [dataSource]="dataSource" matSort matSortActive="trackNum" matSortDirection="asc"
+    matSortDisableClear>
+
+    <ng-container matColumnDef="trackNum">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Track</mat-header-cell>
+      <mat-cell *matCellDef="let p">{{ p.track_name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="trackName">
+      <mat-header-cell *matHeaderCellDef>Number</mat-header-cell>
+      <mat-cell *matCellDef="let p">{{ p.track_num }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="pName">
+      <mat-header-cell *matHeaderCellDef>Playlist</mat-header-cell>
+      <mat-cell class="description-cell" *matCellDef="let p">{{ p.playlist_name}}</mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="duration">
+      <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+      <mat-cell class="duration-cell" *matCellDef="let p">{{p.track_length}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="artist">
+      <mat-header-cell *matHeaderCellDef>Artist</mat-header-cell>
+      <mat-cell class="duration-cell" *matCellDef="let p">{{p.artists.name}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
+
+    </mat-table>
+    <mat-paginator #paginator [length]="totalTracks" [pageSize]="3" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+
+
+  <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    <mat-spinner style="margin:0 auto;" 
+                     mode="indeterminate"></mat-spinner>
+  </div>
 </div>
-
-<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="trackNum" matSortDirection="asc" matSortDisableClear>
-
-  <ng-container matColumnDef="trackNum">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Track</mat-header-cell>
-    <mat-cell *matCellDef="let p">{{ p.track_name }}</mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="trackName">
-    <mat-header-cell *matHeaderCellDef>Number</mat-header-cell>
-    <mat-cell *matCellDef="let p">{{ p.track_num }}</mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="pName">
-    <mat-header-cell *matHeaderCellDef>Playlist</mat-header-cell>
-    <mat-cell class="description-cell" *matCellDef="let p">{{ p.playlist_name}}</mat-cell>
-
-  </ng-container>
-
-  <ng-container matColumnDef="duration">
-    <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
-    <mat-cell class="duration-cell" *matCellDef="let p">{{p.track_length}}</mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="artist">
-    <mat-header-cell *matHeaderCellDef>Artist</mat-header-cell>
-    <mat-cell class="duration-cell" *matCellDef="let p">{{p.artists.name}}</mat-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
-  <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
-
-</mat-table>
-
- <mat-paginator #paginator [length]="totalTracks" [pageSize]="3"
-                   [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
-
