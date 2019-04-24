@@ -27,6 +27,7 @@ import { LandingComponent } from './landing/landing.component';
 import { PlayListsComponent } from './playlist/play-lists/play-lists.component';
 import { PlayListComponent } from './playlist/play-list/play-list.component';
 import { PlaylistService } from './services/playlist/playlist.service';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { PlaylistService } from './services/playlist/playlist.service';
     DashboardComponent,
     LandingComponent,
     PlayListsComponent,
-    PlayListComponent
+    PlayListComponent,
+    SearchComponent
   ],
   entryComponents: [PlayListComponent],
   imports: [
