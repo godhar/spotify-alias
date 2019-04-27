@@ -15,7 +15,7 @@ export class PlaylistService {
         playlistId: string, filter = '', sortOrder = 'asc',
         pageNumber = 0, pageSize = 3):  Observable<PlaylistItem[]> {
 
-        return this.http.get('api/spotify/playlist-item-test', {
+        return this.http.get('api/spotify/playlist-item', {
             params: new HttpParams()
                 .set('playlistId', playlistId.toString())
                 .set('filter', filter)
