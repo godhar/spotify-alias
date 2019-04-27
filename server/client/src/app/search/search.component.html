@@ -1,3 +1,23 @@
-<p>
-  search works!
-</p>
+<!--<ng-mat-autocomplete [source]="results" [displayItemFn]="displayItem"> </ng-mat-autocomplete>-->
+<section class="example-section">
+  <mat-checkbox class="example-margin" [(ngModel)]="artist">Artist</mat-checkbox>
+  <mat-checkbox class="example-margin" [(ngModel)]="album">Album</mat-checkbox>
+  <mat-checkbox class="example-margin" [(ngModel)]="track">Track</mat-checkbox>
+</section>
+
+
+<form class="example-form" [formGroup]='searchForm'>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Type album, artist or track..." type="text" [matAutocomplete]="auto" formControlName='searchInput'>
+  </mat-form-field>
+
+  <mat-autocomplete panelWidth="auto" #auto="matAutocomplete" [displayWith]="displayFn">
+    <mat-option *ngFor="let result of filteredSearchItems | async" [value]="result">
+
+      <img *ngIf="result.img" class="example-option-img" [src]="result.img[0]" height="25">
+      <span>{{result.name}}</span> |
+      <small>Type: {{result.type}}</small>
+
+    </mat-option>
+  </mat-autocomplete>
+</form>

@@ -6,6 +6,7 @@ const keys = require('../config/keys');
 const axios = require('axios');
 const { URLSearchParams } = require('url');
 const fetch = require('node-fetch');
+const utils = require('./utilsService');
 
 
 const getPlaylists = async (user) => {
@@ -65,7 +66,20 @@ const getSinglePlaylistItem = async (user, params) => {//DUP above
 
         trackData = playlistData.data.tracks.items.map((t) => {
 
-            return { playlist_name: playlistData.data.name, track_name: t.track.name, album_info: { album_name: t.track.album.name, related_albums: t.track.album.href }, artists: { name: t.track.artists[0].name, all_artists: t.track.artists[0].href }, track_length: convertToSec(t.track.duration_ms), track_num: t.track.track_number };
+            return {
+                playlist_name: playlistData.data.name,
+                track_name: t.track.name,
+                album_info: {
+                    album_name: t.track.album.name,
+                    related_albums: t.track.album.href
+                },
+                artists: {
+                    name: t.track.artists[0].name,
+                    all_artists: t.track.artists[0].href
+                },
+                track_length: utils.convertMillisToSec(t.track.duration_ms),
+                track_num: t.track.track_number
+            };
         });
         //add filter option as well
         if (sortOrder === 'asc') {
@@ -83,10 +97,52 @@ const getSinglePlaylistItem = async (user, params) => {//DUP above
     return playlistPage;
 }
 
-function convertToSec(millis) {
-    let minutes = Math.floor(millis / 60000);
-    let seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+const getSearchedItem = async (user, params) => {
+    let userCreds = await getUserCreds(user);
+    const queryParams = params;
+    const reqParams = new URLSearchParams();
+    console.log(params);
+    reqParams.append('type', queryParams.type);//must be comma seperated list
+    reqParams.append('q', queryParams.q);
+    reqParams.append('limit', '50');
+
+    let status = await tryFetchForSearchItem(userCreds.access_token, reqParams);
+
+    if(status.statusCode === 401) {
+        const newAccessToken = await refreshAccessToken(userCreds.refreshToken, user);
+        userCreds.accessToken = newAccessToken;
+        await userCreds.save();
+        status = await tryFetchForSearchItem(newAccessToken, reqParams);
+    }
+
+    const searchResponseData = status.data;
+
+    return utils.modifyResponseSearchData(searchResponseData);
+    
+}
+
+
+
+async function tryFetchForSearchItem(accessToken, reqParams) {
+    let response;
+    
+    try {
+        response = await axios.get('https://api.spotify.com/v1/search',
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json'
+                },
+                params: reqParams 
+            });
+
+    } catch (err) {
+        if (err.response.status === 401) {
+            return { statusCode: 401 };
+        }
+        console.error(err);
+    }
+    return response;
 }
 
 
@@ -164,8 +220,11 @@ async function refreshAccessToken(refreshTok, appUser) {
 
 async function getUserCreds(user) {
     const userCreds = await UserCredential.findOne({ userId: user.spotifyId });
-
     return userCreds;
 }
 
-module.exports = { getPlaylistsForUser: getPlaylists, getSinglePlaylist: getSelectPlaylist, getSinglePlaylist: getSinglePlaylistItem }
+module.exports = {
+    getPlaylistsForUser: getPlaylists,
+    getSinglePlaylist: getSinglePlaylistItem,
+    getSearchedForItem: getSearchedItem
+}

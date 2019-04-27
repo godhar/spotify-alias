@@ -1,3 +1,4 @@
+import { SearchService } from './search/search.service';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,8 +20,11 @@ import {
   MatInputModule,
   MatPaginatorModule,
   MatSortModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatAutocompleteModule,
+  MatCheckboxModule
  } from '@angular/material';
+// import { NgMatAutocompleteModule } from '../../node_modules/@vguleaev/angular-material-autocomplete';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LandingComponent } from './landing/landing.component';
@@ -28,6 +32,7 @@ import { PlayListsComponent } from './playlist/play-lists/play-lists.component';
 import { PlayListComponent } from './playlist/play-list/play-list.component';
 import { PlaylistService } from './services/playlist/playlist.service';
 import { SearchComponent } from './search/search.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -56,9 +61,14 @@ import { SearchComponent } from './search/search.component';
     MatProgressSpinnerModule,
     MatSortModule,
     BrowserAnimationsModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    // NgMatAutocompleteModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    FormsModule
   ],
-  providers: [AuthGuard, AuthService, PlaylistService],
+  providers: [AuthGuard, AuthService, PlaylistService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

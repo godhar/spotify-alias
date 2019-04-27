@@ -1,3 +1,4 @@
+import { SearchComponent } from './search/search.component';
 import { PlayListComponent } from './playlist/play-list/play-list.component';
 import { AuthGuard } from './auth/auth.guard';
 import { LandingComponent } from './landing/landing.component';
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: 'playlist/:id',
     component: PlayListComponent   
+  },
+  {
+    path: 'search',
+    component: SearchComponent   
   }
 ];
 
