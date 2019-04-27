@@ -101,7 +101,6 @@ const getSearchedItem = async (user, params) => {
     let userCreds = await getUserCreds(user);
     const queryParams = params;
     const reqParams = new URLSearchParams();
-    console.log(params);
     reqParams.append('type', queryParams.type);//must be comma seperated list
     reqParams.append('q', queryParams.q);
     reqParams.append('limit', '50');
