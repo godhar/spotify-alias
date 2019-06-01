@@ -19,4 +19,16 @@ module.exports = (app) => {
         const searchItem = await spotifyService.getSearchedForItem(req.user, req.query);
         res.status(200).json({ payload: searchItem });
     });
+
+    app.get('/api/spotify/getTracksByAlbum', isAuth, async (req, res) => {
+        console.log('request params --------- ', req.params)
+        const albums = await spotifyService.getTracksByAlbum(req.user, req.query);
+        res.status(200).json({ payload: albums });
+    });
+
+     app.get('/api/spotify/getNewDataByArtist', isAuth, async (req, res) => {
+        const searchItem = await spotifyService.getDataByArtist(req.user, req.query);
+        res.status(200).json({ payload: searchItem });
+    });
+
 }

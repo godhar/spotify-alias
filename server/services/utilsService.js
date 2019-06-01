@@ -5,26 +5,38 @@ module.exports.convertMillisToSec = (millis) => {
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
-module.exports.modifyResponseSearchData = (data) => {
+module.exports.modifyResponseSearchData = (data, qType) => {
 
-    console.log(data.tracks)
+    let modifiedData = [];
 
-    let modifiedData = [];    
-    
-    data.albums.items.forEach((item) => {
-        modifiedData.push({id:item.id, type: item.type, href: item.external_urls.spotify, img: mapImages(item.images), name: item.name, total_tracks: item.total_tracks})
-    });
+    if (qType === 'album') {
+        console.log('in the loop')
+        data.albums.items.forEach((item) => {
+            modifiedData.push({ id: item.id, type: item.type, href: item.external_urls.spotify, img: mapImages(item.images), name: item.name, total_tracks: item.total_tracks })
+        });
+    }
 
-     data.artists.items.forEach((item) => {
-        modifiedData.push({id:item.id, type: item.type, href: item.external_urls.spotify, name: item.name, total_tracks: item.total_tracks})
-    });
+    if (qType === 'artist') {
+        data.artists.items.forEach((item) => {
+            modifiedData.push({ id: item.id, type: item.type, href: item.external_urls.spotify, name: item.name, total_tracks: item.total_tracks })
+        });
+    }
 
-      data.tracks.items.forEach((item) => {
-        modifiedData.push({id:item.id, type: item.type, href: item.external_urls.spotify, name: item.name, total_tracks: item.total_tracks})
-    });
+    if (qType === 'track' || qType === 'top-tracks') {
+        data.tracks.items.forEach((item) => {
+            modifiedData.push({ id: item.id, type: item.type, href: item.external_urls.spotify, name: item.name, total_tracks: item.total_tracks })
+        });
+    }
 
+    if (qType === 'album-tracks') {
+        data.tracks.items.forEach((item) => {
+            modifiedData.push({ id: item.id, type: item.type, href: item.external_urls.spotify, name: item.name, total_tracks: item.total_tracks })
+        });
+
+    }
 
     return modifiedData;
+
 }
 
 function mapImages(items) {

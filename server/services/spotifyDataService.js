@@ -11,7 +11,7 @@ const utils = require('./utilsService');
 
 const getPlaylists = async (user) => {
 
-    let userCreds = await getUserCreds(user);
+    let userCreds = await getUserCredentials(user);
     let status = await tryFetchForPlaylists(userCreds);
 
     if (status.statusCode === 401) {
@@ -47,7 +47,7 @@ const getSinglePlaylistItem = async (user, params) => {//DUP above
         pageNumber = parseInt(queryParams.pageNumber) || 0,
         pageSize = parseInt(queryParams.pageSize);
 
-    let userCreds = await getUserCreds(user);
+    let userCreds = await getUserCredentials(user);
 
     let status = await tryFetchForSinglePlaylist(userCreds, queryParams.playlistId);
 
@@ -97,42 +97,83 @@ const getSinglePlaylistItem = async (user, params) => {//DUP above
     return playlistPage;
 }
 
+const getTracksFromAlbum = async (user, params) => {
+    let userCreds = await getUserCredentials(user);
+    let status = await tryForSelectedTracksByAlbum(params, user);
+
+    if (status.statusCode === 401) {
+        const newAccessToken = await refreshAccessToken(userCreds.refreshToken, user);
+        userCreds.accessToken = newAccessToken;
+        await userCreds.save();
+        status = await tryForSelectedTracksByAlbum(params, userCreds);
+    }
+
+    const searchResponseData = status;
+
+    return utils.modifyResponseSearchData(searchResponseData, params.type);
+}
+
+
 const getSearchedItem = async (user, params) => {
-    let userCreds = await getUserCreds(user);
+    let userCreds = await getUserCredentials(user);
     const queryParams = params;
     const reqParams = new URLSearchParams();
+
     reqParams.append('type', queryParams.type);//must be comma seperated list
     reqParams.append('q', queryParams.q);
     reqParams.append('limit', '50');
 
-    let status = await tryFetchForSearchItem(userCreds.access_token, reqParams);
-
-    if(status.statusCode === 401) {
+    let status = await tryFetchForSearchItem(userCreds.accessToken, reqParams);
+    if (status.statusCode === 401) {
         const newAccessToken = await refreshAccessToken(userCreds.refreshToken, user);
         userCreds.accessToken = newAccessToken;
         await userCreds.save();
         status = await tryFetchForSearchItem(newAccessToken, reqParams);
     }
 
-    const searchResponseData = status.data;
+    const searchResponseData = status;
 
-    return utils.modifyResponseSearchData(searchResponseData);
-    
+    return utils.modifyResponseSearchData(searchResponseData, queryParams.type);
+
 }
 
 
+const getNewArtistData = async (paramsData, user) => {
+    const userCreds = getUserCredentials(user);
+    const status = searchForArtistData(user.access_token, paramsData);
 
-async function tryFetchForSearchItem(accessToken, reqParams) {
-    let response;
-    
+    if (status.statusCode === 401) {
+        const newAccessToken = await refreshAccessToken(userCreds.refreshToken, user);
+        userCreds.accessToken = newAccessToken;
+        await userCreds.save();
+        status = await searchForArtistData(newAccessToken, paramsData);
+    }
+
+    const searchResponseData = status;
+
+    return utils.modifyResponseSearchData(searchResponseData, paramsData.type);
+
+
+}
+
+async function searchForArtistData(accessToken, query) {
+    let data;
+    let qUrl = 'https://api.spotify.com/v1/artists/';
+
+    if (query.type === 'albums') {
+        qUrl += (query.artistId + '/albums');
+    }
+    if (query.type === 'top-tracks') {
+        qUrl += (query.artistId + '/top-tracks');
+    }
+
     try {
-        response = await axios.get('https://api.spotify.com/v1/search',
+        data = await axios.get(qUrl,
             {
                 headers: {
-                    'Authorization': 'Bearer ' + accessToken,
+                    'Authorization': 'Bearer ' + userCreds.accessToken,
                     'Content-Type': 'application/json'
-                },
-                params: reqParams 
+                }
             });
 
     } catch (err) {
@@ -141,8 +182,55 @@ async function tryFetchForSearchItem(accessToken, reqParams) {
         }
         console.error(err);
     }
-    return response;
+
+    return data;
 }
+
+
+async function tryFetchForSearchItem(accessToken, reqParams) {
+    let response;
+    try {
+        response = await axios.get('https://api.spotify.com/v1/search',
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json'
+                },
+                params: reqParams
+            });
+
+    } catch (err) {
+        if (err.response.status === 401) {
+            return { statusCode: 401 };
+        }
+        console.error(err);
+    }
+
+    return response.data;
+}
+
+
+async function tryForSelectedTracksByAlbum(query, userCreds) {
+    let tracks;
+
+    try {
+        tracks = await axios.get('https://api.spotify.com/v1/albums/' + query.id + '/tracks',
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + userCreds.accessToken,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+    } catch (err) {
+        if (err.response.status === 401) {
+            return { statusCode: 401 };
+        }
+        console.error(err);
+    }
+    return tracks.data;
+}
+
 
 
 async function tryFetchForSinglePlaylist(userCreds, playlistId) {
@@ -166,6 +254,7 @@ async function tryFetchForSinglePlaylist(userCreds, playlistId) {
 
     return playlist;
 }
+
 
 async function tryFetchForPlaylists(usersCred) {
 
@@ -205,7 +294,6 @@ async function refreshAccessToken(refreshTok, appUser) {
             'Accept': 'application/json'
         }
     });
-
     const newAuthUserData = await response.json();
 
     if (response.status !== 200) {
@@ -217,13 +305,17 @@ async function refreshAccessToken(refreshTok, appUser) {
 }
 
 
-async function getUserCreds(user) {
+async function getUserCredentials(user) {
     const userCreds = await UserCredential.findOne({ userId: user.spotifyId });
     return userCreds;
 }
 
+
+
 module.exports = {
     getPlaylistsForUser: getPlaylists,
     getSinglePlaylist: getSinglePlaylistItem,
-    getSearchedForItem: getSearchedItem
+    getSearchedForItem: getSearchedItem,
+    getTracksByAlbum: getTracksFromAlbum,
+    getDataByArtist: getNewArtistData
 }
