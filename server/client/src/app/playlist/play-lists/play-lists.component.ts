@@ -1,6 +1,6 @@
+import { SpotifyDataService } from './../../services/spotify-data.service';
+import { Playlist } from './../../models/spotifyData.model';
 import { Router } from '@angular/router';
-import { SpotifyDataService } from './../../spotifyData/spotify-data.service';
-import { Playlist } from './../../shared/playlist.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -15,7 +15,7 @@ export class PlayListsComponent implements OnInit {
   constructor(private spotifyData: SpotifyDataService, private router: Router) { }
 
   ngOnInit() {
-    this.spotifyData.fetchAllPlaylist()
+    this.spotifyData.fetchAllPlaylists()
       .subscribe((res) => {
         this.playlists = res;
         console.log('playlists ==== ', res);
