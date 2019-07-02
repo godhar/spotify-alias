@@ -30,7 +30,15 @@ require('./routes/authRoutes')(app);
 require('./routes/spotifyDataRoutes')(app);
 
 
-const PORT = process.env.PORT || 5000;
+let PORT = process.env.PORT || 5000;
 
-app.listen(PORT);
+// app.listen(PORT);
+
+const server = app.listen(PORT)
+
+process.once('SIGUSR2', function () {
+    server.close(function () {
+        process.kill(process.pid, 'SIGUSR2')
+    })
+})
 
