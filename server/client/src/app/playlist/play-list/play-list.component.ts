@@ -1,7 +1,7 @@
-import { PlaylistService } from './../../services/playlist/playlist.service';
-import { PlaylistDataSource } from './../../services/playlist/playlist-data-source';
+import { PlaylistService } from './../../services/playlist.service';
+import { SpotifyDataService } from './../../services/spotify-data.service';
+import { PlaylistDataSource } from './../../services/playlist-data-source';
 import { PlaylistItem } from './../../shared/playlist-item.model';
-import { SpotifyDataService } from './../../spotifyData/spotify-data.service';
 import { Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatPaginator, MatSort } from '@angular/material';
@@ -13,13 +13,13 @@ import { pipe, merge } from 'rxjs';
   templateUrl: './play-list.component.html',
   styleUrls: ['./play-list.component.scss']
 })
-export class PlayListComponent implements OnInit, AfterViewInit, OnChanges {
+export class PlayListComponent implements OnInit, AfterViewInit {
 
   totalTracks = 9;//TODO get from parent component var tacks
 
-  private id: string;
+  readonly id: string;
   private dataSource: PlaylistDataSource;
-  displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist'];
+  displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist', 'delete'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -31,15 +31,7 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit() {
     this.dataSource = new PlaylistDataSource(this.playlistService);
     this.dataSource.loadPlaylist(this.id,'', 'asc', 0, 3);
-
-
-    console.log('datasource', this.dataSource);
   }
-
-  ngOnChanges() {
-    console.log('data source ==== ', this.dataSource);
-  }
-
 
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -51,11 +43,6 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   loadPlaylistPage() {
-
-    console.log('id', this.id)
-    console.log('sort direction ', this.sort.direction)
-    console.log('page index ', this.paginator.pageIndex)
-    console.log('page size ', this.paginator.pageSize)
     this.dataSource.loadPlaylist(
       this.id, '', this.sort.direction,
       this.paginator.pageIndex, this.paginator.pageSize);
