@@ -17,6 +17,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: PlayListsComponent
   },
+
   {
     path: 'login',
     component: LoginComponent
@@ -26,13 +27,12 @@ const routes: Routes = [
     path: 'callback/success',
     pathMatch: 'full',
     component: AppComponent
-  }
-  //
-  // {
-  //   path: 'playlist/:id',
-  //   pathMatch: 'full',
-  //   component: PlayListComponent
-  // },
+  },
+
+  {
+    path: 'playlist/:id',
+    component: PlayListComponent
+  },
   //   {
   //   path: 'playlist/:id/edit',
   //   pathMatch: 'full',
@@ -41,7 +41,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

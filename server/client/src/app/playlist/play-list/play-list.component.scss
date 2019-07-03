@@ -44,3 +44,8 @@
 .spinner-container mat-spinner {
     margin: 130px auto 0 auto;
 }
+
+.mat-card>.mat-card-actions:last-child {
+  margin-bottom: -12px;
+  margin-top: -12px;
+}
