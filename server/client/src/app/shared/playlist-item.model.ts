@@ -1,28 +1,42 @@
-export class PlaylistItem {
+import {Deserializable} from "../models/deserializable.model";
 
-    albumInfo: PlayListAlbum;
-    artist: PlayListArtist;
-    playlistName: string;
-    trackNumber: number;
-    trackDuration: string;
 
-    constructor(public album: PlayListAlbum, public artists: PlayListArtist, public name: string, public trackNum: number, public trackLength: string) {
-        this.albumInfo = album;
-        this.artists = artists;
-        this.playlistName = name;
-        this.trackNumber = trackNum;
-        this.trackDuration = trackLength;
-    }
+export class PlaylistItem implements Deserializable {
+
+  public album_info: PlayListAlbum;
+  public artists: PlayListArtist;
+  public playlist_name: string;
+  public track_number: number;
+  public track_duration: string;
+  public track_uri: string;
+  public track_name: string;
+
+  deserialize(input: any) {
+    Object.assign(this, input);
+    this.album_info = new PlayListAlbum().deserialize(input.album_info);
+    this.artists = new PlayListArtist().deserialize(input.artists);
+    return this;
+  }
 }
 
+export class PlayListAlbum implements Deserializable {
 
-export interface PlayListArtist {
-    artistName: string,
-    relatedArtists: string
+  public album_name: string;
+  public related_albums: string;
+
+  deserialize(input: any): this {
+    console.log('album input ', input)
+    return Object.assign(this, input);
+  }
 }
 
-export interface PlayListAlbum {
-    albumName: string,
-    relatedAlbums: string
+export class PlayListArtist implements Deserializable {
+
+  public artist_name: string;
+  public full_artist_info: string;
+
+  deserialize(input: any): this {
+    return Object.assign(this, input);
+  }
 }
 

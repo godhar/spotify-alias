@@ -10,12 +10,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { 
-  MatButtonModule, 
-  MatToolbarModule, 
-  MatIconModule, 
-  MatListModule, 
-  MatCardModule, 
+import {
+  MatButtonModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatListModule,
+  MatCardModule,
   MatTableModule,
   MatInputModule,
   MatPaginatorModule,
@@ -23,26 +23,25 @@ import {
   MatProgressSpinnerModule,
   MatAutocompleteModule,
   MatCheckboxModule
- } from '@angular/material';
+} from '@angular/material';
 // import { NgMatAutocompleteModule } from '../../node_modules/@vguleaev/angular-material-autocomplete';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { LandingComponent } from './landing/landing.component';
 import { PlayListsComponent } from './playlist/play-lists/play-lists.component';
 import { PlayListComponent } from './playlist/play-list/play-list.component';
-import { PlaylistService } from './services/playlist/playlist.service';
 import { SearchComponent } from './search/search.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent,
     LandingComponent,
     PlayListsComponent,
     PlayListComponent,
-    SearchComponent
+    SearchComponent,
+    PlaylistEditComponent
   ],
   entryComponents: [PlayListComponent],
   imports: [
@@ -68,7 +67,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatCheckboxModule,
     FormsModule
   ],
-  providers: [AuthGuard, AuthService, PlaylistService, SearchService],
+  providers: [AuthGuard, AuthService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

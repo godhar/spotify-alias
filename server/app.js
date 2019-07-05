@@ -34,11 +34,7 @@ let PORT = process.env.PORT || 5000;
 
 // app.listen(PORT);
 
-const server = app.listen(PORT)
+app.listen(PORT)
 
-process.once('SIGUSR2', function () {
-    server.close(function () {
-        process.kill(process.pid, 'SIGUSR2')
-    })
-})
+process.on('SIGINT', () => { console.log("Bye bye!"); process.exit(); });
 

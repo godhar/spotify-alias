@@ -1,7 +1,6 @@
+
 const mongoose = require('mongoose');
-const User = mongoose.model('users');
 const UserCredential = mongoose.model('userCredential');
-const SpotifyWebApi = require('spotify-web-api-node');
 const keys = require('../config/keys');
 const axios = require('axios');
 const { URLSearchParams } = require('url');
@@ -74,18 +73,19 @@ const getSinglePlaylistItem = async (user, params) => {//DUP above
                     related_albums: t.track.album.href
                 },
                 artists: {
-                    name: t.track.artists[0].name,
-                    all_artists: t.track.artists[0].href
+                    artist_name: t.track.artists[0].name,
+                    full_artist_info: t.track.artists[0].href
                 },
-                track_length: utils.convertMillisToSec(t.track.duration_ms),
-                track_num: t.track.track_number
+                track_duration: utils.convertMillisToSec(t.track.duration_ms),
+                track_number: t.track.track_number,
+                track_uri: t.track.uri
             };
         });
         //add filter option as well
         if (sortOrder === 'asc') {
-            trackData.sort((a, b) => a.track_num - b.track_num);
+            trackData.sort((a, b) => a.track_number - b.track_number);
         } else {
-            trackData.sort((a, b) => b.track_num - a.track_num);
+            trackData.sort((a, b) => b.track_number - a.track_number);
         }
     }
 
@@ -140,7 +140,7 @@ const getSearchedItem = async (user, params) => {
 
 const getNewArtistData = async (paramsData, user) => {
     const userCreds = getUserCredentials(user);
-    const status = searchForArtistData(user.access_token, paramsData);
+    let status = searchForArtistData(user.access_token, paramsData);
 
     if (status.statusCode === 401) {
         const newAccessToken = await refreshAccessToken(userCreds.refreshToken, user);
@@ -318,4 +318,5 @@ module.exports = {
     getSearchedForItem: getSearchedItem,
     getTracksByAlbum: getTracksFromAlbum,
     getDataByArtist: getNewArtistData
-}
+};
+
