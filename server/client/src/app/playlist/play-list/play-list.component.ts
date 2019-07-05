@@ -1,12 +1,11 @@
 import { PlaylistService } from './../../services/playlist.service';
 import { SpotifyDataService } from './../../services/spotify-data.service';
 import { PlaylistDataSource } from './../../services/playlist-data-source';
-import { PlaylistItem } from './../../shared/playlist-item.model';
-import { Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatPaginator, MatSort } from '@angular/material';
 import { tap } from 'rxjs/operators';
-import { pipe, merge } from 'rxjs';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'app-play-list',

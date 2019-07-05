@@ -18,7 +18,7 @@
 
       <ng-container matColumnDef="trackName">
         <mat-header-cell *matHeaderCellDef>Number</mat-header-cell>
-        <mat-cell *matCellDef="let p">{{ p.track_num }}</mat-cell>
+        <mat-cell *matCellDef="let p">{{ p.track_number }}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="pName">
@@ -29,12 +29,12 @@
 
       <ng-container matColumnDef="duration">
         <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
-        <mat-cell class="duration-cell" *matCellDef="let p">{{p.track_length}}</mat-cell>
+        <mat-cell class="duration-cell" *matCellDef="let p">{{p.track_duration}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="artist">
         <mat-header-cell *matHeaderCellDef>Artist</mat-header-cell>
-        <mat-cell class="duration-cell" *matCellDef="let p">{{p.artists.name}}</mat-cell>
+        <mat-cell class="duration-cell" *matCellDef="let p">{{p.artists.artist_name}}</mat-cell>
       </ng-container>
 
 

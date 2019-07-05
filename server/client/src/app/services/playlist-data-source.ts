@@ -1,5 +1,5 @@
 import { PlaylistItem } from './../shared/playlist-item.model';
-import { map, catchError, finalize } from 'rxjs/operators';
+import {map, catchError, finalize, tap} from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, of } from 'rxjs';
@@ -33,6 +33,8 @@ export class PlaylistDataSource implements DataSource<PlaylistItem> {
 
         this.playlistService.findPlaylistTracks(playlistId, filter, sortDirection,
             pageIndex, pageSize).pipe(
+
+              tap(val => console.log('new val further', val)),
             catchError(() => of([])),
             finalize(() => this.loadingSubject.next(false))
             )

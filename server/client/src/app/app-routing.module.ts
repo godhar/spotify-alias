@@ -26,7 +26,7 @@ const routes: Routes = [
   {
     path: 'callback/success',
     pathMatch: 'full',
-    component: AppComponent
+    component: PlayListsComponent
   },
 
   {
