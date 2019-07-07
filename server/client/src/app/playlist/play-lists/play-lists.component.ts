@@ -10,20 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlayListsComponent implements OnInit {
 
-  public playlists: Playlist[] = [];
+  public playlists: Playlist[];
 
   constructor(private spotifyData: SpotifyDataService, private router: Router) { }
 
   ngOnInit() {
     this.spotifyData.fetchAllPlaylists()
       .subscribe((res) => {
-        this.playlists = res;
-        console.log('playlists ==== ', res);
+        this.playlists = res.map((pl) => {
+          let pla = new Playlist();
+            return pla.deserialize(pl);
+        });
       });
   }
 
   handlePlaylist(e) {
-    this.router.navigate(['playlist/', e.playlistId])
+    console.log(e);
+    this.router.navigate(['playlist/', e.playlist_id, {snapshotId: e.snapshot_id, totalTracks: e.tracks.total}])
   }
 
 
