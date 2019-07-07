@@ -1,6 +1,5 @@
 const isAuth = require('../middleWares/isAuth');
 const spotifyService = require('../services/spotifyDataService');
-const passport = require('passport');
 
 module.exports = (app) => {
 
@@ -31,4 +30,8 @@ module.exports = (app) => {
         res.status(200).json({ payload: searchItem });
     });
 
+     app.get('/api/spotify/delete-playlist-track', isAuth, async (req, res) => {
+         const status = await spotifyService.deletePlaylistTrack(req.user, req.query);
+         res.status(200).json({ payload: {snapshot_id: status.snapshot_id} });
+     });
 }

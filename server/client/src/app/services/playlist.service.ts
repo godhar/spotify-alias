@@ -23,8 +23,8 @@ export class PlaylistService {
                 .set('pageNumber', pageNumber.toString())
                 .set('pageSize', pageSize.toString())
         }).pipe (
-              map( res => res['payload'].map(data => new PlaylistItem().deserialize(data))),
-              tap( val => console.log('why not happening', val))
+          tap( val => console.log('numbered??', val)),
+              map( res => res['payload'].map(data => new PlaylistItem().deserialize(data)))
               );
     }
 }
