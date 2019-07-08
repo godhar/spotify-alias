@@ -25,7 +25,6 @@ export class PlayListAlbum implements Deserializable {
   public related_albums: string;
 
   deserialize(input: any): this {
-    console.log('album input ', input)
     return Object.assign(this, input);
   }
 }

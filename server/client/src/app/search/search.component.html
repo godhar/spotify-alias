@@ -1,9 +1,8 @@
-<!--<ng-mat-autocomplete [source]="results" [displayItemFn]="displayItem"> </ng-mat-autocomplete>-->
-<section class="example-section">
-  <mat-checkbox class="example-margin" [(ngModel)]="artist">Artist</mat-checkbox>
-  <mat-checkbox class="example-margin" [(ngModel)]="album">Album</mat-checkbox>
-  <mat-checkbox class="example-margin" [(ngModel)]="track">Track</mat-checkbox>
-</section>
+<form class="example-section">
+  <mat-checkbox class="example-margin" [disabled]="album || track" [(ngModel)]="artist" >Artist</mat-checkbox>
+  <mat-checkbox class="example-margin"  [disabled]="artist || track" [(ngModel)]="album" >Album</mat-checkbox>
+  <mat-checkbox class="example-margin" [disabled]="artist || album" [(ngModel)]="track" >Track</mat-checkbox>
+</form>
 
 
 <form class="example-form" [formGroup]='searchForm'>
@@ -21,3 +20,4 @@
     </mat-option>
   </mat-autocomplete>
 </form>
+

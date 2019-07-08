@@ -1,12 +1,13 @@
 import {PlaylistService} from './../../services/playlist.service';
 import {SpotifyDataService} from './../../services/spotify-data.service';
 import {PlaylistDataSource} from './../../services/playlist-data-source';
-import {Component, OnInit, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {MatDialog, MatDialogConfig, MatPaginator, MatSort} from '@angular/material';
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MatDialog, MatDialogConfig, MatIconRegistry, MatPaginator, MatSort} from '@angular/material';
 import {tap} from 'rxjs/operators';
 import {merge,Subscription} from 'rxjs';
 import {PopUpComponent} from "../../pop-up/pop-up.component";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-play-list',
@@ -30,11 +31,19 @@ export class PlayListComponent implements OnInit, AfterViewInit {
   constructor(private route: ActivatedRoute,
               private spotifyData: SpotifyDataService,
               private playlistService: PlaylistService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private router: Router,
+              iconRegistry: MatIconRegistry,
+              sanitizer: DomSanitizer
+              ) {
     this.id = this.route.snapshot.paramMap.get('id');
     this.snapshotId = this.route.snapshot.paramMap.get('snapshotId');
     this.totalTracks = +this.route.snapshot.paramMap.get('totalTracks');
     this.playlistName = this.route.snapshot.paramMap.get('playlistName');
+
+    iconRegistry.addSvgIcon(
+      'round-playlist-add',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/round-playlist-add.svg'));
   }
 
 
@@ -90,6 +99,10 @@ export class PlayListComponent implements OnInit, AfterViewInit {
     };
 
     this.dialog.open(PopUpComponent, dialogConfig);
+  }
+
+  newPlaylistTrack() {
+    this.router.navigate(['/search']);
   }
 
 }
