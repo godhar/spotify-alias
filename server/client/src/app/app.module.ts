@@ -24,26 +24,26 @@ import {
   MatAutocompleteModule,
   MatCheckboxModule
 } from '@angular/material';
-// import { NgMatAutocompleteModule } from '../../node_modules/@vguleaev/angular-material-autocomplete';
+import {MatDialogModule} from '@angular/material/dialog';
 import { LoginComponent } from './login/login.component';
-import { LandingComponent } from './landing/landing.component';
 import { PlayListsComponent } from './playlist/play-lists/play-lists.component';
 import { PlayListComponent } from './playlist/play-list/play-list.component';
 import { SearchComponent } from './search/search.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
+import { PopUpComponent } from './pop-up/pop-up.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    LandingComponent,
     PlayListsComponent,
     PlayListComponent,
     SearchComponent,
-    PlaylistEditComponent
+    PlaylistEditComponent,
+    PopUpComponent
   ],
-  entryComponents: [PlayListComponent],
+  entryComponents: [PopUpComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -61,7 +61,7 @@ import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.co
     MatSortModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
-    // NgMatAutocompleteModule,
+    MatDialogModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatCheckboxModule,
