@@ -1,11 +1,12 @@
 import {PlaylistService} from './../../services/playlist.service';
 import {SpotifyDataService} from './../../services/spotify-data.service';
 import {PlaylistDataSource} from './../../services/playlist-data-source';
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatPaginator, MatSort} from '@angular/material';
 import {tap} from 'rxjs/operators';
-import {merge} from 'rxjs';
+import {merge,Subscription} from 'rxjs';
+import {PopUpComponent} from "../../pop-up/pop-up.component";
 
 @Component({
   selector: 'app-play-list',
@@ -15,24 +16,33 @@ import {merge} from 'rxjs';
 export class PlayListComponent implements OnInit, AfterViewInit {
 
   totalTracks: number;
+  playlistName: string;
   id: string;
   snapshotId: string;
   private dataSource: PlaylistDataSource;
   displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist', 'delete'];
+  deleteSubscription: Subscription;
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private route: ActivatedRoute, private spotifyData: SpotifyDataService, private playlistService: PlaylistService) {
+  constructor(private route: ActivatedRoute,
+              private spotifyData: SpotifyDataService,
+              private playlistService: PlaylistService,
+              private dialog: MatDialog) {
     this.id = this.route.snapshot.paramMap.get('id');
     this.snapshotId = this.route.snapshot.paramMap.get('snapshotId');
     this.totalTracks = +this.route.snapshot.paramMap.get('totalTracks');
+    this.playlistName = this.route.snapshot.paramMap.get('playlistName');
   }
+
 
   ngOnInit() {
     this.dataSource = new PlaylistDataSource(this.playlistService);
     this.dataSource.loadPlaylist(this.id, '', 'asc', 0, 3);
   }
+
 
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -43,20 +53,43 @@ export class PlayListComponent implements OnInit, AfterViewInit {
       ).subscribe();
   }
 
+
   loadPlaylistPage() {
     this.dataSource.loadPlaylist(
       this.id, '', this.sort.direction,
       this.paginator.pageIndex, this.paginator.pageSize);
   }
 
+
   onRowClicked(track) {
-    console.log('Row clicked: ', track);
-    this.spotifyData.removeItemFromPlaylist(track.track_uri, this.snapshotId, this.id, track.track_number)
+    this.deleteSubscription = this.spotifyData.removeItemFromPlaylist(track.track_uri, this.snapshotId, this.id, track.track_number)
       .subscribe(
         res => {
-          console.log('what is res on deletion?');
-          console.log(res)
+          if(res['status'] === 200) {
+            this.snapshotId = res['snapshot_id'];
+            this.openPopUp(track.track_name);
+            this.deleteSubscription.unsubscribe();
+          } else {
+            this.openPopUp('Error ' + res['status'] + ': unable to delete track from ' + this.playlistName);
+          }
+        this.loadPlaylistPage();
         }
       )
   }
+
+
+  openPopUp(msg: string) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      title: 'Remove Item From Playlist',
+      content: msg + ' has been deleted from ' + this.playlistName
+    };
+
+    this.dialog.open(PopUpComponent, dialogConfig);
+  }
+
 }

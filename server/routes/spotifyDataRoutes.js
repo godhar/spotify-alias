@@ -32,6 +32,6 @@ module.exports = (app) => {
 
      app.get('/api/spotify/delete-playlist-track', isAuth, async (req, res) => {
          const status = await spotifyService.deletePlaylistTrack(req.user, req.query);
-         res.status(200).json({ payload: {snapshot_id: status.snapshot_id} });
+         res.status(200).json({ payload: status});
      });
 }

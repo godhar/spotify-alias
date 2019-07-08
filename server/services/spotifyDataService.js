@@ -154,13 +154,15 @@ const getNewArtistData = async (paramsData, user) => {
 const deletePlaylistItem = async (user, queryParam) => {
     const userCreds = await TokenService.getUserCredentials(user);
     let status = await deleteTrackByUri(userCreds.accessToken, queryParam);
-
+    console.log('YES AND STATUS IS FFK', status);
     if (status.statusCode === 401) {
         userCreds.accessToken = await TokenService.getNewToken(userCreds);
         status = await deleteTrackByUri(userCreds.accessToken, queryParam);
     }
+    console.log('should be returning status?????');
+    console.log(status);
 
-    return { status: status, snapshot_id: status.data.snapshot_id };
+    return status;
 };
 
 
@@ -168,10 +170,8 @@ async function deleteTrackByUri(accessToken, reqParam) {
 
     let res;
     let qUrl = 'https://api.spotify.com/v1/playlists/' + reqParam.playlist_id + '/tracks';
-    // const trackPosition = Number(reqParam.track_number) - 1;
 
-    let reqData = '{"tracks": [{"uri": "' + reqParam.track_uri + '"}]}';
-        // + '","positions":[' + trackPosition + ']}]}';
+    let reqData = '{"tracks": [{"uri": "' + reqParam.track_uri + '"}]' + ',"snapshot_id":"' + reqParam.snapshot_id + '"}';
 
     try {
         res = await axios.delete(qUrl, {
@@ -183,38 +183,12 @@ async function deleteTrackByUri(accessToken, reqParam) {
         });
 
     } catch (error) {
-
-        if (error.response) {
-            /*
-             * The request was made and the server responded with a
-             * status code that falls out of the range of 2xx
-             */
-            console.log('RESPONSE ERROR ---------- ');
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-        } else if (error.request) {
-            /*
-             * The request was made but no response was received, `error.request`
-             * is an instance of XMLHttpRequest in the browser and an instance
-             * of http.ClientRequest in Node.js
-             */
-            console.log('REQUEST ERROR ---------- ');
-            console.log(error.request);
-        } else {
-            // Something happened in setting up the request and triggered an Error
-            console.log('Error MESSAGE ---- ', error.message);
-        }
-        console.log(error);
-
         if (error.response.status === 401) {
             return {statusCode: 401};
         }
         console.error(error)
     }
-
-    console.log('am I getting a response on delete ====== ', res);
-    return res.status;
+    return { status: res.status, snapshot_id: res.data.snapshot_id };;
 }
 
 

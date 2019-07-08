@@ -1,7 +1,5 @@
 import { PlaylistItem } from './../shared/playlist-item.model';
-import {map, catchError, finalize, tap} from 'rxjs/operators';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {catchError, finalize} from 'rxjs/operators';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { PlaylistService } from './playlist.service';
 import { CollectionViewer, DataSource } from "@angular/cdk/collections";
@@ -33,9 +31,7 @@ export class PlaylistDataSource implements DataSource<PlaylistItem> {
 
         this.playlistService.findPlaylistTracks(playlistId, filter, sortDirection,
             pageIndex, pageSize).pipe(
-
-              tap(val => console.log('new val further', val)),
-            catchError(() => of([])),
+              catchError(() => of([])),
             finalize(() => this.loadingSubject.next(false))
             )
             .subscribe(tracks => this.playlistSubject.next(tracks));

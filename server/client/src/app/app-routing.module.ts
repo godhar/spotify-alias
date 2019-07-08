@@ -1,13 +1,9 @@
-import { AppComponent } from './app.component';
-import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
 import { PlayListsComponent } from './playlist/play-lists/play-lists.component';
-import { SearchComponent } from './search/search.component';
 import { PlayListComponent } from './playlist/play-list/play-list.component';
 import { AuthGuard } from './auth/auth.guard';
-import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, CanActivate } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [

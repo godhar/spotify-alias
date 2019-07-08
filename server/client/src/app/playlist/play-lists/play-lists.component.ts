@@ -26,7 +26,7 @@ export class PlayListsComponent implements OnInit {
 
   handlePlaylist(e) {
     console.log(e);
-    this.router.navigate(['playlist/', e.playlist_id, {snapshotId: e.snapshot_id, totalTracks: e.tracks.total}])
+    this.router.navigate(['playlist/', e.playlist_id, {snapshotId: e.snapshot_id, totalTracks: e.tracks.total, playlistName: e.name}])
   }
 
 
