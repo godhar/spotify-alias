@@ -4,6 +4,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {SearchComponent} from "./search/search.component";
 
 
 const routes: Routes = [
@@ -29,6 +30,10 @@ const routes: Routes = [
     path: 'playlist/:id',
     component: PlayListComponent
   },
+  {
+    path: 'search',
+    component: SearchComponent
+  }
   //   {
   //   path: 'playlist/:id/edit',
   //   pathMatch: 'full',

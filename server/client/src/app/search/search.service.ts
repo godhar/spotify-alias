@@ -1,3 +1,4 @@
+import { Validator, FormArray, ValidatorFn, ValidationErrors, FormGroup } from '@angular/forms';
 import { SearchResult } from '../models/search.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -11,9 +12,8 @@ export class SearchService {
 
   constructor(private http: HttpClient) { }
 
-  searchAll(searchValue, type: string): Observable<SearchResult[]> {
+  searchByType(searchValue, type: string): Observable<SearchResult[]> {
     console.log('***searching ****', searchValue);
-
 
     return this.http.get<SearchResult[]>('api/spotify/search-all-data', {
       params: new HttpParams()

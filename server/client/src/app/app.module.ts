@@ -22,7 +22,7 @@ import {
   MatSortModule,
   MatProgressSpinnerModule,
   MatAutocompleteModule,
-  MatCheckboxModule
+  MatCheckboxModule, MatTooltipModule
 } from '@angular/material';
 import {MatDialogModule} from '@angular/material/dialog';
 import { LoginComponent } from './login/login.component';
@@ -49,10 +49,12 @@ import { PopUpComponent } from './pop-up/pop-up.component';
     HttpClientModule,
     AppRoutingModule,
     FlexLayoutModule,
+    MatTooltipModule,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
     MatToolbarModule,
+    MatIconModule,
     MatListModule,
     MatTableModule,
     MatInputModule,

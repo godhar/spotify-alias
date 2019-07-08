@@ -6,7 +6,7 @@
 
   <mat-card>
     <mat-card-actions>
-      <button color="primary" mat-icon-button >Add Track</button>
+      <mat-icon svgIcon="round-playlist-add" matTooltip="Add new playlist track" (click)="newPlaylistTrack()"></mat-icon>
     </mat-card-actions>
   </mat-card>
     <mat-table class="pl-table" [dataSource]="dataSource" matSort matSortActive="trackNum" matSortDirection="asc" matSortDisableClear>
