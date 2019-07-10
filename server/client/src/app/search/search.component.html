@@ -1,13 +1,13 @@
-<form class="example-section">
-  <mat-checkbox class="example-margin" [disabled]="album || track" [(ngModel)]="artist" >Artist</mat-checkbox>
-  <mat-checkbox class="example-margin"  [disabled]="artist || track" [(ngModel)]="album" >Album</mat-checkbox>
-  <mat-checkbox class="example-margin" [disabled]="artist || album" [(ngModel)]="track" >Track</mat-checkbox>
-</form>
 
 
-<form class="example-form" [formGroup]='searchForm'>
+<form class="example-section" class="example-form" [formGroup]="searchForm">
+  <h1>Search Artist, Album or Track</h1>
+  <mat-checkbox class="example-margin" [disabled]="searchForm.get('album').value || searchForm.get('track').value" formControlName="artist">Artist</mat-checkbox>
+  <mat-checkbox class="example-margin" [disabled]="searchForm.get('artist').value || searchForm.get('track').value" formControlName="album">Album</mat-checkbox>
+  <mat-checkbox class="example-margin" [disabled]="searchForm.get('artist').value || searchForm.get('album').value" formControlName="track">Track</mat-checkbox>
+
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Type album, artist or track..." type="text" [matAutocomplete]="auto" formControlName='searchInput'>
+    <input matInput placeholder="Type album, artist or track..." type="text" [matAutocomplete]="auto" formControlName="searchInput">
   </mat-form-field>
 
   <mat-autocomplete panelWidth="auto" #auto="matAutocomplete" [displayWith]="displayFn">
