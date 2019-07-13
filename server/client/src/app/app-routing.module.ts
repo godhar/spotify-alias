@@ -1,10 +1,14 @@
-import { PlayListsComponent } from './playlist/play-lists/play-lists.component';
-import { PlayListComponent } from './playlist/play-list/play-list.component';
-import { AuthGuard } from './auth/auth.guard';
-import { LoginComponent } from './login/login.component';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {PlayListsComponent} from './playlist/play-lists/play-lists.component';
+import {PlayListComponent} from './playlist/play-list/play-list.component';
+import {AuthGuard} from './auth/auth.guard';
+import {LoginComponent} from './login/login.component';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {SearchComponent} from "./search/search.component";
+import {DisplayTracksComponent} from "./search/display-tracks/display-tracks.component";
+import {
+  DisplayTracksResolverService
+} from "./search/display-tracks/display-tracks-resolver.service";
 
 
 const routes: Routes = [
@@ -34,18 +38,21 @@ const routes: Routes = [
   {
     path: 'search',
     component: SearchComponent
+  },
+  {
+    path: 'display-result/:type/:id',
+    component: DisplayTracksComponent,
+    resolve: {trackData: DisplayTracksResolverService}
   }
-  //   {
-  //   path: 'playlist/:id/edit',
-  //   pathMatch: 'full',
-  //   component: PlaylistEditComponent
-  // }
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
+  exports: [RouterModule],
+  providers: [DisplayTracksResolverService]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
 
 

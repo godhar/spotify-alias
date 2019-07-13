@@ -30,8 +30,9 @@ import { PlayListsComponent } from './playlist/play-lists/play-lists.component';
 import { PlayListComponent } from './playlist/play-list/play-list.component';
 import { SearchComponent } from './search/search.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-// import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
 import { PopUpComponent } from './pop-up/pop-up.component';
+import {DisplayResultComponent} from "./search/display-result/display-result.component";
+import {DisplayTracksComponent} from "./search/display-tracks/display-tracks.component";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,9 @@ import { PopUpComponent } from './pop-up/pop-up.component';
     PlayListsComponent,
     PlayListComponent,
     SearchComponent,
-    PopUpComponent
+    PopUpComponent,
+    DisplayResultComponent,
+    DisplayTracksComponent
   ],
   entryComponents: [PopUpComponent],
   imports: [

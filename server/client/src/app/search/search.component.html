@@ -10,8 +10,9 @@
     <input matInput placeholder="Type album, artist or track..." type="text" [matAutocomplete]="auto" formControlName="searchInput">
   </mat-form-field>
 
-  <mat-autocomplete panelWidth="auto" #auto="matAutocomplete" [displayWith]="displayFn">
-    <mat-option *ngFor="let result of filteredSearchItems | async" [value]="result">
+<!--  <mat-autocomplete panelWidth="auto" #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="getSelectedResult($event)">-->
+  <mat-autocomplete panelWidth="auto" #auto="matAutocomplete" (optionSelected)="getSelectedResult($event)">
+    <mat-option *ngFor="let result of filteredSearchItems | async" [value]="result" >
 
       <img *ngIf="result.img" class="example-option-img" [src]="result.img[0]" height="25">
       <span>{{result.name}}</span> |
@@ -20,4 +21,9 @@
     </mat-option>
   </mat-autocomplete>
 </form>
+
+
+<ng-container *ngIf="cardItem">
+ <app-display-track [item]="cardItem" [category]="resultCategory"></app-display-track>
+</ng-container>
 
