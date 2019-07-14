@@ -14,19 +14,10 @@
   <mat-autocomplete panelWidth="auto" #auto="matAutocomplete" (optionSelected)="getSelectedResult($event)">
     <mat-option *ngFor="let result of filteredSearchItems | async" [value]="result" >
 
-      <img *ngIf="result.img" class="example-option-img" [src]="result.img[0]" height="25">
+      <img *ngIf="result.img[0]" class="example-option-img" [src]="result?.img[0]" height="25">
       <span>{{result.name}}</span> |
       <small>Type: {{result.type}}</small>
 
     </mat-option>
   </mat-autocomplete>
 </form>
-
-
-<ng-container *ngIf="cardItem">
- <app-display-result [item]="cardItem" [category]="resultCategory"></app-display-result>
-</ng-container>
-
-<ng-container *ngIf="tracksToDisplay">
-  <app-display-track [tracks]="allTracks$"></app-display-track>
-</ng-container>

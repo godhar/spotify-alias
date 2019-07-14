@@ -9,6 +9,7 @@ import {
   DisplayTracksResolverService
 } from "./search/display-tracks/display-tracks-resolver.service";
 import {PlayListsResolverService} from "./playlist/play-lists/playlists-resolver.service";
+import {PlaylistAddComponent} from "./playlist/playlist-add/playlist-add.component";
 
 
 const routes: Routes = [
@@ -16,14 +17,19 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     canActivate: [AuthGuard],
-    component: PlayListsComponent
+    component: PlayListsComponent,
+    resolve: {data: PlayListsResolverService}
   },
 
   {
     path: 'login',
     component: LoginComponent
   },
-
+  {
+    path: 'playlists',
+    component: PlayListsComponent,
+    resolve: {data: PlayListsResolverService}
+  },
   {
     path: 'callback/success',
     pathMatch: 'full',
@@ -38,9 +44,9 @@ const routes: Routes = [
     component: PlayListComponent
   },
   {
-    path: 'search',
+    path: 'playlist-add/:id',
     canActivate: [AuthGuard],
-    component: SearchComponent
+    component: PlaylistAddComponent
   }
 ];
 

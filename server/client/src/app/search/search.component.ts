@@ -1,6 +1,6 @@
 import {SearchService} from './search.service';
 import {EMPTY, Observable, of, throwError} from 'rxjs';
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {
   debounceTime,
@@ -11,7 +11,7 @@ import {
   filter
 } from 'rxjs/operators';
 import {Router} from "@angular/router";
-import {Album, Artist, Track, TrackFull} from "../models/spotifyData.model";
+import {Album, Artist, Track} from "../models/spotifyData.model";
 
 
 @Component({
@@ -21,6 +21,10 @@ import {Album, Artist, Track, TrackFull} from "../models/spotifyData.model";
 })
 export class SearchComponent implements OnInit {
 
+
+  @Output() entitySelected = new EventEmitter<Album | Artist | Track>();
+
+
   filteredSearchItems: Observable<Artist[] | Album[] | Track[]>;
   isLoading = false;
   searchForm: FormGroup;
@@ -28,10 +32,6 @@ export class SearchComponent implements OnInit {
   track: FormControl;
   album: FormControl;
   searchCategory: string;
-  resultCategory: string;
-  cardItem: Track | Artist | Album = null;
-  allTracks$: Observable<TrackFull[]>;
-  tracksToDisplay: boolean = false;
 
   constructor(private router: Router, private searchService: SearchService, private fb: FormBuilder) {
     this.searchForm = fb.group({
@@ -52,10 +52,11 @@ export class SearchComponent implements OnInit {
       .pipe(
         startWith(null),
         filter(val => val && val !== ''),
-        debounceTime(200),
+        debounceTime(500),
         distinctUntilChanged(),
         tap(() => this.isLoading = true),
         switchMap(value => {
+          console.log(value)
           return this.searchService.searchByType(value.toString(), this.searchCategory)//TESTING
         })
       );
@@ -79,26 +80,20 @@ export class SearchComponent implements OnInit {
 
   getSelectedResult(selected) {
     console.log('not being triggered ??? ', selected.option.value)
-    const val = selected.option.value;
-    this.searchForm.get('searchInput').setValue('', {emit:false});
+    let val = selected.option.value;
+    this.searchForm.get('searchInput').setValue('', {emit: false});
     if (val.type == 'album') {
-      this.cardItem = new Album().deserialize(val);
+      val = new Album().deserialize(val);
     }
     if (val.type == 'track') {
-      this.cardItem = new Track().deserialize(val);
+      val = new Track().deserialize(val);
     }
     if (val.type == 'artist') {
-      this.cardItem = new Artist().deserialize(val);
+      val = new Artist().deserialize(val);
     }
-    this.resultCategory = val.type;
     this.searchForm.get('searchInput').setValue(null, {emitEvent: false});
 
-    if (val.type !== 'track') {
-      return this.searchService.getTracks(val.id, val.type)
-        .subscribe(
-          res => this.allTracks$ = res
-        )
-    }
+    this.entitySelected.emit(<Album | Artist | Track>val);
   }
 
 }

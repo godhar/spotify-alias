@@ -53,7 +53,7 @@ export class TrackFull implements Deserializable {
   public artist: string;
   public duration: number;
   public type: string;
-  public external_urls: {};
+  public external_url: string;
   public track_uri: string;
 
   deserialize(input: any) {

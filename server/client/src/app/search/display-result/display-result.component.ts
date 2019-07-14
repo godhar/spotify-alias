@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Album, Artist, Track} from "../../models/spotifyData.model";
 
 @Component({
@@ -10,8 +10,13 @@ export class DisplayResultComponent {
 
   @Input() item: Track | Artist | Album;
   @Input() category: string;
+  @Output() showTracksSelected = new EventEmitter<Artist|Album>();
 
   constructor() {
   }
 
+  getTracks(item: Album|Artist) {
+    console.log('do I have an item here', item)
+    this.showTracksSelected.emit(item);
+  }
 }

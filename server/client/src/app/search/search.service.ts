@@ -30,9 +30,8 @@ export class SearchService {
 
 
   getTracks(id: string, type: string): Observable<TrackFull[]> | Observable<any> {
-    console.log('get tracks called????',id)
-    console.log('get tracks called????',type)
-    return this.http.get<TrackFull[]>('api/spotify/tracks', {
+
+    return this.http.get('api/spotify/tracks', {
       params: new HttpParams()
         .set('id', id)
         .set('type', type)
@@ -41,7 +40,7 @@ export class SearchService {
       .pipe(
         catchError( err =>  throwError(err)),
         tap((res) => console.log(res)),
-        map(res => res)
+        map(res => res['payload']['data'].map((tr) => new TrackFull().deserialize(tr)))
         );
   }
 }

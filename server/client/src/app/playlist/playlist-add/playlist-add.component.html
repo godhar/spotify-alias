@@ -1,0 +1,22 @@
+<h1>Playlist Add</h1>
+
+<div class="container" fxLayout="row wrap" fxLayoutAlign="start start">
+
+  <app-search (entitySelected)="handleEntity($event)"></app-search>
+
+  <ng-container *ngIf="sEntity">
+    <div class="layout-item" fxFlex="1 1 auto"
+         fxFlexAlign="center">
+      <app-display-result (showTracksSelected)="getTracks($event)" [item]="sEntity"
+                          [category]="sEntity.type">
+      </app-display-result>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="tracksEntity" >
+    <div class="layout-item" fxFlex="1 1 auto"
+         fxFlexAlign="center">
+      <app-display-track [entity]="tracksEntity"></app-display-track>
+    </div>
+  </ng-container>
+</div>

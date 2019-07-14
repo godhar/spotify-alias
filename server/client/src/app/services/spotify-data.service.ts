@@ -8,12 +8,7 @@ import {map} from "rxjs/operators";
 })
 export class SpotifyDataService {
 
-  constructor(private http: HttpClient) {
-  }
-
-  fetchAllPlaylists(): Observable<any> {
-    return this.http.get('api/spotify/playlists');
-  }
+  constructor(private http: HttpClient) {}
 
   removeItemFromPlaylist(trackUri: string, snapshotId: string, playlistId: string, trackNumber: number): Observable<Object> {
     return this.http.get('api/spotify/delete-playlist-track', {

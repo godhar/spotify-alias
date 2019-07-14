@@ -4,7 +4,6 @@ const utils = require('./utilsService');
 const TokenService = require('./accessTokenService');
 
 
-
 const getPlaylists = async (user) => {
 
     let userCreds = await TokenService.getUserCredentials(user);
@@ -166,12 +165,56 @@ const deletePlaylistItem = async (user, queryParam) => {
 };
 
 
+const getTracksArtistAlbum = async (user, queryParam) => {
+    const userCreds = await TokenService.getUserCredentials(user);
+    console.log('QQ (service ) ======= ', queryParam);
+    let status = await getTracks(userCreds.accessToken, queryParam);
+
+    console.log('YES AND STATUS IS FFK', status);
+    if (status.statusCode === 401) {
+        userCreds.accessToken = await TokenService.getNewToken(userCreds);
+        status = await getTracks(userCreds.accessToken, queryParam);
+    }
+
+    console.log(status);
+
+    return status;
+};
+
+
+async function getTracks(accessToken, reqParam) {
+    let data;
+    const qUrl = `https://api.spotify.com/v1/${reqParam.type}s/${reqParam.id}/` + (reqParam.type === `artist` ? `top-tracks?country=${reqParam.iso}` : `tracks`);
+    console.log('req param == ', reqParam);
+    console.log('qUrl ===== ', qUrl)
+
+    try {
+        data = await axios.get(qUrl, {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken,
+                'Content-Type': 'application/json'
+            }
+        });
+
+    } catch (error) {
+        if (error.response.status === 401) {
+            return {statusCode: 401};
+        }
+        console.error(error)
+    }
+
+    const res = await data;
+    console.log('resso -- ', res)
+    const modData = utils.modifyFullTrackData(res['data']);
+    return {data: modData};
+}
+
+
 async function deleteTrackByUri(accessToken, reqParam) {
 
     let res;
-    let qUrl = 'https://api.spotify.com/v1/playlists/' + reqParam.playlist_id + '/tracks';
-
-    let reqData = '{"tracks": [{"uri": "' + reqParam.track_uri + '"}]' + ',"snapshot_id":"' + reqParam.snapshot_id + '"}';
+    const qUrl = 'https://api.spotify.com/v1/playlists/' + reqParam.playlist_id + '/tracks';
+    const reqData = '{"tracks": [{"uri": "' + reqParam.track_uri + '"}]' + ',"snapshot_id":"' + reqParam.snapshot_id + '"}';
 
     try {
         res = await axios.delete(qUrl, {
@@ -188,7 +231,7 @@ async function deleteTrackByUri(accessToken, reqParam) {
         }
         console.error(error)
     }
-    return { status: res.status, snapshot_id: res.data.snapshot_id };;
+    return {status: res.status, snapshot_id: res.data.snapshot_id};
 }
 
 
@@ -321,6 +364,7 @@ module.exports = {
     getSearchedForItem: getSearchedItem,
     getTracksByAlbum: getTracksFromAlbum,
     getDataByArtist: getNewArtistData,
-    deletePlaylistTrack: deletePlaylistItem
+    deletePlaylistTrack: deletePlaylistItem,
+    getTracksByAlbumArtist: getTracksArtistAlbum
 };
 

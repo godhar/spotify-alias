@@ -1,11 +1,4 @@
 
-module.exports.convertMillisToSec = (millis) => {
-    const minutes = Math.floor(millis / 60000);
-    const seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-};
-
-
 module.exports.modifyResponseSearchData = (data, qType) => {
 
     const modifiedData = [];
@@ -41,6 +34,24 @@ module.exports.modifyResponseSearchData = (data, qType) => {
 };
 
 
+export const modifyFullTrackData = (rawData) => {
+    return rawData.tracks.map( (track) => {
+        console.log('track album ===', track.album)
+        console.log('full-track ', track)
+        console.log('track external_urls ===', track.external_urls)
+        return {name: track.name, artist: track.artists[0].name , album: track.album.name, external_urls: track.external_urls.spotify,
+            duration: convertMillisToSec(track.duration_ms), type: track.type, track_uri: track.uri};
+    })
+};
+
+
 function mapImages(items) {
     return items.map((i) => i.url);
 }
+
+export const convertMillisToSec = (millis) => {
+    const minutes = Math.floor(millis / 60000);
+    const seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+};
+

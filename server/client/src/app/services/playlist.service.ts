@@ -13,8 +13,7 @@ export class PlaylistService {
 
   findPlaylistTracks(
         playlistId: string, filter = '', sortOrder = 'asc',
-        pageNumber = 0, pageSize = 3):  Observable<PlaylistItem[]> {
-
+        pageNumber, pageSize):  Observable<PlaylistItem[]> {
         return this.http.get<PlaylistItem[]>('api/spotify/playlist-item', {
             params: new HttpParams()
                 .set('playlistId', playlistId.toString())

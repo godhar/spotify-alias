@@ -49,7 +49,7 @@ export class PlayListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.dataSource = new PlaylistDataSource(this.playlistService);
-    this.dataSource.loadPlaylist(this.id, '', 'asc', 0, 3);
+    this.dataSource.loadPlaylist(this.id, '', 'asc', 0, 6);
   }
 
 
@@ -102,7 +102,7 @@ export class PlayListComponent implements OnInit, AfterViewInit {
   }
 
   newPlaylistTrack() {
-    this.router.navigate(['/search']);
+    this.router.navigate(['/playlist-add', this.id]);
   }
 
 }

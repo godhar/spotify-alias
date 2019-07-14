@@ -9,21 +9,20 @@ import {Router} from "@angular/router";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   public authState: string;
 
-  constructor(private authService: AuthService,
-              private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
     this.authService.isSessionAlive().subscribe((res) => {
+      console.log('response ', res)
       this.authState = res ? 'Logout' : 'Login';
+      if(res['spotifyId']) {
+        this.router.navigate(['playlists'])
+      }
+    }, error => {
+      console.error(error);
     });
-
-    console.log('this .. dot auth')
-    console.log(this.authState)
-  }
-
-  ngOnInit() {
   }
 
   handleAuth(): void {
@@ -31,7 +30,6 @@ export class LoginComponent implements OnInit {
       this.authService.logOut();
       this.authState = 'Login';
     }
-
   }
 
 

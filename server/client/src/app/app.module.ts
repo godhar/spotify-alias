@@ -33,6 +33,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PopUpComponent } from './pop-up/pop-up.component';
 import {DisplayResultComponent} from "./search/display-result/display-result.component";
 import {DisplayTracksComponent} from "./search/display-tracks/display-tracks.component";
+import { PlaylistAddComponent } from './playlist/playlist-add/playlist-add.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {DisplayTracksComponent} from "./search/display-tracks/display-tracks.com
     SearchComponent,
     PopUpComponent,
     DisplayResultComponent,
-    DisplayTracksComponent
+    DisplayTracksComponent,
+    PlaylistAddComponent
   ],
   entryComponents: [PopUpComponent],
   imports: [

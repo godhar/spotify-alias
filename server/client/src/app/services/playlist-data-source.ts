@@ -26,7 +26,7 @@ export class PlaylistDataSource implements DataSource<PlaylistItem> {
     }
 
 
-    loadPlaylist(playlistId: string, filter = '', sortDirection = 'asc', pageIndex = 0, pageSize = 3) {
+    loadPlaylist(playlistId: string, filter = '', sortDirection = 'asc', pageIndex = 0, pageSize = 6) {
         this.loadingSubject.next(true);
 
         this.playlistService.findPlaylistTracks(playlistId, filter, sortDirection,
