@@ -1,28 +1,23 @@
 import { SpotifyDataService } from './../../services/spotify-data.service';
 import { Playlist } from './../../models/spotifyData.model';
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import { Component} from '@angular/core';
 
 @Component({
   selector: 'app-play-lists',
   templateUrl: './play-lists.component.html',
   styleUrls: ['./play-lists.component.scss']
 })
-export class PlayListsComponent implements OnInit {
+export class PlayListsComponent {
 
-  public playlists: Playlist[];
+  public playLists: Playlist[];
 
-  constructor(private spotifyData: SpotifyDataService, private router: Router) { }
-
-  ngOnInit() {
-    this.spotifyData.fetchAllPlaylists()
-      .subscribe((res) => {
-        this.playlists = res.map((pl) => {
-          let pla = new Playlist();
-            return pla.deserialize(pl);
-        });
-      });
+  constructor(private spotifyData: SpotifyDataService, private router: Router, private route: ActivatedRoute) {
+    this.route.data.subscribe(
+      (res: Playlist[]) => this.playLists = res['data']
+    )
   }
+
 
   handlePlaylist(e) {
     console.log(e);

@@ -24,6 +24,9 @@
 
 
 <ng-container *ngIf="cardItem">
- <app-display-track [item]="cardItem" [category]="resultCategory"></app-display-track>
+ <app-display-result [item]="cardItem" [category]="resultCategory"></app-display-result>
 </ng-container>
 
+<ng-container *ngIf="tracksToDisplay">
+  <app-display-track [tracks]="allTracks$"></app-display-track>
+</ng-container>

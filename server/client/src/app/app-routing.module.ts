@@ -5,10 +5,10 @@ import {LoginComponent} from './login/login.component';
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {SearchComponent} from "./search/search.component";
-import {DisplayTracksComponent} from "./search/display-tracks/display-tracks.component";
 import {
   DisplayTracksResolverService
 } from "./search/display-tracks/display-tracks-resolver.service";
+import {PlayListsResolverService} from "./playlist/play-lists/playlists-resolver.service";
 
 
 const routes: Routes = [
@@ -21,36 +21,33 @@ const routes: Routes = [
 
   {
     path: 'login',
-    canActivate: [AuthGuard],
     component: LoginComponent
   },
 
   {
     path: 'callback/success',
     pathMatch: 'full',
-    component: PlayListsComponent
+    canActivate: [AuthGuard],
+    component: PlayListsComponent,
+    resolve: {data: PlayListsResolverService}
   },
 
   {
     path: 'playlist/:id',
+    canActivate: [AuthGuard],
     component: PlayListComponent
   },
   {
     path: 'search',
+    canActivate: [AuthGuard],
     component: SearchComponent
-  },
-  {
-    path: 'display-result/:type/:id',
-    component: DisplayTracksComponent,
-    resolve: {trackData: DisplayTracksResolverService}
   }
-
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {enableTracing: true})],
   exports: [RouterModule],
-  providers: [DisplayTracksResolverService]
+  providers: [DisplayTracksResolverService, PlayListsResolverService]
 })
 export class AppRoutingModule {
 }

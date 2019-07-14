@@ -32,8 +32,34 @@ export class Artist implements Deserializable {
   }
 }
 
-export class Track {
-    constructor(public name: string, public album: Album, public artist: {name: string, id: string}){}
+export class Track implements Deserializable {
+
+  public name: string;
+  public album: string;
+  public artist: string;
+  public img: string[];
+  public type: string;
+
+  deserialize(input: any) {
+    Object.assign(this, input);
+    return this;
+  }
+}
+
+export class TrackFull implements Deserializable {
+
+  public name: string;
+  public album: string;
+  public artist: string;
+  public duration: number;
+  public type: string;
+  public external_urls: {};
+  public track_uri: string;
+
+  deserialize(input: any) {
+    Object.assign(this, input);
+    return this;
+  }
 }
 
 export class Playlist implements Deserializable {
