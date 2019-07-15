@@ -23,9 +23,7 @@ export class PlayListsResolverService implements Resolve<Playlist[]> {
         }),
         mergeMap(
           res => {
-            res['payload'].map( (pl) => new Playlist().deserialize(pl))
-            console.log('res is ', res)
-
+            res['payload'].map( (pl) => new Playlist().deserialize(pl));
             if (res['payload']) {
               return of(res['payload'])
             } else {

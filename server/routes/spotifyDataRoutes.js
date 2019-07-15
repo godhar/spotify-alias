@@ -41,8 +41,8 @@ module.exports = (app) => {
 
 
      app.get('/api/spotify/tracks', isAuth, async (req, res) => {
-         console.log('made it to controller ',req.params)
+         console.log('made it to controller tracks ',req.params)
          const data = await spotifyService.getTracksByAlbumArtist(req.user, req.query);
          res.status(200).json({ payload: data});
      });
-}
+};
