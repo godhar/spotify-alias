@@ -1,0 +1,9 @@
+<div style="text-align:center">
+  <mat-toolbar fxLayout="row" fxLayoutAlign="start center" role="heading">
+    <mat-toolbar-row>
+      <span fxFlex="80%"><h1 class="text-card">Spotify Components</h1></span>
+      <span fxFlex="10%" *ngIf="authState === 'Logout'" class="text-card"><button mat-raised-button color="accent" (click)="handleAuth()"><b>Logout</b></button></span>
+      <span fxFlex="10%" *ngIf="authState === 'Login'" class="text-card"><a mat-raised-button color="primary" href="/auth/spotify">Login</a></span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>

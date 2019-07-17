@@ -1,0 +1,45 @@
+<div class="mat-table__wrapper">
+
+  <mat-card>
+    <mat-card-actions>
+      <button mat-raised-button color="accent"><mat-icon svgIcon="baseline-arrow-back" matTooltip="Back to search?"
+      (click)="navigateToSearch()">Back</mat-icon>
+      Back
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name</th>
+      <td mat-cell *matCellDef="let track"> {{track.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="album">
+      <th mat-header-cell *matHeaderCellDef> Album</th>
+      <td mat-cell *matCellDef="let track"> {{track.album ? track.album : playlistDetail.currentEntity.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="artist">
+      <th mat-header-cell *matHeaderCellDef> Artist</th>
+      <td mat-cell *matCellDef="let track"> {{track.artist}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="duration">
+      <th mat-header-cell *matHeaderCellDef> Duration/s</th>
+      <td mat-cell *matCellDef="let track"> {{track.duration}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="externalSource">
+      <th mat-header-cell *matHeaderCellDef> External Source</th>
+      <td mat-cell *matCellDef="let track"><a href="{{track.external_urls}}">External Source</a></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr matTooltip="Add to playlist" (click)="onSelect(row)"
+        [matTooltipPosition]="'above'" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+

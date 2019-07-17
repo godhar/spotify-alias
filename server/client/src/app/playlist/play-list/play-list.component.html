@@ -1,0 +1,60 @@
+
+
+  <div class="playlist-table">
+
+    <h2> My playlist </h2>
+
+  <mat-card>
+    <mat-card-actions>
+      <button mat-raised-button color="accent"><mat-icon svgIcon="round-playlist-add" matTooltip="Add new playlist track" (click)="newPlaylistTrack()"></mat-icon></button>
+    </mat-card-actions>
+  </mat-card>
+    <mat-table class="pl-table" [dataSource]="dataSource" matSort matSortActive="trackNum" matSortDirection="asc" matSortDisableClear>
+
+      <ng-container matColumnDef="trackNum">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Album</mat-header-cell>
+        <mat-cell *matCellDef="let p">{{ p.album_info.album_name }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="trackName">
+        <mat-header-cell *matHeaderCellDef>Track Name</mat-header-cell>
+        <mat-cell *matCellDef="let p">{{ p.track_name }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="pName">
+        <mat-header-cell *matHeaderCellDef>Playlist</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let p">{{ p.playlist_name }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="duration">
+        <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+        <mat-cell class="duration-cell" *matCellDef="let p">{{p.track_duration}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="artist">
+        <mat-header-cell *matHeaderCellDef>Artist</mat-header-cell>
+        <mat-cell class="duration-cell" *matCellDef="let p">{{p.artists.artist_name}}</mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell class="duration-cell" *matCellDef="let p">
+          <button mat-icon-button matTooltip="Delete from playlist" class="iconbutton" color="warn">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
+
+    </mat-table>
+    <mat-paginator #paginator [length]="totalTracks" [pageSize]="6" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+      <mat-spinner style="margin:0 auto;" mode="indeterminate"></mat-spinner>
+    </div>
+
+</div>
