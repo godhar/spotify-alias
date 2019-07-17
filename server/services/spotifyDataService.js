@@ -184,7 +184,7 @@ const getTracksArtistAlbum = async (user, queryParam) => {
 
 async function getTracks(accessToken, reqParam) {
     let data;
-    const qUrl = `https://api.spotify.com/v1/${reqParam.type}s/${reqParam.id}/` + (reqParam.type === `artist` ? `top-tracks?country=${reqParam.iso}` : `tracks`);
+    const qUrl = `https://api.spotify.com/v1/${reqParam.type}s/${reqParam.id}/` + (reqParam.type === `artist` ? `top-tracks` : `tracks`) + `?country=${reqParam.iso}`;
     console.log('req param == ', reqParam);
     console.log('qUrl ===== ', qUrl)
 
@@ -204,8 +204,7 @@ async function getTracks(accessToken, reqParam) {
     }
 
     const res = await data;
-    console.log('resso -- ', res)
-    const modData = utils.modifyFullTrackData(res['data']);
+    const modData = utils.modifyFullTrackData(res['data'], reqParam.type);
     return {data: modData};
 }
 

@@ -1,6 +1,6 @@
 import {SearchService} from './search.service';
-import {EMPTY, Observable, of, throwError} from 'rxjs';
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {
   debounceTime,
@@ -8,7 +8,7 @@ import {
   tap,
   startWith,
   distinctUntilChanged,
-  filter
+  filter, takeUntil
 } from 'rxjs/operators';
 import {Router} from "@angular/router";
 import {Album, Artist, Track} from "../models/spotifyData.model";
@@ -19,13 +19,14 @@ import {Album, Artist, Track} from "../models/spotifyData.model";
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
 
   @Output() entitySelected = new EventEmitter<Album | Artist | Track>();
 
 
   filteredSearchItems: Observable<Artist[] | Album[] | Track[]>;
+  destroy$ = new Subject();
   isLoading = false;
   searchForm: FormGroup;
   artist: FormControl;
@@ -50,6 +51,7 @@ export class SearchComponent implements OnInit {
 
     this.filteredSearchItems = this.searchForm.get('searchInput').valueChanges
       .pipe(
+        takeUntil(this.destroy$),
         startWith(null),
         filter(val => val && val !== ''),
         debounceTime(500),
@@ -94,6 +96,10 @@ export class SearchComponent implements OnInit {
     this.searchForm.get('searchInput').setValue(null, {emitEvent: false});
 
     this.entitySelected.emit(<Album | Artist | Track>val);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
   }
 
 }

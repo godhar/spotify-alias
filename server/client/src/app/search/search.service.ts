@@ -1,20 +1,15 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {catchError, map, mergeMap, tap} from 'rxjs/operators';
-import {EMPTY, Observable, of, throwError} from 'rxjs';
-import {Album, Artist, Track, TrackFull} from "../models/spotifyData.model";
+import {catchError, map, tap} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {Album, Artist, Track} from "../models/spotifyData.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
 
-  userIso: string;
-
-  constructor(private http: HttpClient) {
-    this.http.get('http://ip-api.com/json')
-      .subscribe(res => this.userIso = res['countryCode']);
-  }
+  constructor(private http: HttpClient) {}
 
   searchByType(searchValue: string, type: string): Observable<Album[] | Artist[] | Track[]> {
     return this.http.get<Album[] | Artist[] | Track[]>('api/spotify/search-all-data', {
@@ -23,24 +18,10 @@ export class SearchService {
         .set('type', type)
     })
       .pipe(
+        catchError(err => throwError(err)),
         tap((res) => console.log(res)),
         map(res => res["payload"])
       );
   }
-
-
-  getTracks(id: string, type: string): Observable<TrackFull[]> | Observable<any> {
-
-    return this.http.get('api/spotify/tracks', {
-      params: new HttpParams()
-        .set('id', id)
-        .set('type', type)
-        .set('iso', this.userIso)
-    })
-      .pipe(
-        catchError( err =>  throwError(err)),
-        tap((res) => console.log(res)),
-        map(res => res['payload']['data'].map((tr) => new TrackFull().deserialize(tr)))
-        );
-  }
 }
+//TODO implement retryWHen https://blog.angular-university.io/rxjs-error-handling/
