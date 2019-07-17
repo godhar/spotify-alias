@@ -1,35 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Album, Artist, Track, TrackFull} from "../../models/spotifyData.model";
-import {Observable} from "rxjs";
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {Album, Artist, Track} from "../../models/spotifyData.model";
 import {SearchService} from "../../search/search.service";
-import {map, tap} from "rxjs/operators";
+import {PlaylistService} from "../../services/playlist.service";
 
 @Component({
   selector: 'app-playlist-add',
   templateUrl: './playlist-add.component.html',
   styleUrls: ['./playlist-add.component.scss']
 })
-export class PlaylistAddComponent implements OnInit {
+export class PlaylistAddComponent {
 
-  private playlistId: string;
-  private sEntity: Album | Artist | Track;
-  private tracksEntity: Album | Artist;
+  readonly playlistId: string;
+  private sEntity: Album | Artist | Track = null;
 
-  constructor(private route: ActivatedRoute, private search: SearchService) {
+  constructor(private route: ActivatedRoute,
+              private search: SearchService,
+              private router: Router,
+              private playlistService: PlaylistService) {
     this.playlistId = this.route.snapshot.params.id;
   }
 
-  ngOnInit() {
-  }
-
-  handleEntity(entity: Album|Artist|Track) {
+  handleEntity(entity: Album | Artist | Track) {
     this.sEntity = entity;
   }
 
-  getTracks(entity: Album|Artist) {
-    console.log('passed it down here ',entity)
-    this.tracksEntity = entity;
+  getTracks(entity: Album | Artist): void {
+    console.log('passed it down here ', entity);
+    const currentPlState = {currentEntity: entity, currentPlayListId: this.playlistId};
+    this.playlistService.setCurrentEntity(currentPlState);
+
+    this.router.navigate(['display-tracks', entity.type, entity.id]);
   }
 }
 

@@ -22,7 +22,7 @@ import {
   MatSortModule,
   MatProgressSpinnerModule,
   MatAutocompleteModule,
-  MatCheckboxModule, MatTooltipModule
+  MatCheckboxModule, MatTooltipModule, MatProgressBarModule
 } from '@angular/material';
 import {MatDialogModule} from '@angular/material/dialog';
 import { LoginComponent } from './login/login.component';
@@ -64,6 +64,7 @@ import { PlaylistAddComponent } from './playlist/playlist-add/playlist-add.compo
     MatInputModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatSortModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,

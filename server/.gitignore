@@ -1,5 +1,4 @@
 node_modules
 environments
-config
 prod.js
 dev.js

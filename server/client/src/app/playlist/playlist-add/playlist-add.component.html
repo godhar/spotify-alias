@@ -1,21 +1,19 @@
-<h1>Playlist Add</h1>
-
-<app-search (entitySelected)="handleEntity($event)"></app-search>
-
-<div class="container" fxLayout="row" fxLayoutGap=”32px”>
+<h1>Playlist name</h1>//TODO make playlist name as part of new navbar
 
 
-  <ng-container *ngIf="sEntity">
-    <div>
-      <app-display-result (showTracksSelected)="getTracks($event)" [item]="sEntity"
-                          [category]="sEntity.type">
-      </app-display-result>
-    </div>
+<div class="container" style="padding: 5%; padding-left: 15% !important; padding-right: 15% !important;" fxLayout="row wrap" fxLayoutGap="30px" fxLayoutAlign="start centre">
+
+  <app-search  (entitySelected)="handleEntity($event)" fxFlex>
+  </app-search>
+
+  <ng-container *ngIf="sEntity" fxFlex>
+
+    <app-display-result (showTracksSelected)="getTracks($event)" [item]="sEntity"
+                        [category]="sEntity.type">
+    </app-display-result>
   </ng-container>
 
-  <ng-container *ngIf="tracksEntity">
-    <div>
-      <app-display-track [entity]="tracksEntity"></app-display-track>
-    </div>
-  </ng-container>
 </div>
+
+
+
