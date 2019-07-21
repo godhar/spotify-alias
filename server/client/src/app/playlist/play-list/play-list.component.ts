@@ -1,11 +1,11 @@
 import {PlaylistService} from './../../services/playlist.service';
 import {SpotifyDataService} from './../../services/spotify-data.service';
 import {PlaylistDataSource} from './../../services/playlist-data-source';
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatDialogConfig, MatIconRegistry, MatPaginator, MatSort} from '@angular/material';
-import {tap} from 'rxjs/operators';
-import {merge,Subscription} from 'rxjs';
+import {map, takeUntil, tap} from 'rxjs/operators';
+import {merge, Subject} from 'rxjs';
 import {PopUpComponent} from "../../pop-up/pop-up.component";
 import {DomSanitizer} from "@angular/platform-browser";
 
@@ -14,7 +14,7 @@ import {DomSanitizer} from "@angular/platform-browser";
   templateUrl: './play-list.component.html',
   styleUrls: ['./play-list.component.scss']
 })
-export class PlayListComponent implements OnInit, AfterViewInit {
+export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   totalTracks: number;
   playlistName: string;
@@ -22,7 +22,7 @@ export class PlayListComponent implements OnInit, AfterViewInit {
   snapshotId: string;
   private dataSource: PlaylistDataSource;
   displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist', 'delete'];
-  deleteSubscription: Subscription;
+  destroy$ = new Subject<boolean>();
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -71,18 +71,18 @@ export class PlayListComponent implements OnInit, AfterViewInit {
 
 
   onRowClicked(track) {
-    this.deleteSubscription = this.spotifyData.removeItemFromPlaylist(track.track_uri, this.snapshotId, this.id, track.track_number)
-      .subscribe(
-        res => {
+    this.spotifyData.removeItemFromPlaylist(track.track_uri, this.snapshotId, this.id, track.track_number)
+      .pipe(
+        map(res => {
           if(res['status'] === 200) {
             this.snapshotId = res['snapshot_id'];
             this.openPopUp(track.track_name);
-            this.deleteSubscription.unsubscribe();
           } else {
             this.openPopUp('Error ' + res['status'] + ': unable to delete track from ' + this.playlistName);
           }
-        this.loadPlaylistPage();
-        }
+          this.loadPlaylistPage();
+        }),
+        takeUntil(this.destroy$)
       )
   }
 
@@ -101,8 +101,14 @@ export class PlayListComponent implements OnInit, AfterViewInit {
     this.dialog.open(PopUpComponent, dialogConfig);
   }
 
+
   newPlaylistTrack() {
     this.router.navigate(['/playlist-add', this.id]);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
 }

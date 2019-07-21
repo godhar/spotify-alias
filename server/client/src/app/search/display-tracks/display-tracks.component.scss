@@ -1,5 +1,3 @@
-
-
 //.mat-table__wrapper.mat-table {
 //  display: flex;
 //  height: 100%;
@@ -57,4 +55,29 @@ th.mat-header-cell {
 
 a:-webkit-any-link {
   color: whitesmoke !important;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+
+.spinner {
+  //position: fixed;
+  //z-index: 1031;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.overlay {
+  position:fixed;
+  display:block;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  background-color:rgba(74,74,74,.8);
+  z-index:99999;
 }

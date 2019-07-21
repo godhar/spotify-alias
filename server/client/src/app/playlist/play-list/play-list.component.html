@@ -2,7 +2,8 @@
 
   <div class="playlist-table">
 
-    <h2> My playlist </h2>
+    <h2> {{playlistName}} </h2>
+
 
   <mat-card>
     <mat-card-actions>
@@ -53,8 +54,9 @@
     </mat-table>
     <mat-paginator #paginator [length]="totalTracks" [pageSize]="6" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
 
+
     <div class="spinner-container" *ngIf="dataSource.loading$ | async">
-      <mat-spinner style="margin:0 auto;" mode="indeterminate"></mat-spinner>
+      <mat-spinner style="margin:0 auto;" mode="'indeterminate'"></mat-spinner>
     </div>
 
 </div>

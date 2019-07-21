@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Album, Artist, Track} from "../../models/spotifyData.model";
 import {SearchService} from "../../search/search.service";
 import {PlaylistService} from "../../services/playlist.service";
+import {LoaderService} from "./loader.service";
 
 @Component({
   selector: 'app-playlist-add',
@@ -14,7 +15,9 @@ export class PlaylistAddComponent {
   readonly playlistId: string;
   private sEntity: Album | Artist | Track = null;
 
-  constructor(private route: ActivatedRoute,
+
+  constructor(private loadingService: LoaderService,
+              private route: ActivatedRoute,
               private search: SearchService,
               private router: Router,
               private playlistService: PlaylistService) {
@@ -25,11 +28,8 @@ export class PlaylistAddComponent {
     this.sEntity = entity;
   }
 
-  getTracks(entity: Album | Artist): void {
-    console.log('passed it down here ', entity);
-    const currentPlState = {currentEntity: entity, currentPlayListId: this.playlistId};
-    this.playlistService.setCurrentEntity(currentPlState);
-
+  getTracks(entity: Album|Artist): void {
+    this.playlistService.setCurrentEntity(entity);//set entity here
     this.router.navigate(['display-tracks', entity.type, entity.id]);
   }
 }

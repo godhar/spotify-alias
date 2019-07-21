@@ -34,6 +34,7 @@ import { PopUpComponent } from './pop-up/pop-up.component';
 import {DisplayResultComponent} from "./search/display-result/display-result.component";
 import {DisplayTracksComponent} from "./search/display-tracks/display-tracks.component";
 import { PlaylistAddComponent } from './playlist/playlist-add/playlist-add.component';
+import {AppStateStore} from "./store/app-state.store";
 
 @NgModule({
   declarations: [
@@ -45,8 +46,7 @@ import { PlaylistAddComponent } from './playlist/playlist-add/playlist-add.compo
     PopUpComponent,
     DisplayResultComponent,
     DisplayTracksComponent,
-    PlaylistAddComponent
-  ],
+    PlaylistAddComponent],
   entryComponents: [PopUpComponent],
   imports: [
     BrowserModule,
@@ -74,7 +74,7 @@ import { PlaylistAddComponent } from './playlist/playlist-add/playlist-add.compo
     MatCheckboxModule,
     FormsModule
   ],
-  providers: [AuthGuard, AuthService, SearchService],
+  providers: [AuthGuard, AuthService, SearchService, AppStateStore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

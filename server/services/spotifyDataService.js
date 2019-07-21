@@ -335,27 +335,24 @@ async function tryFetchForSinglePlaylist(userCreds, playlistId) {
 
 async function tryFetchForPlaylists(usersCred) {
 
-    let playlistData;
+    return axios.get('https://api.spotify.com/v1/users/' + usersCred.userId + '/playlists',
+        {
+            headers: {
+                'Authorization': 'Bearer ' + usersCred.accessToken,
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => {
+            if(res.status === 200) {
+                return res;
+            }
 
-    try {
-        playlistData = await axios.get('https://api.spotify.com/v1/users/' + usersCred.userId + '/playlists',
-            {
-                headers: {
-                    'Authorization': 'Bearer ' + usersCred.accessToken,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-    } catch (err) {
-        if (err.response.status === 401) {
-            console.error(err);
+        }).catch(err => {
+        if(err.response.status === 401) {
             return {statusCode: 401};
         }
-    }
-
-    return playlistData;
+        throw new Error('Get all play lists call failed');
+    });
 }
-
 
 module.exports = {
     getPlaylistsForUser: getPlaylists,

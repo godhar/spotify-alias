@@ -36,5 +36,7 @@ let PORT = process.env.PORT || 5000;
 
 app.listen(PORT)
 
-process.on('SIGINT', () => { console.log("Bye bye!"); process.exit(); });
-
+process.on('uncaughtException', function (err) {
+    console.error(err.stack);
+    console.log("Node NOT Exiting...");
+});

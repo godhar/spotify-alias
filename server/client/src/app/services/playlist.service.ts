@@ -1,19 +1,17 @@
 import {PlayListAlbum, PlayListArtist, PlaylistItem} from './../shared/playlist-item.model';
 import {map, tap} from 'rxjs/operators';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Album, Artist} from "../models/spotifyData.model";
+import {Album, Artist, Playlist} from "../models/spotifyData.model";
+import {AppStateStore} from "../store/app-state.store";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaylistService {
 
-  private currentEntity: { currentEntity: Album | Artist, currentPlayListId: string };
-
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient, private appStateStore: AppStateStore) {}
 
   findPlaylistTracks(
     playlistId: string, filter = '', sortOrder = 'asc',
@@ -31,12 +29,13 @@ export class PlaylistService {
     );
   }
 
-  setCurrentEntity(detail: { currentEntity: Album | Artist, currentPlayListId: string }) {
-    this.currentEntity = detail;
+  setCurrentEntity(entity: Album|Artist): void {
+    this.appStateStore.addCurrentEntity(entity);
   }
 
-  getCurrentEntity() {
-    return Object.assign({}, this.currentEntity);
+
+  setCurrentPlaylist(pl: Playlist): void {
+    this.appStateStore.addCurrentPlaylist(pl);
   }
 
 }

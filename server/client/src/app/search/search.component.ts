@@ -98,8 +98,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.entitySelected.emit(<Album | Artist | Track>val);
   }
 
+
   ngOnDestroy() {
     this.destroy$.next(true);
+    this.destroy$.complete();
   }
-
 }
