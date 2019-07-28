@@ -35,7 +35,7 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
               private router: Router,
               iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer
-              ) {
+  ) {
     this.id = this.route.snapshot.paramMap.get('id');
     this.snapshotId = this.route.snapshot.paramMap.get('snapshotId');
     this.totalTracks = +this.route.snapshot.paramMap.get('totalTracks');
@@ -74,16 +74,19 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.spotifyData.removeItemFromPlaylist(track.track_uri, this.snapshotId, this.id, track.track_number)
       .pipe(
         map(res => {
-          if(res['status'] === 200) {
+          if (res['status'] === 200) {
             this.snapshotId = res['snapshot_id'];
             this.openPopUp(track.track_name);
           } else {
             this.openPopUp('Error ' + res['status'] + ': unable to delete track from ' + this.playlistName);
           }
-          this.loadPlaylistPage();
+
         }),
         takeUntil(this.destroy$)
-      )
+      ).subscribe(res => {
+      console.log(res);
+      this.loadPlaylistPage();
+    })
   }
 
 
@@ -94,8 +97,9 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.autoFocus = true;
 
     dialogConfig.data = {
-      title: 'Remove Item From Playlist',
-      content: msg + ' has been deleted from ' + this.playlistName
+      deleteTrack: true,
+      title: 'Remove track Playlist',
+      content: `' ${msg} ' has been deleted from ${this.playlistName}`
     };
 
     this.dialog.open(PopUpComponent, dialogConfig);

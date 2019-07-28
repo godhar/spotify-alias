@@ -1,11 +1,31 @@
-<h2 mat-dialog-title>{{ dialogueTitle }}</h2>
+<ng-container *ngIf="deleteTrackConfig">
+  <h2 mat-dialog-title>{{ dialogueTitle }}</h2>
 
-<mat-dialog-content>
+  <mat-dialog-content>
 
-   {{ dynamicContent }}
+    {{ dynamicContent }}
 
-</mat-dialog-content>
+  </mat-dialog-content>
 
-<mat-dialog-actions>
-  <button class="mat-raised-button"(click)="close()">Close</button>
-</mat-dialog-actions>
+  <mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+  </mat-dialog-actions>
+
+</ng-container>
+
+<ng-container *ngIf="newPlaylistConfig">
+  <h2 mat-dialog-title>{{ dialogueTitle }}</h2>
+
+  <mat-dialog-content>
+
+    {{ dynamicContent }}
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button class="mat-raised-button" (click)="confirmPlaylistName()">Confirm New Playlist?</button>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+  </mat-dialog-actions>
+
+</ng-container>
+
