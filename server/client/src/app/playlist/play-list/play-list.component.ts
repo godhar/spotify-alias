@@ -8,6 +8,7 @@ import {map, takeUntil, tap} from 'rxjs/operators';
 import {merge, Subject} from 'rxjs';
 import {PopUpComponent} from "../../pop-up/pop-up.component";
 import {DomSanitizer} from "@angular/platform-browser";
+import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 @Component({
   selector: 'app-play-list',
@@ -73,6 +74,7 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
   onRowClicked(track) {
     this.spotifyData.removeItemFromPlaylist(track.track_uri, this.snapshotId, this.id, track.track_number)
       .pipe(
+        untilComponentDestroyed(this),
         map(res => {
           if (res['status'] === 200) {
             this.snapshotId = res['snapshot_id'];
@@ -98,8 +100,8 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     dialogConfig.data = {
       deleteTrack: true,
-      title: 'Remove track Playlist',
-      content: `' ${msg} ' has been deleted from ${this.playlistName}`
+      title: 'Delete track',
+      content: `"${msg}" deleted from ${this.playlistName}`
     };
 
     this.dialog.open(PopUpComponent, dialogConfig);

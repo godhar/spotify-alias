@@ -2,8 +2,6 @@ module.exports.modifyResponseSearchData = (data, qType) => {
 
     const modifiedData = [];
 
-    console.log('query type ====*= ', qType);
-
     if (qType === 'album') {
         data.albums.items.forEach((item) => {
             modifiedData.push({
@@ -40,7 +38,8 @@ module.exports.modifyResponseSearchData = (data, qType) => {
                 img: mapImages(item.album.images),
                 artist: item.artists[0].name,
                 album: item.album.name,
-                name: item.name
+                name: item.name,
+                uri: item.uri
             })
         });
     }

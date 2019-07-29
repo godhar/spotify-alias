@@ -28,9 +28,7 @@ export class DisplayTracksResolverService implements Resolve<Observable<TrackFul
 
   getTracks(id: string, category: string, iso): Observable<Observable<TrackFull[]>> | Observable<never> | Observable<any> {
     const isoCode = iso['countryCode'];
-    console.log('right order country code ', isoCode)
     const url = 'api/spotify/tracks';
-
     return of(this.http.get<TrackFull[]>(url, {
       params: new HttpParams()
         .set('id', id)
@@ -38,7 +36,9 @@ export class DisplayTracksResolverService implements Resolve<Observable<TrackFul
         .set('iso', isoCode)
     })
       .pipe(
-        catchError(error => throwError(error)),
+        catchError( () => this.handleError()),//navgiate from here
+        tap(res => console.log(res)),
+        take(1),//TEST
         mergeMap(
           res => {
             if (res['payload']) {

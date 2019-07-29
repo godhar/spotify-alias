@@ -1,9 +1,9 @@
-import {PlayListAlbum, PlayListArtist, PlaylistItem} from './../shared/playlist-item.model';
-import {map, tap} from 'rxjs/operators';
+import {PlaylistItem} from './../shared/playlist-item.model';
+import {catchError, map, tap} from 'rxjs/operators';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {EventEmitter, Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Album, Artist, Playlist} from "../models/spotifyData.model";
+import {Injectable} from '@angular/core';
+import {Observable, throwError} from 'rxjs';
+import {Album, ApiResponse, Artist, Playlist} from "../models/spotifyData.model";
 import {AppStateStore} from "../store/app-state.store";
 
 @Injectable({
@@ -29,7 +29,7 @@ export class PlaylistService {
     );
   }
 
-  setCurrentEntity(entity: Album|Artist): void {
+  setCurrentEntity(entity: Album | Artist): void {
     this.appStateStore.addCurrentEntity(entity);
   }
 
@@ -38,4 +38,33 @@ export class PlaylistService {
     this.appStateStore.addCurrentPlaylist(pl);
   }
 
+  addTrackToCurrentPlaylist(trackUri: string, playlistId: string): Observable<ApiResponse> | any {
+    console.log(trackUri)
+    console.log(playlistId)
+
+    return this.http.get<Response>('api/spotify/add-track-playlist', {
+      params: new HttpParams()
+        .set('playlist_id', playlistId)
+        .set('track_uri', trackUri)
+    }).pipe(
+      catchError(error => this.handleError(error)),
+      map(res => res['payload'])
+    );
+  }
+
+  createNewPlaylist(name: string) {
+    console.log('calioooo')
+    return this.http.get<Response>('api/spotify/new-playlist', {
+      params: new HttpParams()
+        .set('name', name)
+    }).pipe(
+      catchError(error => this.handleError(error)),
+      map(res => res)
+    );
+  }
+
+
+  handleError(error) {
+    return throwError(error);
+  }
 }

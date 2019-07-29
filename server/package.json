@@ -20,8 +20,7 @@
     "mongoose": "^5.4.14",
     "node-fetch": "^2.3.0",
     "passport": "^0.4.0",
-    "passport-spotify": "^1.0.1",
-    "spotify-web-api-node": "^4.0.0"
+    "passport-spotify": "^1.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

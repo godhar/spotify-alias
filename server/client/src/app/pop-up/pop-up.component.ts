@@ -11,7 +11,7 @@ export class PopUpComponent implements OnInit {
   private dialogueTitle: string;
   private dynamicContent: string;
   private newPlaylistConfig: boolean = false;
-  private deleteTrackConfig:  boolean = false;
+  private displayConfirmation: boolean = false;
 
   constructor(private dialogRef: MatDialogRef<PopUpComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
@@ -30,10 +30,10 @@ export class PopUpComponent implements OnInit {
       this.newPlaylistConfig = true;
     }
 
-    if(data.deleteTrack) {
+    if(data.deleteTrack|| data.addTrack) {
       this.dialogueTitle = data.title;
       this.dynamicContent = data.content;
-      this.deleteTrackConfig = true;
+      this.displayConfirmation = true;
     }
   }
 

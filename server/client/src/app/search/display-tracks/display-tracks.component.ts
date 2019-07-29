@@ -1,13 +1,15 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Album, Artist, Playlist, TrackFull} from "../../models/spotifyData.model";
 import {SearchService} from "../search.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MatIconRegistry} from "@angular/material";
+import {MatDialog, MatDialogConfig, MatIconRegistry} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
 import {PlaylistService} from "../../services/playlist.service";
-import {delay, switchMap, take,tap} from "rxjs/operators";
+import {delay, switchMap, take, tap} from "rxjs/operators";
 import {Observable, Subject} from "rxjs";
 import {AppStateStore} from "../../store/app-state.store";
+import {PopUpComponent} from "../../pop-up/pop-up.component";
+import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 
 @Component({
@@ -19,8 +21,8 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
 
   dataSource: Observable<TrackFull[]>;
   resolverEvent$: Observable<Observable<TrackFull[]>> | Observable<any>;
-  private  playlist: Playlist;
-  private currentEntity: Album|Artist;
+  private playlist: Playlist;
+  private currentEntity: Album | Artist;
   loading: boolean = true;
   destroy$ = new Subject<boolean>();
   displayedColumns = ["name", "album", "artist", "duration", "externalSource"];
@@ -30,6 +32,7 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute,
               private playlistService: PlaylistService,
               private appStateStore: AppStateStore,
+              private dialog: MatDialog,
               iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer) {
 
@@ -38,11 +41,12 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
         console.log(res)
         this.playlist = res['currentPlaylist'];
         this.currentEntity = res['currentEntity'];
-      }).unsubscribe();
+      });
 
     this.resolverEvent$ = this.activatedRoute.data
       .pipe(
-        tap((val) => console.log('1 event coming in ', val)),
+        untilComponentDestroyed(this),
+        tap(() => this.loading = true),
         take(1),//immediately unsubscribe after 1 val (initial empty = 1, data = 2)//new test this
         delay(5000),
         switchMap((data) => data.trackData));
@@ -69,12 +73,34 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
   }
 
   navigateToSearch() {
-    this.router.navigate(['playlist-add', this.playlist.playlist_id]);
+    this.router.navigate(['/playlist-add', this.playlist.playlist_id]);
   }
 
-  onSelect(row) {
-    console.log(row)
+  onSelect(track: TrackFull) {
+    this.playlistService.addTrackToCurrentPlaylist(track.track_uri, this.playlist.playlist_id)
+      .pipe(untilComponentDestroyed(this))
+      .subscribe(
+        res => {
+          if (res.snapshot_id) {
+            this.playlist.snapshot_id = res.snapshot_id;
+            this.appStateStore.addCurrentPlaylist(this.playlist);
+            this.openPopUp(track.name);
+          }
+        }
+      )
   }
 
+  openPopUp(msg: string) {
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      addTrack: true,
+      title: 'Add track',
+      content: msg + ' has been added to ' + this.playlist.name
+    };
+    this.dialog.open(PopUpComponent, dialogConfig);
+  }
 }

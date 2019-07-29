@@ -22,7 +22,6 @@ module.exports = (app) => {
 
 
     app.get('/api/spotify/getTracksByAlbum', isAuth, async (req, res) => {
-        console.log('request params --------- ', req.params)
         const albums = await spotifyService.getTracksByAlbum(req.user, req.query);
         res.status(200).json({ payload: albums });
     });
@@ -41,8 +40,22 @@ module.exports = (app) => {
 
 
      app.get('/api/spotify/tracks', isAuth, async (req, res) => {
-         console.log('made it to controller tracks ',req.params)
          const data = await spotifyService.getTracksByAlbumArtist(req.user, req.query);
          res.status(200).json({ payload: data});
      });
+
+    app.get('/api/spotify/add-track-playlist', isAuth, async (req, res) => {
+        const data = await spotifyService.addTrackToPlaylist(req.user, req.query);
+        res.status(200).json({ payload: data});
+    });
+
+    app.get('/api/spotify/new-playlist', isAuth, async (req, res) => {
+        console.log('controller hit');
+        const data = await spotifyService.newUserPlaylist(req.user, req.query);
+        res.status(200).json({ payload: data});
+    });
+
+
 };
+
+

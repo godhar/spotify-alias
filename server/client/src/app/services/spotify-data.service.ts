@@ -1,7 +1,7 @@
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,7 @@ export class SpotifyDataService {
         .set('playlist_id', playlistId)
         .set('track_number', trackNumber.toString())
     }).pipe(
+      catchError( err => throwError(err)),
       map(res => res['payload'])
     )
   }

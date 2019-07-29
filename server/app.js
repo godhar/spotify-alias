@@ -32,8 +32,6 @@ require('./routes/spotifyDataRoutes')(app);
 
 let PORT = process.env.PORT || 5000;
 
-// app.listen(PORT);
-
 app.listen(PORT)
 
 process.on('uncaughtException', function (err) {

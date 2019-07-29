@@ -3,7 +3,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,6 +35,10 @@ import {DisplayResultComponent} from "./search/display-result/display-result.com
 import {DisplayTracksComponent} from "./search/display-tracks/display-tracks.component";
 import { PlaylistAddComponent } from './playlist/playlist-add/playlist-add.component';
 import {AppStateStore} from "./store/app-state.store";
+import { PlaylistNewComponent } from './playlist/playlist-new/playlist-new.component';
+import {LoaderComponent} from "./shared/loader/loader.component";
+import {LoaderService} from "./playlist/playlist-add/loader.service";
+import {LoaderInterceptor} from "./interceptors/loader.interceptor";
 
 @NgModule({
   declarations: [
@@ -46,7 +50,9 @@ import {AppStateStore} from "./store/app-state.store";
     PopUpComponent,
     DisplayResultComponent,
     DisplayTracksComponent,
-    PlaylistAddComponent],
+    PlaylistAddComponent,
+    PlaylistNewComponent,
+    LoaderComponent],
   entryComponents: [PopUpComponent],
   imports: [
     BrowserModule,
@@ -65,6 +71,7 @@ import {AppStateStore} from "./store/app-state.store";
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatSortModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
@@ -73,8 +80,9 @@ import {AppStateStore} from "./store/app-state.store";
     MatAutocompleteModule,
     MatCheckboxModule,
     FormsModule
+    // SharedModule
   ],
-  providers: [AuthGuard, AuthService, SearchService, AppStateStore],
+  providers: [AuthGuard, AuthService, SearchService, AppStateStore, LoaderService, { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

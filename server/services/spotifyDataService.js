@@ -2,21 +2,20 @@ const axios = require('axios');
 const {URLSearchParams} = require('url');
 const utils = require('./utilsService');
 const TokenService = require('./accessTokenService');
+const fetch = require('node-fetch');
 
 
 const getPlaylists = async (user) => {
 
     let userCreds = await TokenService.getUserCredentials(user);
     let status = await tryFetchForPlaylists(userCreds);
-
     if (status.statusCode === 401) {
         userCreds.accessToken = await TokenService.getNewToken(userCreds);
         status = await tryFetchForPlaylists(userCreds);
     }
 
     const playlistData = status;
-
-
+    //TODO put below in utils service
     if (playlistData && playlistData.data && playlistData.data.items) {
         return playlistData.data.items.map((p) => {
             let images = [];
@@ -153,40 +152,112 @@ const getNewArtistData = async (paramsData, user) => {
 const deletePlaylistItem = async (user, queryParam) => {
     const userCreds = await TokenService.getUserCredentials(user);
     let status = await deleteTrackByUri(userCreds.accessToken, queryParam);
-    console.log('YES AND STATUS IS FFK', status);
     if (status.statusCode === 401) {
         userCreds.accessToken = await TokenService.getNewToken(userCreds);
         status = await deleteTrackByUri(userCreds.accessToken, queryParam);
     }
-    console.log('should be returning status?????');
-    console.log(status);
-
     return status;
 };
 
 
 const getTracksArtistAlbum = async (user, queryParam) => {
     const userCreds = await TokenService.getUserCredentials(user);
-    console.log('QQ (service ) ======= ', queryParam);
     let status = await getTracks(userCreds.accessToken, queryParam);
 
-    console.log('YES AND STATUS IS FFK', status);
     if (status.statusCode === 401) {
         userCreds.accessToken = await TokenService.getNewToken(userCreds);
         status = await getTracks(userCreds.accessToken, queryParam);
     }
-
-    console.log(status);
-
     return status;
 };
+
+
+const addTrackToPlaylist = async (user, queryParams) => {
+    const userCreds = await TokenService.getUserCredentials(user);
+    let status = await updatePlaylist(userCreds.accessToken, queryParams);
+    if (status.statusCode === 401) {
+        userCreds.accessToken = await TokenService.getNewToken(userCreds);
+        status = await updatePlaylist(userCreds.accessToken, queryParams);
+    }
+    return status;
+};
+
+
+async function updatePlaylist(accessToken, reqParams) {
+    console.log('PARAMS _', reqParams);
+    console.log('token _', accessToken);
+    console.log('trying...');
+    const url = `https://api.spotify.com/v1/playlists/${reqParams.playlist_id}/tracks?uris=${reqParams.track_uri}`;
+
+    const settings = {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const response = await fetch(url, settings);
+
+    if (!response.ok) throw Error(response.message);
+
+    try {
+        const data = await response.json();
+        console.log('response data == ', data)
+        return data;
+    } catch (err) {
+        throw err;
+    }
+}
+
+
+const createNewPlaylist = async (user, queryParams) => {
+    const userCreds = await TokenService.getUserCredentials(user);
+    let status = await newPlaylist(userCreds, queryParams);
+    if (status.statusCode === 401) {
+        userCreds.accessToken = await TokenService.getNewToken(userCreds);
+        status = await newPlaylist(userCreds, queryParams);
+    }
+    return status;
+};
+
+
+async function newPlaylist(userCreds, reqParams) {//TODO test use fetch
+    console.log('PARAMS _', reqParams);
+    console.log('user creds _', userCreds);
+    console.log('trying create new playlist..');
+
+    reqParams.name = 'new pl name test';
+
+    const url = `https://api.spotify.com/v1/users/${userCreds.userId}/playlists`;
+    const reqData = {name: reqParams.name};
+
+    return axios.post(url, {
+        headers: {
+            'Authorization': 'Bearer ' + userCreds.accessToken,
+            'Content-Type': 'application/json',
+            'Content-Length': '0'
+        },
+        data: reqData
+    }).then((response) => {
+        console.log('response promise is ', response)
+        return response;
+
+    }).catch(err => {
+        console.log('errrring ', err)
+        if (err.response.status === 401) {
+            return {statusCode: 401};
+        }
+        console.error(err);
+        throw new Error('Create new playlist call failed');
+    });
+}
 
 
 async function getTracks(accessToken, reqParam) {
     let data;
     const qUrl = `https://api.spotify.com/v1/${reqParam.type}s/${reqParam.id}/` + (reqParam.type === `artist` ? `top-tracks` : `tracks`) + `?country=${reqParam.iso}`;
-    console.log('req param == ', reqParam);
-    console.log('qUrl ===== ', qUrl)
 
     try {
         data = await axios.get(qUrl, {
@@ -342,12 +413,12 @@ async function tryFetchForPlaylists(usersCred) {
                 'Content-Type': 'application/json'
             }
         }).then((res) => {
-            if(res.status === 200) {
-                return res;
-            }
+        if (res.status === 200) {
+            return res;
+        }
 
-        }).catch(err => {
-        if(err.response.status === 401) {
+    }).catch(err => {
+        if (err.response.status === 401) {
             return {statusCode: 401};
         }
         throw new Error('Get all play lists call failed');
@@ -361,6 +432,8 @@ module.exports = {
     getTracksByAlbum: getTracksFromAlbum,
     getDataByArtist: getNewArtistData,
     deletePlaylistTrack: deletePlaylistItem,
-    getTracksByAlbumArtist: getTracksArtistAlbum
+    getTracksByAlbumArtist: getTracksArtistAlbum,
+    addTrackToPlaylist: addTrackToPlaylist,
+    newUserPlaylist: createNewPlaylist
 };
 

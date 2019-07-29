@@ -39,6 +39,7 @@ export class Track implements Deserializable {
   public artist: string;
   public img: string[];
   public type: string;
+  public uri: string;
 
   deserialize(input: any) {
     Object.assign(this, input);
@@ -76,3 +77,6 @@ export class Playlist implements Deserializable {
   }
 }
 
+export interface ApiResponse {
+  snapshot_id?: string;
+}

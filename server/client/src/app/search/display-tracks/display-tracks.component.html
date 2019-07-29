@@ -3,9 +3,8 @@
   <ng-container *ngIf="!loading">
     <mat-card>
       <mat-card-actions>
-        <button mat-raised-button color="accent">
-          <mat-icon svgIcon="baseline-arrow-back" matTooltip="Back to search?"
-                    (click)="navigateToSearch()">Back
+        <button mat-raised-button color="accent" (click)="navigateToSearch()">
+          <mat-icon svgIcon="baseline-arrow-back" matTooltip="Search Spotify Data">
           </mat-icon>
           Back
         </button>
@@ -43,7 +42,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr matTooltip="Add to playlist" (click)="onSelect(row)"
+      <tr matTooltip="add +" (click)="onSelect(row)"
           [matTooltipPosition]="'above'" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </ng-container>
@@ -53,8 +52,7 @@
 
 <ng-template #loader>
   <div class="overlay">
-    <mat-spinner class="spinner" [color]="'accent'" [value]="50" [mode]="'determinate'"></mat-spinner>
+    <mat-spinner class="spinner" [color]="'accent'" [value]="50" [mode]="'indeterminate'"></mat-spinner>
   </div>
 </ng-template>
-
 
