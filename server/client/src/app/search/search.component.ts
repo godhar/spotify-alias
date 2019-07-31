@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   @Output() entitySelected = new EventEmitter<Album | Artist | Track>();
 
 
-  filteredSearchItems: Observable<Artist[] | Album[] | Track[]>;
+  filteredSearchItems$: Observable<Artist[] | Album[] | Track[]>;
   destroy$ = new Subject();
   isLoading = false;
   searchForm: FormGroup;
@@ -49,7 +49,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       res => this.handleForm(res)
     );
 
-    this.filteredSearchItems = this.searchForm.get('searchInput').valueChanges
+    this.filteredSearchItems$ = this.searchForm.get('searchInput').valueChanges
       .pipe(
         takeUntil(this.destroy$),
         startWith(null),

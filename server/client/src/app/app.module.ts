@@ -22,7 +22,7 @@ import {
   MatSortModule,
   MatProgressSpinnerModule,
   MatAutocompleteModule,
-  MatCheckboxModule, MatTooltipModule, MatProgressBarModule
+  MatCheckboxModule, MatTooltipModule, MatProgressBarModule, MatSidenavModule
 } from '@angular/material';
 import {MatDialogModule} from '@angular/material/dialog';
 import { LoginComponent } from './login/login.component';
@@ -39,6 +39,8 @@ import { PlaylistNewComponent } from './playlist/playlist-new/playlist-new.compo
 import {LoaderComponent} from "./shared/loader/loader.component";
 import {LoaderService} from "./playlist/playlist-add/loader.service";
 import {LoaderInterceptor} from "./interceptors/loader.interceptor";
+import { HeaderComponent } from './core/header/header.component';
+import {ShowIfAuthDirective} from "./shared/show-If-auth.directive";
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import {LoaderInterceptor} from "./interceptors/loader.interceptor";
     DisplayTracksComponent,
     PlaylistAddComponent,
     PlaylistNewComponent,
-    LoaderComponent],
+    LoaderComponent,
+    HeaderComponent,
+    ShowIfAuthDirective],
   entryComponents: [PopUpComponent],
   imports: [
     BrowserModule,
@@ -71,7 +75,6 @@ import {LoaderInterceptor} from "./interceptors/loader.interceptor";
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule,
     MatSortModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
@@ -79,10 +82,16 @@ import {LoaderInterceptor} from "./interceptors/loader.interceptor";
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatCheckboxModule,
-    FormsModule
+    FormsModule,
+    MatSidenavModule
     // SharedModule
   ],
-  providers: [AuthGuard, AuthService, SearchService, AppStateStore, LoaderService, { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
+  exports:[ShowIfAuthDirective],
+  providers: [
+    AuthGuard,
+    AuthService, SearchService,
+    AppStateStore, LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

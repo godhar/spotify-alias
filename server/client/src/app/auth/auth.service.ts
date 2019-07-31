@@ -1,31 +1,35 @@
-import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {Injectable, OnDestroy} from '@angular/core';
+import {Observable, ReplaySubject} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
 
-  private _isAuthenticated = false;
+  public _isAuthenticated = new ReplaySubject<boolean>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  // isAuthenticated(): boolean {
-  //   return this._isAuthenticated;
-  // }
+  isAuth() {
+    this._isAuthenticated.subscribe(res => console.log('emitting ', res))
+    return this._isAuthenticated.asObservable();
+  }
 
   isSessionAlive(): Observable<any> {
-    
+
     return Observable.create((observer) => {
 
       this.http.get('api/current_user')
+        .pipe(untilComponentDestroyed(this))
         .subscribe((res) => {
-          this._isAuthenticated = true;
+          this._isAuthenticated.next(true);
           observer.next(res); //server response
-        }, (err) => {
-          this._isAuthenticated = false;
+        }, () => {
+          this._isAuthenticated.next(false);
           observer.next(false);
         });
     });
@@ -33,11 +37,14 @@ export class AuthService {
 
   logOut(): void {
     this.http.get('api/logout')
-    .subscribe((currentUser) => {
-      if(!currentUser) {
-        this._isAuthenticated = false;
-      }
-    });
+      .pipe(untilComponentDestroyed(this))
+      .subscribe((currentUser) => {
+        if (!currentUser) {
+          this._isAuthenticated.next(false);
+        }
+      });
   }
+
+  ngOnDestroy(): void {}
 
 }

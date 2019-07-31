@@ -89,10 +89,8 @@ const getSinglePlaylistItem = async (user, params) => {//DUP above
 
     const initialPosition = pageNumber * pageSize;
 
-    const playlistPage = trackData.slice(initialPosition, initialPosition + pageSize);
+    return trackData.slice(initialPosition, initialPosition + pageSize);
 
-
-    return playlistPage;
 };
 
 

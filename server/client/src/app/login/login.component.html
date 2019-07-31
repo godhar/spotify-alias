@@ -1,9 +1,20 @@
-<div style="text-align:center">
-  <mat-toolbar fxLayout="row" fxLayoutAlign="start center" role="heading">
-    <mat-toolbar-row>
-      <span fxFlex="80%"><h1 class="text-card">Spotify Components</h1></span>
-      <span fxFlex="10%" *ngIf="authState === 'Logout'" class="text-card"><button mat-raised-button color="accent" (click)="handleAuth()"><b>Logout</b></button></span>
-      <span fxFlex="10%" *ngIf="authState === 'Login'" class="text-card"><a mat-raised-button color="primary" href="/auth/spotify">Login</a></span>
-    </mat-toolbar-row>
-  </mat-toolbar>
+
+<div fxLayout="row" fxLayoutAlign="center center" style="padding: 5%;">
+  <mat-card class="example-card" fxFlex>
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+    </mat-card-header>
+    <img mat-card-image [src]="backgroundImage">
+    <mat-card-content>
+      <p>
+        This MEAN stack application uses the OAuth2 SpotifyStrategy from Passport.Js to login to the users account
+        and allow the application to read and edit their playlist.
+      </p>
+    </mat-card-content>
+    <mat-card-actions >
+      <span *showIfAuth="!authState"><a fxFlex="center" href="/auth/spotify" mat-raised-button color="accent">Login with Spotify</a></span>
+      <span *showIfAuth="authState"><button fxFlex="center" (click)="logUserOut()" mat-raised-button color="accent">Logout</button></span>
+    </mat-card-actions>
+  </mat-card>
+
 </div>

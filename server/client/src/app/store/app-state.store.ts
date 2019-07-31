@@ -19,4 +19,8 @@ export class AppStateStore extends Store<AppGlobalState> {
     console.log('state is being set ', entity);
     this.setState({...this.state, currentEntity: entity});
   }
+
+  addCurrentUser(spotifyUser: string) {
+    this.setState({...this.state, currentUser: spotifyUser});
+  }
 }

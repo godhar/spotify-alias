@@ -17,6 +17,7 @@ export class DisplayResultComponent implements OnDestroy{
   @Input() item: Track | Artist | Album;
   @Input() category: string;
   @Output() showTracksSelected = new EventEmitter<Artist | Album>();
+  @Output() navToActivePlaylist = new EventEmitter<boolean>();
 
   private currentPlaylist: Playlist;
 
@@ -43,13 +44,13 @@ export class DisplayResultComponent implements OnDestroy{
           if (res.snapshot_id) {
             this.currentPlaylist.snapshot_id = res.snapshot_id;
             this.store.addCurrentPlaylist(this.currentPlaylist);
-            this.openPopUp(track.name);
+            this.openPopUp(track.name)
           }
         }
-      ).unsubscribe()
+      )
   }
 
-  ngOnDestroy(){}
+  ngOnDestroy(): void {}
 
   openPopUp(msg: string) {
     const dialogConfig = new MatDialogConfig();
@@ -63,6 +64,9 @@ export class DisplayResultComponent implements OnDestroy{
       content: msg + ' has been added to ' + this.currentPlaylist.name
     };
 
-    this.dialog.open(PopUpComponent, dialogConfig);
+    this.dialog.open(PopUpComponent, dialogConfig)
+    this.dialog.afterAllClosed
+      .pipe(untilComponentDestroyed(this))
+      .subscribe(() => this.navToActivePlaylist.emit(true))
   }
 }

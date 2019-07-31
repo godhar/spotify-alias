@@ -7,20 +7,26 @@
 
 .example-margin {
   margin: 0 10px;
- 
+
 }
 
+h2 {
 
-::ng-deep .mat-autocomplete-panel#md-autocomplete-0{
+  font-family: "Verdana", "Arial";
+  color: #1BABC5;
+  white-space: nowrap;
+}
+
+::ng-deep .mat-autocomplete-panel#md-autocomplete-0 {
   border: 3px solid whiteack !important;
   border-radius: 10px;
-  background-color:green;
+  background-color: green;
 
 }
 
 .example-full-width {
   width: 70%;
-} 
+}
 
 .example-option-img {
   vertical-align: middle;

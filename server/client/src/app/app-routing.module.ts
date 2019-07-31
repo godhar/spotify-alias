@@ -10,9 +10,13 @@ import {
 import {PlayListsResolverService} from "./playlist/play-lists/playlists-resolver.service";
 import {PlaylistAddComponent} from "./playlist/playlist-add/playlist-add.component";
 import {DisplayTracksComponent} from "./search/display-tracks/display-tracks.component";
+import {PlaylistNewComponent} from "./playlist/playlist-new/playlist-new.component";
+import {HeaderComponent} from "./core/header/header.component";
+import {LoginResolver} from "./login/login.resolver";
 
 
 const routes: Routes = [
+
   {
     path: '',
     pathMatch: 'full',
@@ -23,19 +27,24 @@ const routes: Routes = [
 
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    resolve: {data : LoginResolver}
+  },
+  {
+    path: 'navbar',
+    // canActivate: [AuthGuard],
+    component: HeaderComponent
   },
   {
     path: 'playlists',
     component: PlayListsComponent,
+    canActivate:[AuthGuard],
     resolve: {data: PlayListsResolverService}
   },
   {
     path: 'callback/success',
     pathMatch: 'full',
-    canActivate: [AuthGuard],
-    component: PlayListsComponent,
-    resolve: {data: PlayListsResolverService}
+    redirectTo: 'login'
   },
 
   {
@@ -49,6 +58,10 @@ const routes: Routes = [
     component: PlaylistAddComponent
   },
   {
+    path: 'playlist-new',
+    component: PlaylistNewComponent
+  },
+  {
     path: 'display-tracks/:type/:id',
     canActivate: [AuthGuard],
     resolve: {trackData: DisplayTracksResolverService},
@@ -57,9 +70,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [DisplayTracksResolverService, PlayListsResolverService, DisplayTracksResolverService]
+  providers: [DisplayTracksResolverService, PlayListsResolverService, DisplayTracksResolverService, LoginResolver]
 })
 export class AppRoutingModule {
 }

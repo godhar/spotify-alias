@@ -23,7 +23,6 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
   snapshotId: string;
   private dataSource: PlaylistDataSource;
   displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist', 'delete'];
-  destroy$ = new Subject<boolean>();
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -83,10 +82,8 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
             this.openPopUp('Error ' + res['status'] + ': unable to delete track from ' + this.playlistName);
           }
 
-        }),
-        takeUntil(this.destroy$)
-      ).subscribe(res => {
-      console.log(res);
+        })
+      ).subscribe(() => {
       this.loadPlaylistPage();
     })
   }
@@ -101,7 +98,7 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.data = {
       deleteTrack: true,
       title: 'Delete track',
-      content: `"${msg}" deleted from ${this.playlistName}`
+      content: `${msg} deleted from ${this.playlistName}`
     };
 
     this.dialog.open(PopUpComponent, dialogConfig);
@@ -112,9 +109,6 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['/playlist-add', this.id]);
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
-  }
+  ngOnDestroy(): void {}
 
 }

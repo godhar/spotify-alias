@@ -3,14 +3,12 @@
     <mat-card class="example-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Track Name - {{item.name}}</mat-card-title>
+        <mat-card-title>{{item.name}}</mat-card-title>
       </mat-card-header>
       <img mat-card-image [src]="item.img[0] || item.img[1]" alt="Image of item">
       <mat-card-content>
-        <h3>Artist </h3>
-        <p>{{item.name}}</p>
-        <h3>Album </h3>
-        <p>{{item.album}}</p>
+        <h3>Artist - {{item.artist}}</h3>
+        <h3>Album - {{item.album}}</h3>
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button color="accent"><mat-icon svgIcon="round-playlist-add" matTooltip="Add new playlist track" (click)="addTrackToPlaylist(item)"></mat-icon></button>
@@ -42,10 +40,9 @@
       </mat-card-header>
       <img mat-card-image [src]="item.img[0]" alt="Image of item">
       <mat-card-content>
-        <p>Artist - {{item.artist}}</p>
-        <p>Release date - {{item.release_date}}</p>
-        <p>Total Tracks - {{item.total_tracks}}</p>
-        <p>Type - {{item.album_type}}</p>
+        <h3>Artist - {{item.artist}}</h3>
+        <h3>Release date - {{item.release_date}}</h3>
+        <h3>Total Tracks - {{item.total_tracks}}</h3>
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button (click)="getTracks(item)">Top Tracks</button>

@@ -1,7 +1,8 @@
 
 
 <form class="example-section" class="example-form" [formGroup]="searchForm">
-  <h1>Search Spotify Data</h1>
+  <div mat-card-avatar class="example-header-image"></div>
+  <h2>Search Spotify Data</h2>
   <mat-checkbox class="example-margin" [disabled]="searchForm.get('album').value || searchForm.get('track').value" formControlName="artist">Artist</mat-checkbox>
   <mat-checkbox class="example-margin" [disabled]="searchForm.get('artist').value || searchForm.get('track').value" formControlName="album">Album</mat-checkbox>
   <mat-checkbox class="example-margin" [disabled]="searchForm.get('artist').value || searchForm.get('album').value" formControlName="track">Track</mat-checkbox>
@@ -11,7 +12,7 @@
   </mat-form-field>
 
   <mat-autocomplete panelWidth="auto" #auto="matAutocomplete" (optionSelected)="getSelectedResult($event)">
-    <mat-option *ngFor="let result of filteredSearchItems | async" [value]="result" >
+    <mat-option *ngFor="let result of filteredSearchItems$ | async" [value]="result" >
 
       <img *ngIf="result.img[0]" class="example-option-img" [src]="result?.img[0]" height="25">
       <span>{{result.name}}</span> |

@@ -4,8 +4,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnDestroy} from '@angular/core';
 import {PlaylistService} from "../../services/playlist.service";
 import {map, tap} from "rxjs/operators";
-import {Observable} from "rxjs";
 import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {AppStateStore} from "../../store/app-state.store";
 
 @Component({
   selector: 'app-play-lists',
@@ -14,17 +14,24 @@ import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 })
 export class PlayListsComponent implements OnDestroy {
 
-  public playLists: Observable<Playlist[]>;
+  public playLists: Playlist[];
+  currentUser: string;
 
   constructor(private spotifyData: SpotifyDataService,
               private router: Router,
+              private appStateStore: AppStateStore,
               private route: ActivatedRoute,
               private playlistService: PlaylistService) {
-    this.playLists = this.route.data.pipe(
+    this.route.data.pipe(
       untilComponentDestroyed(this),
-      tap( res => console.log('got ma pls  ', res)),
-      map( res => res['data'])
-    );
+      map( res => res)
+    ).subscribe(res => {
+      this.playLists = res['data']
+    });
+
+    this.appStateStore.state$
+      .pipe(untilComponentDestroyed(this))
+      .subscribe(res => this.currentUser = res['currentUser'])
   }
 
   ngOnDestroy(): void {}

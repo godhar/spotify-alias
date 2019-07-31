@@ -1,36 +1,51 @@
-import {Component, OnInit} from '@angular/core';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatButtonModule} from '@angular/material/button';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from "../auth/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {AppStateStore} from "../store/app-state.store";
+import {SafeUrl} from "@angular/platform-browser";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
 
-  public authState: string;
+  private backgroundImage: SafeUrl;
+  private authState: boolean;
+  isAuth$: Observable<boolean>;
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.authService.isSessionAlive().subscribe((res) => {
-      console.log('response ', res)
-      this.authState = res ? 'Logout' : 'Login';
-      if(res['spotifyId']) {
-        this.router.navigate(['playlists'])
-      }
-    }, error => {
-      console.error(error);
-    });
+  constructor(private authService: AuthService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private appStore: AppStateStore) {
+    this.isAuth$ = this.authService.isAuth();
+
+    this.authService.isSessionAlive()
+      .pipe(untilComponentDestroyed(this))
+      .subscribe((res) => {
+        this.authState = res;
+
+        if (res && res['spotifyId']) {
+          this.appStore.addCurrentUser(res['spotifyId']);
+          this.router.navigate(['playlists'])
+        }
+      }, error => {
+        console.error(error);
+      });
   }
 
-  handleAuth(): void {
-    if (this.authState === 'Logout') {
-      this.authService.logOut();
-      this.authState = 'Login';
-    }
+  logUserOut(): void {
+    this.authService.logOut();
+    this.authState = false;
   }
 
+  ngOnInit() {
+    this.backgroundImage = this.route.snapshot.data['data'];
+  }
+
+  ngOnDestroy(): void {}
 
 }

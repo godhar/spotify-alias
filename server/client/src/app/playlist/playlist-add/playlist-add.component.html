@@ -1,15 +1,16 @@
-<h1>Playlist name</h1>//TODO make playlist name as part of new navbar
+<app-header></app-header>
+
+<div class="sm-container"><h2>{{playlist.name}}</h2></div>
 
 
 <div class="container"  fxLayout="row wrap" fxLayoutGap="30px" fxLayoutAlign="start centre">
 
-
   <app-search  (entitySelected)="handleEntity($event)" fxFlex>
   </app-search>
 
-  <ng-container *ngIf="sEntity" fxFlex>
+  <ng-container *ngIf="sEntity" fxFlex style="margin: 3rem;">
 
-    <app-display-result (showTracksSelected)="getTracks($event)" [item]="sEntity"
+    <app-display-result (navToActivePlaylist)="onUpdateNav($event)" (showTracksSelected)="getTracks($event)" [item]="sEntity"
                         [category]="sEntity.type">
     </app-display-result>
   </ng-container>

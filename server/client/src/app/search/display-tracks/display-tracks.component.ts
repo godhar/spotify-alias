@@ -24,7 +24,6 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
   private playlist: Playlist;
   private currentEntity: Album | Artist;
   loading: boolean = true;
-  destroy$ = new Subject<boolean>();
   displayedColumns = ["name", "album", "artist", "duration", "externalSource"];
 
   constructor(private router: Router,
@@ -36,9 +35,9 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
               iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer) {
 
-    this.appStateStore.state$.subscribe(
+    this.appStateStore.state$
+      .pipe(untilComponentDestroyed(this)).subscribe(
       res => {
-        console.log(res)
         this.playlist = res['currentPlaylist'];
         this.currentEntity = res['currentEntity'];
       });
@@ -68,9 +67,7 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
     // this.dataSource$ = this.activatedRoute.data.pipe(map(data => data.trackData));
   }
 
-  ngOnDestroy() {
-    this.destroy$.next(true);
-  }
+  ngOnDestroy() {}
 
   navigateToSearch() {
     this.router.navigate(['/playlist-add', this.playlist.playlist_id]);

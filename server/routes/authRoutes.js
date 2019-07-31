@@ -16,10 +16,8 @@ module.exports = (app) => {
     app.get('/api/logout', (req, res) => {
         req.logout();
         req.user = undefined;
-        console.log(req.user);
         req.session = null;
-        console.log(req.session)
-        res.send('user logged out');
+        res.send(req.user)
     });
 
     app.get('/api/current_user', (req, res) => {
