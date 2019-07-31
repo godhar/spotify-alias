@@ -2,17 +2,19 @@ import {Component, OnInit} from '@angular/core';
 import {MatIconRegistry} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
 import {AuthService} from "../../auth/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
 
   constructor(iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer,
+              private router: Router,
               private authService: AuthService
   ) {
     iconRegistry.addSvgIcon(
@@ -20,11 +22,8 @@ export class HeaderComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/baseline-list-24px.svg'));
   }
 
-  ngOnInit() {
-  }
-
   logOutOfApp() {
     this.authService.logOut();
+    this.router.navigate(['login']);
   }
-
 }
