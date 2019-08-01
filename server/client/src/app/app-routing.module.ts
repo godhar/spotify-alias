@@ -1,80 +1,115 @@
-import {PlayListsComponent} from './playlist/play-lists/play-lists.component';
-import {PlayListComponent} from './playlist/play-list/play-list.component';
-import {AuthGuard} from './auth/auth.guard';
-import {LoginComponent} from './login/login.component';
+import {AuthGuard} from './core/auth/auth.guard';
+import {LoginComponent} from './core/login/login.component';
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {
   DisplayTracksResolverService
-} from "./search/display-tracks/display-tracks-resolver.service";
-import {PlayListsResolverService} from "./playlist/play-lists/playlists-resolver.service";
-import {PlaylistAddComponent} from "./playlist/playlist-add/playlist-add.component";
-import {DisplayTracksComponent} from "./search/display-tracks/display-tracks.component";
-import {PlaylistNewComponent} from "./playlist/playlist-new/playlist-new.component";
-import {HeaderComponent} from "./core/header/header.component";
-import {LoginResolver} from "./login/login.resolver";
+} from "./playlist-edit/display-tracks/display-tracks-resolver.service";
+import {PlayListsResolverService} from "./playlist-view/play-lists/playlists-resolver.service";
+import {LoginResolver} from "./core/login/login.resolver";
 
 
 const routes: Routes = [
 
   {
-    path: '',
-    pathMatch: 'full',
-    canActivate: [AuthGuard],
-    component: PlayListsComponent,
-    resolve: {data: PlayListsResolverService}
-  },
-
-  {
-    path: 'login',
-    component: LoginComponent,
-    resolve: {data : LoginResolver}
-  },
-  {
-    path: 'navbar',
-    // canActivate: [AuthGuard],
-    component: HeaderComponent
-  },
-  {
     path: 'playlists',
-    component: PlayListsComponent,
-    canActivate:[AuthGuard],
-    resolve: {data: PlayListsResolverService}
+    canLoad: [AuthGuard],
+    loadChildren: './playlist-view/playlist-view.module#PlaylistViewModule'
+  },
+  {
+    path: 'playlist-edit',
+    loadChildren: './playlist-edit/playlist-edit.module#PlaylistEditModule'
   },
   {
     path: 'callback/success',
     pathMatch: 'full',
     redirectTo: 'login'
   },
-
   {
-    path: 'playlist/:id',
-    canActivate: [AuthGuard],
-    component: PlayListComponent
+    path: 'login',
+    component: LoginComponent,
+    resolve: {data : LoginResolver}
   },
   {
-    path: 'playlist-add/:id',
-    canActivate: [AuthGuard],
-    component: PlaylistAddComponent
-  },
-  {
-    path: 'playlist-new',
-    component: PlaylistNewComponent
-  },
-  {
-    path: 'display-tracks/:type/:id',
-    canActivate: [AuthGuard],
-    resolve: {trackData: DisplayTracksResolverService},
-    component: DisplayTracksComponent
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'login'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
   exports: [RouterModule],
   providers: [DisplayTracksResolverService, PlayListsResolverService, DisplayTracksResolverService, LoginResolver]
 })
 export class AppRoutingModule {
 }
 
+//i think authguard and service should be at root.
+//PlaylistService should be shared between playlistsComponent and playlistAddCco
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const routes: Routes = [
+//
+//   {
+//     path: 'playlists',
+//     canLoad: [AuthGuard],
+//     loadChildren: 'app/playlist-view/playlist-view.module#PlaylistViewModule'
+//   },
+//
+//   {
+//     path: 'login',
+//     component: LoginComponent,
+//     resolve: {data : LoginResolver}
+//   },
+//   {
+//     path: 'navbar',
+//     // canActivate: [AuthGuard],
+//     component: HeaderComponent
+//   },
+//   {
+//     path: 'playlists',
+//     component: PlayListsComponent,
+//     canLoad:[AuthGuard],
+//     resolve: {data: PlayListsResolverService}
+//   },
+//   {
+//     path: 'callback/success',
+//     pathMatch: 'full',
+//     redirectTo: 'login'
+//   },
+//
+//   {
+//     path: 'playlist/:id',
+//     canActivate: [AuthGuard],
+//     component: PlayListComponent
+//   },
+//   {
+//     path: 'playlist-add/:id',
+//     canActivate: [AuthGuard],
+//     component: PlaylistAddComponent
+//   },
+//   {
+//     path: 'playlist-new',
+//     component: PlaylistNewComponent
+//   },
+//   {
+//     path: 'display-tracks/:type/:id',
+//     canActivate: [AuthGuard],
+//     resolve: {trackData: DisplayTracksResolverService},
+//     component: DisplayTracksComponent
+//   }
+// ];

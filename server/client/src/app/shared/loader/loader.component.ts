@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Subject} from "rxjs";
-import {LoaderService} from "../../playlist/playlist-add/loader.service";
+import {LoaderService} from "./loader.service";
 
 @Component({
   selector: 'app-loader',
