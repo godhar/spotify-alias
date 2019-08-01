@@ -10,7 +10,7 @@ import {MatAutocompleteModule, MatCheckboxModule} from "@angular/material";
 import {SearchService} from "./search/search.service";
 import {SharedModule} from "../shared/shared.module";
 import {DisplayResultComponent} from "./display-result/display-result.component";
-import {PlaylistEditComponent} from "./playlist-edit.component";
+import {PlaylistEditComponent} from "./playlist-edit/playlist-edit.component";
 
 
 const ROUTES = [
@@ -32,7 +32,7 @@ const ROUTES = [
         resolve: {trackData: DisplayTracksResolverService},
         component: DisplayTracksComponent
       },
-      {path: 'playlist/:id', component: PlayListComponent}
+      {path: 'playlist', component: PlayListComponent}
     ]
   }
 

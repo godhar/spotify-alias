@@ -3,9 +3,10 @@
   <mat-toolbar color="accent">
     <mat-toolbar-row>
       <span>Pavi-Phi</span>
+      <mat-icon svgIcon="phi"></mat-icon>
       <mat-nav-list>
-        <a style="margin-left: 50% !important;" mat-raised-button color="accent" routerLink="/playlists">
-          <mat-icon  svgIcon="baseline-list" matTooltip="Playlists" routerLink="/playlists">
+        <a style="margin-left: 50% !important;" mat-raised-button color="accent" >
+          <mat-icon  svgIcon="baseline-list" matTooltip="Playlists" [routerLink]="['/playlists']">
           </mat-icon>
         </a>
       </mat-nav-list>

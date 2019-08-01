@@ -6,7 +6,7 @@ import {MatDialog, MatDialogConfig, MatIconRegistry} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
 import {PlaylistService} from "../../shared/services/playlist.service";
 import {delay, switchMap, take, tap} from "rxjs/operators";
-import {Observable, Subject} from "rxjs";
+import {Observable} from "rxjs";
 import {AppStateStore} from "../../store/app-state.store";
 import {PopUpComponent} from "../../shared/pop-up/pop-up.component";
 import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
@@ -99,6 +99,11 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
       content: msg + ' has been added to ' + this.playlist.name
     };
 
-    this.dialog.open(PopUpComponent, dialogConfig)
+    this.dialog.open(PopUpComponent, dialogConfig);
+
+    this.dialog.afterAllClosed.pipe(untilComponentDestroyed(this))
+      .subscribe( () => {
+        this.router.navigate(['./playlist',{id: this.playlist.playlist_id}], {relativeTo: this.activatedRoute.parent})
+      })
   }
 }

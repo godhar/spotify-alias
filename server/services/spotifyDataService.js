@@ -185,7 +185,7 @@ async function updatePlaylist(accessToken, reqParams) {
     console.log('PARAMS _', reqParams);
     console.log('token _', accessToken);
     console.log('trying...');
-    const url = `https://api.spotify.com/v1/playlists/${reqParams.playlist_id}/tracks?uris=${reqParams.track_uri}`;
+    const url = `https://api.spotify.com/v1/playlists/${reqParams.playlist_id}/tracks?uris=${reqParams.track_uri}&position=0`;
 
     const settings = {
         method: 'POST',

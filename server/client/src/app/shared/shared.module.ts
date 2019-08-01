@@ -12,7 +12,6 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from "@angular/material";
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {ShowIfAuthDirective} from "./show-If-auth.directive";
@@ -20,6 +19,7 @@ import {LoaderComponent} from "./loader/loader.component";
 import {HeaderComponent} from "./header/header.component";
 import {LoaderService} from "./loader/loader.service";
 import {NotFoundComponent} from "../not-found/not-found.component";
+import {RouterModule} from "@angular/router";
 
 const uiModules = [
   CommonModule,
@@ -36,9 +36,8 @@ const uiModules = [
   MatInputModule,
   MatPaginatorModule,
   MatListModule,
+  RouterModule,
   MatProgressSpinnerModule,
-  // BrowserAnimationsModule,
-  // NoopAnimationsModule,
   MatDialogModule,
   ReactiveFormsModule,
   FormsModule];

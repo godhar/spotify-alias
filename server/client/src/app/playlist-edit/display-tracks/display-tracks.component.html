@@ -37,7 +37,7 @@
 
       <ng-container matColumnDef="externalSource">
         <th mat-header-cell *matHeaderCellDef> External Source</th>
-        <td mat-cell *matCellDef="let track"><a href="{{track.external_urls}}">Listen</a></td>
+        <td mat-cell *matCellDef="let track" (click)="$event.stopPropagation()" ><a href="{{track.external_urls}}" target="blank">Listen</a></td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -2,12 +2,11 @@
 
 <div class="playlist-table">
 
-  <h2> {{playlistName}} </h2>
+  <h2> {{playlist.name}} </h2>
   <mat-card>
     <mat-card-actions>
-      <button mat-raised-button color="accent">
-        <mat-icon svgIcon="round-playlist-add" matTooltip="Add new playlist track"
-                  (click)="newPlaylistTrack()"></mat-icon>
+      <button mat-raised-button color="accent" (click)="newPlaylistTrack()">
+        <mat-icon svgIcon="round-playlist-add" matTooltip="Add new playlist track"></mat-icon>
       </button>
     </mat-card-actions>
   </mat-card>
@@ -56,7 +55,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
 
   </mat-table>
-  <mat-paginator #paginator [length]="totalTracks" [pageSize]="6" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+  <mat-paginator #paginator [length]="this.playlist.tracks.total" [pageSize]="6" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
 
 
 <!--    <div class="spinner-container" *ngIf="dataSource.loading$ | async">-->

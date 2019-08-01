@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatIconRegistry} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
 import {AuthService} from "../../core/auth/auth.service";
@@ -20,6 +20,9 @@ export class HeaderComponent {
     iconRegistry.addSvgIcon(
       'baseline-list',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/baseline-list-24px.svg'));
+    iconRegistry.addSvgIcon(
+      'phi',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/phi.svg'));
   }
 
   logOutOfApp() {

@@ -8,6 +8,8 @@ import {merge} from 'rxjs';
 import {PopUpComponent} from "../../shared/pop-up/pop-up.component";
 import {DomSanitizer} from "@angular/platform-browser";
 import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {AppStateStore} from "../../store/app-state.store";
+import {Playlist} from "../../models/spotifyData.model";
 
 @Component({
   selector: 'app-play-list',
@@ -16,10 +18,9 @@ import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 })
 export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  totalTracks: number;
   playlistName: string;
   id: string;
-  snapshotId: string;
+  private playlist: Playlist;
   private dataSource: PlaylistDataSource;
   displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist', 'delete'];
 
@@ -30,14 +31,13 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private playlistService: PlaylistService,
               private dialog: MatDialog,
+              private appState: AppStateStore,
               private router: Router,
               iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer
   ) {
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.snapshotId = this.route.snapshot.paramMap.get('snapshotId');
-    this.totalTracks = +this.route.snapshot.paramMap.get('totalTracks');
-    this.playlistName = this.route.snapshot.paramMap.get('playlistName');
+    this.appState.state$.pipe(untilComponentDestroyed(this))
+      .subscribe(res => this.playlist = res['currentPlaylist']);
 
     iconRegistry.addSvgIcon(
       'round-playlist-add',
@@ -47,7 +47,7 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.dataSource = new PlaylistDataSource(this.playlistService);
-    this.dataSource.loadPlaylist(this.id, '', 'asc', 0, 6);
+    this.dataSource.loadPlaylist(this.playlist.playlist_id, '', 'asc', 0, 6);
   }
 
 
@@ -63,26 +63,26 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadPlaylistPage() {
     this.dataSource.loadPlaylist(
-      this.id, '', this.sort.direction,
+      this.playlist.playlist_id, '', this.sort.direction,
       this.paginator.pageIndex, this.paginator.pageSize);
   }
 
 
   onRowClicked(track) {
-    this.playlistService.removeItemFromPlaylist(track.track_uri, this.snapshotId, this.id, track.track_number)
+    this.playlistService.removeItemFromPlaylist(track.track_uri, this.playlist.snapshot_id, this.playlist.playlist_id, track.track_number)
       .pipe(
         untilComponentDestroyed(this),
         map(res => {
           if (res['status'] === 200) {
-            this.snapshotId = res['snapshot_id'];
+            this.playlist.snapshot_id = res['snapshot_id'];
             this.openPopUp(track.track_name);
           } else {
             this.openPopUp('Error ' + res['status'] + ': unable to delete track from ' + this.playlistName);
           }
-
         })
       ).subscribe(() => {
-      this.loadPlaylistPage();
+        this.appState.addCurrentPlaylist(this.playlist);
+        this.loadPlaylistPage();
     })
   }
 
