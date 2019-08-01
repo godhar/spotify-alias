@@ -70,7 +70,7 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   navigateToSearch() {
-    this.router.navigate(['../playlist-add'], {relativeTo: this.activatedRoute});
+    this.router.navigate(['./playlist-add'], {relativeTo: this.activatedRoute.parent});
   }
 
   onSelect(track: TrackFull) {
@@ -98,6 +98,7 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
       title: 'Add track',
       content: msg + ' has been added to ' + this.playlist.name
     };
-    this.dialog.open(PopUpComponent, dialogConfig);
+
+    this.dialog.open(PopUpComponent, dialogConfig)
   }
 }
