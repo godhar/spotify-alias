@@ -24,15 +24,21 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 require('./routes/authRoutes')(app);
 require('./routes/spotifyDataRoutes')(app);
 
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static('/client/dist/index.html'));
+
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'client', 'index.html'));
+    });
+}
 
 let PORT = process.env.PORT || 5000;
 
-app.listen(PORT)
+app.listen(PORT);
 
 process.on('uncaughtException', function (err) {
     console.error(err.stack);
