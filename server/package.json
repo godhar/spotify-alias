@@ -26,7 +26,7 @@
     "nodemon": "^1.19.1"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "babel-node app.js",
     "server": "nodemon --exec babel-node app.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
