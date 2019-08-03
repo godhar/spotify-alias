@@ -60,8 +60,7 @@ module.exports.modifyResponseSearchData = (data, qType) => {
     return modifiedData;
 };
 
-
-export const modifyFullTrackData = (rawData, entityType) => {
+module.exports.modifyFullTrackData = (rawData, entityType) => {
 
     if (entityType === 'artist') {
 
@@ -72,7 +71,7 @@ export const modifyFullTrackData = (rawData, entityType) => {
                 artist: track.artists[0].name,
                 album: track.album.name,
                 external_urls: track.external_urls.spotify,
-                duration: convertMillisToSec(track.duration_ms),
+                duration: convertMillis(track.duration_ms),
                 type: track.type,
                 track_uri: track.uri
             };
@@ -86,21 +85,26 @@ export const modifyFullTrackData = (rawData, entityType) => {
             name: track.name,
             artist: track.artists[0].name,
             external_urls: track.external_urls.spotify,
-            duration: convertMillisToSec(track.duration_ms),
+            duration: convertMillis(track.duration_ms),
             type: track.type,
             track_uri: track.uri
         };
     })
 };
 
+module.exports.convertMillisToSec = (millis) => {
+    return convertMillis(millis);
+};
 
 function mapImages(items) {
     return items.map((i) => i.url);
 }
 
-export const convertMillisToSec = (millis) => {
+function convertMillis(millis) {
     const minutes = Math.floor(millis / 60000);
     const seconds = ((millis % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 };
+
+
 
