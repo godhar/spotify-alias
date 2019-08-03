@@ -66,9 +66,8 @@ const uiModules = [
 export class SharedModule {
 
   static forRoot(): ModuleWithProviders {
-    const shareModule = this;
     return {
-      ngModule: shareModule,
+      ngModule: SharedModule,
       providers: [PlaylistService, LoaderService]
     };
   }

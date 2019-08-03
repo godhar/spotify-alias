@@ -14,8 +14,8 @@ import {take} from "rxjs/operators";
 })
 export class PlaylistAddComponent implements OnDestroy {
 
-  private sEntity: Album | Artist | Track = null;
-  private playlist: Playlist;
+  sEntity: Album | Artist | Track = null;
+  playlist: Playlist;
 
   constructor(private loadingService: LoaderService,
               private route: ActivatedRoute,
