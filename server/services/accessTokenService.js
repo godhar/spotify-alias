@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const {URLSearchParams} = require('url');
 
 
-export const getNewToken = async (user) => {
+module.exports.getNewToken = async (user) => {
     const params = new URLSearchParams();
     params.append('grant_type', 'refresh_token');
     params.append('refresh_token', user.refreshToken);
@@ -35,6 +35,6 @@ export const getNewToken = async (user) => {
 };
 
 
-export const getUserCredentials = async (user) => {
+module.exports.getUserCredentials = async (user) => {
     return await UserCredential.findOne({userId: user.spotifyId});
-}
+};
