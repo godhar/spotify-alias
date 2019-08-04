@@ -30,7 +30,7 @@
     "server": "nodemon --exec babel-node app.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true && npm install --prefix client"
   },
   "author": "",
   "license": "ISC"
