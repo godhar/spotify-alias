@@ -28,10 +28,10 @@ require('./routes/authRoutes')(app);
 require('./routes/spotifyDataRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('/client/dist/client/index.html'));
+    app.use(express.static('/dist/client/index.html'));
     const path = require('path');
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, "client", "dist", "client", "index.html"));
+        res.sendFile(path.resolve(__dirname, "dist", "client", "index.html"));
     });
 }
 
