@@ -31,10 +31,10 @@ require('./routes/authRoutes')(app);
 require('./routes/spotifyDataRoutes')(app);
 
 if(process.env.NODE_ENV === 'production') {
-    app.use(express.static(__dirname + '/dist/client'));
+    app.use(express.static(__dirname + '/client/dist'));
 
     app.get('/*', function(req, res) {
-        res.sendFile(path.join(__dirname + '/dist/client/index.html'));
+        res.sendFile(path.join(__dirname + '/client/dist/index.html'));
     });
 }
 
