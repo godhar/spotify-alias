@@ -29,10 +29,18 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/spotifyDataRoutes')(app);
 
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static(__dirname + '/dist/client'));
+
+    app.get('/*', function(req, res) {
+        res.sendFile(path.join(__dirname + '/dist/client/index.html'));
+    });
+}
+
 
 let PORT = process.env.PORT || 5000;
 
-app.listen(PORT)
+app.listen(PORT);
 
 process.on('uncaughtException', function (err) {
     console.error(err.stack);
