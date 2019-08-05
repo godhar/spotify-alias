@@ -13,8 +13,8 @@ import {AppStateStore} from "../../store/app-state.store";
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  private backgroundImage: SafeUrl;
-  private authState: boolean;
+  backgroundImage: SafeUrl;
+  authState: boolean;
   isAuth$: Observable<boolean>;
 
   constructor(private authService: AuthService,

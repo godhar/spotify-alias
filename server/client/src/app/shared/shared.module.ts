@@ -20,6 +20,7 @@ import {HeaderComponent} from "./header/header.component";
 import {LoaderService} from "./loader/loader.service";
 import {NotFoundComponent} from "../not-found/not-found.component";
 import {RouterModule} from "@angular/router";
+import {PlaylistNewComponent} from "../playlist-view/playlist-new/playlist-new.component";
 
 const uiModules = [
   CommonModule,
@@ -49,7 +50,8 @@ const uiModules = [
     ShowIfAuthDirective,
     HeaderComponent,
     PopUpComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    PlaylistNewComponent
   ],
   entryComponents: [PopUpComponent],
   imports: [uiModules],
@@ -66,9 +68,8 @@ const uiModules = [
 export class SharedModule {
 
   static forRoot(): ModuleWithProviders {
-    const shareModule = this;
     return {
-      ngModule: shareModule,
+      ngModule: SharedModule,
       providers: [PlaylistService, LoaderService]
     };
   }

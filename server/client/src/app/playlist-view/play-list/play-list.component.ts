@@ -20,8 +20,8 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   playlistName: string;
   id: string;
-  private playlist: Playlist;
-  private dataSource: PlaylistDataSource;
+  playlist: Playlist;
+  dataSource: PlaylistDataSource;
   displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist', 'delete'];
 
 

@@ -10,8 +10,8 @@ export class PopUpComponent implements OnInit {
 
   private dialogueTitle: string;
   private dynamicContent: string;
-  private newPlaylistConfig: boolean = false;
-  private displayConfirmation: boolean = false;
+  newPlaylistConfig: boolean = false;
+  displayConfirmation: boolean = false;
   private addTrack: boolean = false;
 
   constructor(private dialogRef: MatDialogRef<PopUpComponent>,
