@@ -7,7 +7,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {
   MatButtonModule,
   MatCardModule, MatDialogModule,
-  MatIconModule, MatInputModule, MatListModule, MatNavList,
+  MatIconModule, MatInputModule, MatListModule,
   MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule,
   MatToolbarModule,
   MatTooltipModule
@@ -20,7 +20,6 @@ import {HeaderComponent} from "./header/header.component";
 import {LoaderService} from "./loader/loader.service";
 import {NotFoundComponent} from "../not-found/not-found.component";
 import {RouterModule} from "@angular/router";
-import {PlaylistNewComponent} from "../playlist-view/playlist-new/playlist-new.component";
 
 const uiModules = [
   CommonModule,
@@ -50,8 +49,7 @@ const uiModules = [
     ShowIfAuthDirective,
     HeaderComponent,
     PopUpComponent,
-    NotFoundComponent,
-    PlaylistNewComponent
+    NotFoundComponent
   ],
   entryComponents: [PopUpComponent],
   imports: [uiModules],
