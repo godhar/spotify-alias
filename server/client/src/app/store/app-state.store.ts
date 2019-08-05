@@ -11,12 +11,10 @@ export class AppStateStore extends Store<AppGlobalState> {
   }
 
   addCurrentPlaylist(playlist: Playlist) {
-    console.log('state is being set ', playlist);
     this.setState({...this.state, currentPlaylist: playlist});
   }
 
   addCurrentEntity(entity: Artist|Album) {
-    console.log('state is being set ', entity);
     this.setState({...this.state, currentEntity: entity});
   }
 

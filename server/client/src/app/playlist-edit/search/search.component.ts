@@ -21,10 +21,7 @@ import {Album, Artist, Track} from "../../models/spotifyData.model";
 })
 export class SearchComponent implements OnInit, OnDestroy {
 
-
   @Output() entitySelected = new EventEmitter<Album | Artist | Track>();
-
-
   filteredSearchItems$: Observable<Artist[] | Album[] | Track[]>;
   destroy$ = new Subject();
   isLoading = false;
@@ -58,7 +55,6 @@ export class SearchComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         tap(() => this.isLoading = true),
         switchMap(value => {
-          console.log(value)
           return this.searchService.searchByType(value.toString(), this.searchCategory)//TESTING
         })
       );
@@ -81,7 +77,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 
   getSelectedResult(selected) {
-    console.log('not being triggered ??? ', selected.option.value)
     let val = selected.option.value;
     this.searchForm.get('searchInput').setValue('', {emit: false});
     if (val.type == 'album') {

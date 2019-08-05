@@ -30,8 +30,7 @@ export class PlaylistAddComponent implements OnDestroy {
       });
   }
 
-  onUpdateNav(confirmTrackAdd: boolean) {
-    console.log(confirmTrackAdd)
+  onUpdateNav() {
     this.router.navigate(['playlist', {id: this.playlist.playlist_id}], { relativeTo: this.route.parent })
   }
 
@@ -42,14 +41,9 @@ export class PlaylistAddComponent implements OnDestroy {
   ngOnDestroy(): void {}
 
   getTracks(entity: Album|Artist): void {
-    console.log(this.route.snapshot)
-    console.log(this.route.pathFromRoot)
-    console.log(this.route.root)
     this.playlistService.setCurrentEntity(entity);//set entity here
     this.router.navigate(['../display-tracks', entity.type, entity.id], {relativeTo: this.route});
   }
 }
 
 
-
-//routerState: RouterStateSnapshot {_root: TreeNode, url: "/playlist-edit/playlist-add"}

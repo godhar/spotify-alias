@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {PlaylistAddComponent} from "./playlist-add/playlist-add.component";
 import {DisplayTracksResolverService} from "./display-tracks/display-tracks-resolver.service";
 import {DisplayTracksComponent} from "./display-tracks/display-tracks.component";

@@ -15,7 +15,6 @@ export class AuthService implements OnDestroy {
   }
 
   isAuth() {
-    this._isAuthenticated.subscribe(res => console.log('emitting ', res))
     return this._isAuthenticated.asObservable();
   }
 

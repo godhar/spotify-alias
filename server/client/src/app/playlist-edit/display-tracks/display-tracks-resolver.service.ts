@@ -37,8 +37,7 @@ export class DisplayTracksResolverService implements Resolve<Observable<TrackFul
     })
       .pipe(
         catchError( () => this.handleError()),//navgiate from here
-        tap(res => console.log(res)),
-        take(1),//TEST
+        take(1),
         mergeMap(
           res => {
             if (res['payload']) {

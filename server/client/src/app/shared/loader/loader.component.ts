@@ -7,18 +7,12 @@ import {LoaderService} from "./loader.service";
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss']
 })
-export class LoaderComponent implements OnInit {
+export class LoaderComponent {
 
   color = 'primary';
   mode = 'indeterminate';
   value = 50;
   isLoading: Subject<boolean> = this.loaderService.isLoading$;
 
-  constructor(private loaderService: LoaderService) {
-    console.log('loader CALLED')
-  }
-
-  ngOnInit() {
-  }
-
+  constructor(private loaderService: LoaderService) {}
 }

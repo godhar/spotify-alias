@@ -1,6 +1,6 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {catchError, map, tap} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import {Album, Artist, Track} from "../../models/spotifyData.model";
 
@@ -19,7 +19,6 @@ export class SearchService {
     })
       .pipe(
         catchError(err => throwError(err)),
-        tap((res) => console.log(res)),
         map(res => res["payload"])
       );
   }

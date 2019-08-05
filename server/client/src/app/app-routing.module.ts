@@ -18,6 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'playlist-edit',
+    canLoad: [AuthGuard],
     loadChildren: './playlist-edit/playlist-edit.module#PlaylistEditModule'
   },
   {

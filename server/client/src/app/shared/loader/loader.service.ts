@@ -9,7 +9,6 @@ export class LoaderService {
   isLoading$ = new Subject<boolean>();
 
   show() {
-    console.log('show loaded called');
     this.isLoading$.next(true);
   }
   hide() {

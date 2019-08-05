@@ -1,6 +1,6 @@
 import {AuthService} from './auth.service';
 import {Injectable} from '@angular/core';
-import {CanActivate, CanLoad, Router} from '@angular/router';
+import {CanLoad, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 
@@ -15,7 +15,6 @@ export class AuthGuard implements CanLoad {
   }
 
   canLoad(): Observable<boolean> {
-
     return this.authService.isSessionAlive()
       .pipe(
         take(1),

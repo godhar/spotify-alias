@@ -1,10 +1,10 @@
-import {PlaylistItem} from '../../models/playlist-item.model';
 import {catchError, map, tap} from 'rxjs/operators';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
 import {Album, ApiResponse, Artist, Playlist} from "../../models/spotifyData.model";
 import {AppStateStore} from "../../store/app-state.store";
+import {PlaylistItem} from "../../models/playlist-item.model";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,6 @@ export class PlaylistService {
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())
     }).pipe(
-      tap(val => console.log('numbered??', val)),
       map(res => res['payload'].map(data => new PlaylistItem().deserialize(data)))
     );
   }
@@ -39,9 +38,6 @@ export class PlaylistService {
   }
 
   addTrackToCurrentPlaylist(trackUri: string, playlistId: string): Observable<ApiResponse> | any {
-    console.log(trackUri)
-    console.log(playlistId)
-
     return this.http.get<Response>('api/spotify/add-track-playlist', {
       params: new HttpParams()
         .set('playlist_id', playlistId)
@@ -53,7 +49,6 @@ export class PlaylistService {
   }
 
   createNewPlaylist(name: string) {
-    console.log('calioooo')
     return this.http.get<Response>('api/spotify/new-playlist', {
       params: new HttpParams()
         .set('name', name)
