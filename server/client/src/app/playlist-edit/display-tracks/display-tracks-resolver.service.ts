@@ -17,7 +17,7 @@ export class DisplayTracksResolverService implements Resolve<Observable<TrackFul
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TrackFull[]> | Observable<never> {
     const id = route.params.id;
     const category = route.params.type;
-    return this.http.get('http://ip-api.com/json')
+    return this.http.get('https://iplist.cc/api/')
       .pipe(
         switchMap(isoCode => {
           return this.getTracks(id, category, isoCode)
@@ -27,7 +27,7 @@ export class DisplayTracksResolverService implements Resolve<Observable<TrackFul
 
 
   getTracks(id: string, category: string, iso): Observable<Observable<TrackFull[]>> | Observable<never> | Observable<any> {
-    const isoCode = iso['countryCode'];
+    const isoCode = iso['countrycode'];
     const url = 'api/spotify/tracks';
     return of(this.http.get<TrackFull[]>(url, {
       params: new HttpParams()
