@@ -10,7 +10,7 @@ module.exports = (app) => {
     app.get('/auth/spotify/callback', passport.authenticate('spotify'),
     (req, res) => {
         console.log('callback from spotify successful', req.user);
-        res.status(301).redirect("http://localhost:4200/callback/success")
+        res.status(301).redirect("https://glacial-anchorage-42735.herokuapp.com/callback/success")
     });
 
     app.get('/api/logout', (req, res) => {
