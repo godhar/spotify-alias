@@ -27,7 +27,6 @@ passport.use(
 
         const spotifyId = profile.id;
         const name = profile.displayName || '';
-        const email = profile.emails[0].value;
         let user;
 
 

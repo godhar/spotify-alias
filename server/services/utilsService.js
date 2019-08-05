@@ -106,5 +106,3 @@ function convertMillis(millis) {
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 };
 
-
-

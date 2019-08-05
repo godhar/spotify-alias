@@ -32,7 +32,7 @@ export class PlaylistAddComponent implements OnDestroy {
 
   onUpdateNav(confirmTrackAdd: boolean) {
     console.log(confirmTrackAdd)
-    this.router.navigate(['playlist', {id: this.playlist.playlist_id}])
+    this.router.navigate(['playlist', {id: this.playlist.playlist_id}], { relativeTo: this.route.parent })
   }
 
   handleEntity(entity: Album | Artist | Track) {
