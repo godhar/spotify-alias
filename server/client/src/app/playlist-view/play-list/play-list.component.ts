@@ -18,7 +18,6 @@ import {Playlist} from "../../models/spotifyData.model";
 })
 export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  playlistName: string;
   id: string;
   playlist: Playlist;
   dataSource: PlaylistDataSource;
@@ -77,7 +76,7 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
             this.playlist.snapshot_id = res['snapshot_id'];
             this.openPopUp(track.track_name);
           } else {
-            this.openPopUp('Error ' + res['status'] + ': unable to delete track from ' + this.playlistName);
+            this.openPopUp('Error ' + res['status'] + ': unable to delete track from ' + this.playlist.name);
           }
         })
       ).subscribe(() => {
@@ -96,7 +95,7 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.data = {
       deleteTrack: true,
       title: 'Delete track',
-      content: `${msg} deleted from ${this.playlistName}`
+      content: `${msg} deleted from ${this.playlist.name}`
     };
 
     this.dialog.open(PopUpComponent, dialogConfig);

@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {Observable, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 
@@ -9,7 +9,7 @@ import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 })
 export class AuthService implements OnDestroy {
 
-  public _isAuthenticated = new ReplaySubject<boolean>();
+  public _isAuthenticated = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {
   }
