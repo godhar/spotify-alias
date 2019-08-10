@@ -104,6 +104,6 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
     this.dialog.afterAllClosed.pipe(untilComponentDestroyed(this))
       .subscribe( () => {
         this.router.navigate(['./playlist',{id: this.playlist.playlist_id}], {relativeTo: this.activatedRoute.parent})
-      })
+      })//TODO - nav from here always to playlist, really?
   }
 }
