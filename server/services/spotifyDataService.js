@@ -97,7 +97,6 @@ const getSinglePlaylistItem = async (user, params) => {//DUP above
 const getTracksFromAlbum = async (user, params) => {
     let userCreds = await TokenService.getUserCredentials(user);
     let status = await tryForSelectedTracksByAlbum(params, user);
-
     if (status.statusCode === 401) {
         userCreds.accessToken = await TokenService.getNewToken(userCreds);
         status = await tryForSelectedTracksByAlbum(params, userCreds);
@@ -373,7 +372,7 @@ async function tryForSelectedTracksByAlbum(query, userCreds) {
         if (err.response.status === 401) {
             return {statusCode: 401};
         }
-        console.error(err);
+        throw Error(err.response)
     }
     return tracks.data;
 }

@@ -23,4 +23,3 @@ export class SearchService {
       );
   }
 }
-//TODO implement retryWHen https://blog.angular-university.io/rxjs-error-handling/

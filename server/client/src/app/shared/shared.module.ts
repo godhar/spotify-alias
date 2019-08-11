@@ -18,8 +18,10 @@ import {ShowIfAuthDirective} from "./show-If-auth.directive";
 import {LoaderComponent} from "./loader/loader.component";
 import {HeaderComponent} from "./header/header.component";
 import {LoaderService} from "./loader/loader.service";
-import {NotFoundComponent} from "../not-found/not-found.component";
+import {NotFoundComponent} from "./not-found/not-found.component";
 import {RouterModule} from "@angular/router";
+import {NotFoundResolver} from "./not-found/not-found.resolver";
+import {AuthService} from "../core/auth/auth.service";
 
 const uiModules = [
   CommonModule,
@@ -51,7 +53,7 @@ const uiModules = [
     PopUpComponent,
     NotFoundComponent
   ],
-  entryComponents: [PopUpComponent],
+  entryComponents: [PopUpComponent, NotFoundComponent],
   imports: [uiModules],
   exports: [
     ShowIfAuthDirective,
@@ -68,7 +70,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [PlaylistService, LoaderService]
+      providers: [PlaylistService, LoaderService, NotFoundResolver, AuthService]
     };
   }
 }

@@ -10,6 +10,8 @@ import {SearchService} from "./search/search.service";
 import {SharedModule} from "../shared/shared.module";
 import {DisplayResultComponent} from "./display-result/display-result.component";
 import {PlaylistEditComponent} from "./playlist-edit/playlist-edit.component";
+import {NotFoundComponent} from "../shared/not-found/not-found.component";
+import {NotFoundResolver} from "../shared/not-found/not-found.resolver";
 
 
 const ROUTES = [
@@ -31,7 +33,14 @@ const ROUTES = [
         resolve: {trackData: DisplayTracksResolverService},
         component: DisplayTracksComponent
       },
-      {path: 'playlist', component: PlayListComponent}
+      {
+        path: 'playlist',
+        component: PlayListComponent},
+      {
+        path: '**',
+        component: NotFoundComponent,
+        resolve: {data: NotFoundResolver}
+      }
     ]
   }
 

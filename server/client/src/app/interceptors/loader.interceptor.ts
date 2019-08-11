@@ -8,7 +8,6 @@ import {LoaderService} from "../shared/loader/loader.service";
 export class LoaderInterceptor implements HttpInterceptor {
 
   private reqUrlsToDitch = ['https://iplist.cc/api/', 'api/spotify/search-all-data', 'api/current_user', 'assets/img/icons/baseline-arrow_back_ios-24px.svg'];
-//TODO test the removal of 'api/spotify/tracks' - see if loader shows
   constructor(public loaderService: LoaderService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

@@ -4,7 +4,8 @@ import {RouterModule} from "@angular/router";
 import {PlayListsResolverService} from "./play-lists/playlists-resolver.service";
 import {PlayListComponent} from "./play-list/play-list.component";
 import {SharedModule} from "../shared/shared.module";
-import {NotFoundComponent} from "../not-found/not-found.component";
+import {NotFoundComponent} from "../shared/not-found/not-found.component";
+import {NotFoundResolver} from "../shared/not-found/not-found.resolver";
 
 
 const ROUTES = [
@@ -20,7 +21,8 @@ const ROUTES = [
   },
   {
     path: '**',
-    component: NotFoundComponent
+    component: NotFoundComponent,
+    resolve: {data: NotFoundResolver}
   }
 ];
 

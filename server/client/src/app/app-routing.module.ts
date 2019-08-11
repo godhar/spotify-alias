@@ -7,6 +7,8 @@ import {
 } from "./playlist-edit/display-tracks/display-tracks-resolver.service";
 import {PlayListsResolverService} from "./playlist-view/play-lists/playlists-resolver.service";
 import {LoginResolver} from "./core/login/login.resolver";
+import {NotFoundComponent} from "./shared/not-found/not-found.component";
+import {NotFoundResolver} from "./shared/not-found/not-found.resolver";
 
 
 const routes: Routes = [
@@ -35,6 +37,11 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: 'login'
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
+    resolve: {data : NotFoundResolver}
   }
 ];
 
@@ -45,10 +52,6 @@ const routes: Routes = [
 })
 export class AppRoutingModule {
 }
-
-//i think authguard and service should be at root.
-//PlaylistService should be shared between playlistsComponent and playlistAddCco
-
 
 
 

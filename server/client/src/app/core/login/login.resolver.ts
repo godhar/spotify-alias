@@ -16,7 +16,7 @@ export class LoginResolver implements Resolve<any> {
   resolve = (): Observable<any> =>
     this.http.get('assets/img/background-img/background-img.png', { responseType: 'blob' }).pipe(
       map( image => {
-        const blob: Blob = new Blob([image], { type: 'image/jpeg' });
+        const blob: Blob = new Blob([image], { type: 'image/png' });
         const imageStyle = `${window.URL.createObjectURL(blob)}`;
         return this.sanitizer.bypassSecurityTrustUrl(imageStyle)
       })
