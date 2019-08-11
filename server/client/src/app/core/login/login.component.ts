@@ -14,20 +14,14 @@ import {AppStateStore} from "../../store/app-state.store";
 export class LoginComponent implements OnInit, OnDestroy {
 
   backgroundImage: SafeUrl;
-  authState: boolean;
-  isAuth$: Observable<boolean>;
 
   constructor(private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
               private appStore: AppStateStore) {
-    this.isAuth$ = this.authService.isAuth();
 
     this.authService.isSessionAlive()
-      .pipe(untilComponentDestroyed(this))
       .subscribe((res) => {
-        this.authState = res;
-
         if (res && res['spotifyId']) {
           this.appStore.addCurrentUser(res['spotifyId']);
           this.router.navigate(['playlists'])
@@ -39,7 +33,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   logUserOut(): void {
     this.authService.logOut();
-    this.authState = false;
   }
 
   ngOnInit() {

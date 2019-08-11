@@ -2,17 +2,12 @@ import {AuthGuard} from './core/auth/auth.guard';
 import {LoginComponent} from './core/login/login.component';
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {
-  DisplayTracksResolverService
-} from "./playlist-edit/display-tracks/display-tracks-resolver.service";
-import {PlayListsResolverService} from "./playlist-view/play-lists/playlists-resolver.service";
-import {LoginResolver} from "./core/login/login.resolver";
 import {NotFoundComponent} from "./shared/not-found/not-found.component";
+import {LoginResolver} from "./core/login/login.resolver";
 import {NotFoundResolver} from "./shared/not-found/not-found.resolver";
 
 
 const routes: Routes = [
-
   {
     path: 'playlists',
     canLoad: [AuthGuard],
@@ -46,9 +41,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [DisplayTracksResolverService, PlayListsResolverService, DisplayTracksResolverService, LoginResolver]
+  providers: [LoginResolver]
 })
 export class AppRoutingModule {
 }

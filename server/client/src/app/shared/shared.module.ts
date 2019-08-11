@@ -1,8 +1,6 @@
-import {ModuleWithProviders, NgModule} from '@angular/core';
-import {PlaylistService} from "./services/playlist.service";
+import {NgModule} from '@angular/core';
 import {PopUpComponent} from "./pop-up/pop-up.component";
 import {PlayListComponent} from "../playlist-view/play-list/play-list.component";
-import {HttpClientModule} from "@angular/common/http";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {
   MatButtonModule,
@@ -16,16 +14,11 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {ShowIfAuthDirective} from "./show-If-auth.directive";
 import {LoaderComponent} from "./loader/loader.component";
-import {HeaderComponent} from "./header/header.component";
-import {LoaderService} from "./loader/loader.service";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {RouterModule} from "@angular/router";
-import {NotFoundResolver} from "./not-found/not-found.resolver";
-import {AuthService} from "../core/auth/auth.service";
 
 const uiModules = [
   CommonModule,
-  HttpClientModule,
   MatSortModule,
   FlexLayoutModule,
   MatTooltipModule,
@@ -49,11 +42,10 @@ const uiModules = [
     PlayListComponent,
     LoaderComponent,
     ShowIfAuthDirective,
-    HeaderComponent,
     PopUpComponent,
     NotFoundComponent
   ],
-  entryComponents: [PopUpComponent, NotFoundComponent],
+  entryComponents: [PopUpComponent],
   imports: [uiModules],
   exports: [
     ShowIfAuthDirective,
@@ -61,16 +53,8 @@ const uiModules = [
     PlayListComponent,
     LoaderComponent,
     PopUpComponent,
-    HeaderComponent,
     NotFoundComponent
   ]
 })
 export class SharedModule {
-
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: SharedModule,
-      providers: [PlaylistService, LoaderService, NotFoundResolver, AuthService]
-    };
-  }
 }

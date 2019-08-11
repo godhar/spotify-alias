@@ -1,7 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 
 @Injectable({
@@ -24,7 +23,10 @@ export class AuthService implements OnDestroy {
 
       this.http.get('api/current_user')
         .subscribe((res) => {
-          this._isAuthenticated.next(true);
+          console.log(res)
+          if (res) {
+            this._isAuthenticated.next(true);
+          }
           observer.next(res); //server response
         }, () => {
           this._isAuthenticated.next(false);
@@ -35,7 +37,6 @@ export class AuthService implements OnDestroy {
 
   logOut(): void {
     this.http.get('api/logout')
-      .pipe(untilComponentDestroyed(this))
       .subscribe((currentUser) => {
         if (!currentUser) {
           this._isAuthenticated.next(false);
@@ -43,6 +44,7 @@ export class AuthService implements OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+  }
 
 }

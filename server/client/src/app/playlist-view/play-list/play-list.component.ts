@@ -1,4 +1,4 @@
-import {PlaylistService} from '../../shared/services/playlist.service';
+import {PlaylistService} from '../../core/services/playlist.service';
 import {PlaylistDataSource} from './playlist-data-source';
 import {Component, OnInit, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';

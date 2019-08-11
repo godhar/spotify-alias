@@ -1,7 +1,7 @@
 import { PlaylistItem } from '../../models/playlist-item.model';
 import {catchError, finalize} from 'rxjs/operators';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import { PlaylistService } from '../../shared/services/playlist.service';
+import { PlaylistService } from '../../core/services/playlist.service';
 import { CollectionViewer, DataSource } from "@angular/cdk/collections";
 
 

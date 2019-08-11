@@ -1,7 +1,7 @@
 import {Playlist} from '../../models/spotifyData.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnDestroy} from '@angular/core';
-import {PlaylistService} from "../../shared/services/playlist.service";
+import {PlaylistService} from "../../core/services/playlist.service";
 import {map} from "rxjs/operators";
 import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 import {AppStateStore} from "../../store/app-state.store";

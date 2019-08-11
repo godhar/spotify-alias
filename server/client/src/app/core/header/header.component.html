@@ -4,7 +4,7 @@
     <mat-toolbar-row>
       <span>Pavi-Phi</span>
       <mat-icon svgIcon="phi"></mat-icon>
-      <mat-nav-list>
+      <mat-nav-list *ngIf="(authService.isAuth() | async)">
         <a style="margin-left: 50% !important;" mat-raised-button color="accent" >
           <mat-icon  svgIcon="baseline-list" matTooltip="Playlists" [routerLink]="['/playlists']">
           </mat-icon>
@@ -12,7 +12,9 @@
       </mat-nav-list>
       <span class="example-spacer"></span>
       <span class="example-spacer"></span>
+      <mat-nav-list *ngIf="(authService.isAuth() | async)">
       <a mat-raised-button color="accent" (click)="logOutOfApp()">Logout</a>
+      </mat-nav-list>
     </mat-toolbar-row>
   </mat-toolbar>
 </div>

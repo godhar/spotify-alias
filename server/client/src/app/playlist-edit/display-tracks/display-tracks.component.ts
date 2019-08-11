@@ -4,7 +4,7 @@ import {SearchService} from "../search/search.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog, MatDialogConfig, MatIconRegistry} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
-import {PlaylistService} from "../../shared/services/playlist.service";
+import {PlaylistService} from "../../core/services/playlist.service";
 import {delay, switchMap, take, tap} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {AppStateStore} from "../../store/app-state.store";
