@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {LoaderService} from "./loader.service";
 
 @Component({
@@ -9,10 +9,13 @@ import {LoaderService} from "./loader.service";
 })
 export class LoaderComponent {
 
-  color = 'primary';
-  mode = 'indeterminate';
   value = 50;
-  isLoading: Subject<boolean> = this.loaderService.isLoading$;
+  loading$: Subject<boolean> = this.loaderService.isLoading$;
 
-  constructor(private loaderService: LoaderService) {}
+  constructor(private loaderService: LoaderService) {
+
+    this.loaderService.isLoading$.subscribe(
+      res => console.log('loading component async = ', res)
+    )
+  }
 }

@@ -1,10 +1,9 @@
-<app-header></app-header>
 <div class="mat-table__wrapper">
   <ng-container *ngIf="!loading">
     <mat-card>
       <mat-card-actions>
         <button mat-raised-button color="accent" (click)="navigateToSearch()">
-          <mat-icon svgIcon="baseline-arrow-back" matTooltip="Search Spotify Data">
+          <mat-icon svgIcon="baseline-arrow-back" matTooltip="Back to Search Spotify Data...">
           </mat-icon>
           Back
         </button>
@@ -12,7 +11,8 @@
     </mat-card>
   </ng-container>
 
-  <ng-container *ngIf="!loading else loader">
+<!--  <ng-container *ngIf="!loading else loader">-->
+  <ng-container *ngIf="!loading">
     <table mat-table [dataSource]="dataSource">
 
       <ng-container matColumnDef="name">
@@ -47,9 +47,6 @@
   </ng-container>
 </div>
 
-<ng-template #loader>
-  <div class="overlay">
-    <mat-spinner class="spinner" [color]="'accent'" [value]="50" [mode]="'indeterminate'"></mat-spinner>
-  </div>
-</ng-template>
+<app-loader></app-loader>
+
 

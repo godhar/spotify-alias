@@ -23,7 +23,6 @@ export class AuthService implements OnDestroy {
     return Observable.create((observer) => {
 
       this.http.get('api/current_user')
-        .pipe(untilComponentDestroyed(this))//TODO is this really correct? - test take 1
         .subscribe((res) => {
           this._isAuthenticated.next(true);
           observer.next(res); //server response

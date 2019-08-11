@@ -35,16 +35,6 @@ a:-webkit-any-link {
   margin: 0 10px;
 }
 
-
-.spinner {
-  //position: fixed;
-  //z-index: 1031;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .overlay {
   position:fixed;
   display:block;
@@ -54,4 +44,12 @@ a:-webkit-any-link {
   left:0;
   background-color:rgba(74,74,74,.8);
   z-index:99999;
+}
+
+.spinner {
+  margin: auto;
+  top: 45%;
+  bottom: 45%;
+  left: 0;
+  right: 0;
 }

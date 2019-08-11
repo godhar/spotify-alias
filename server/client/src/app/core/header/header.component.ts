@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatIconRegistry} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
-import {AuthService} from "../../core/auth/auth.service";
+import {AuthService} from "../auth/auth.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -10,7 +10,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-
 
   constructor(iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer,
