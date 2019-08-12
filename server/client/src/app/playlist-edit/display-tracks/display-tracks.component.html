@@ -11,7 +11,6 @@
     </mat-card>
   </ng-container>
 
-<!--  <ng-container *ngIf="!loading else loader">-->
   <ng-container *ngIf="!loading">
     <table mat-table [dataSource]="dataSource">
 
@@ -47,6 +46,9 @@
   </ng-container>
 </div>
 
-<app-loader></app-loader>
+<div *ngIf="loading" class="overlay">
+  <mat-progress-spinner class="spinner" [color]="'accent'" [mode]="'indeterminate'">
+  </mat-progress-spinner>
+</div>
 
 

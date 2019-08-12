@@ -5,12 +5,10 @@
   padding: 1rem;
 }
 
-
 .mat-table {
   overflow: auto;
   max-height: 500px;
 }
-
 
 .tooltip.tooltip {
   background: darkturquoise;
@@ -36,14 +34,14 @@ a:-webkit-any-link {
 }
 
 .overlay {
-  position:fixed;
-  display:block;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  background-color:rgba(74,74,74,.8);
-  z-index:99999;
+  position: fixed;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(74, 74, 74, .8);
+  z-index: 99999;
 }
 
 .spinner {

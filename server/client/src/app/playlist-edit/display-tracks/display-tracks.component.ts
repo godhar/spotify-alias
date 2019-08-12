@@ -17,13 +17,13 @@ import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
   templateUrl: './display-tracks.component.html',
   styleUrls: ['./display-tracks.component.scss']
 })
-export class DisplayTracksComponent implements OnInit, OnDestroy {
+export class DisplayTracksComponent implements OnDestroy {
 
   dataSource: Observable<TrackFull[]>;
   resolverEvent$: Observable<Observable<TrackFull[]>> | Observable<any>;
   private playlist: Playlist;
   private currentEntity: Album | Artist;
-  loading: boolean = true;
+  loading: boolean = false;
   displayedColumns = ["name", "album", "artist", "duration", "externalSource"];
 
   constructor(private router: Router,
@@ -63,10 +63,6 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/baseline-arrow_back_ios-24px.svg'));
   }
 
-  ngOnInit() {
-    // this.dataSource$ = this.activatedRoute.data.pipe(map(data => data.trackData));
-  }
-
   ngOnDestroy() {}
 
   navigateToSearch() {
@@ -104,6 +100,6 @@ export class DisplayTracksComponent implements OnInit, OnDestroy {
     this.dialog.afterAllClosed.pipe(untilComponentDestroyed(this))
       .subscribe( () => {
         this.router.navigate(['./playlist',{id: this.playlist.playlist_id}], {relativeTo: this.activatedRoute.parent})
-      })//TODO - nav from here always to playlist, really?
+      });
   }
 }
