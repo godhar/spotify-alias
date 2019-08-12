@@ -79,18 +79,15 @@ const getSinglePlaylistItem = async (user, params) => {//DUP above
                 track_uri: t.track.uri
             };
         });
-        //add filter option as well
         if (sortOrder === 'asc') {
             trackData.sort((a, b) => a.position - b.position);
         } else {
             trackData.sort((a, b) => b.position - a.position);
         }
     }
-
     const initialPosition = pageNumber * pageSize;
 
     return trackData.slice(initialPosition, initialPosition + pageSize);
-
 };
 
 
@@ -127,7 +124,6 @@ const getSearchedItem = async (user, params) => {
     const searchResponseData = status;
 
     return utils.modifyResponseSearchData(searchResponseData, queryParams.type);
-
 };
 
 
@@ -153,6 +149,7 @@ const deletePlaylistItem = async (user, queryParam) => {
         userCreds.accessToken = await TokenService.getNewToken(userCreds);
         status = await deleteTrackByUri(userCreds.accessToken, queryParam);
     }
+
     return status;
 };
 
@@ -165,6 +162,7 @@ const getTracksArtistAlbum = async (user, queryParam) => {
         userCreds.accessToken = await TokenService.getNewToken(userCreds);
         status = await getTracks(userCreds.accessToken, queryParam);
     }
+
     return status;
 };
 
@@ -176,14 +174,12 @@ const addTrackToPlaylist = async (user, queryParams) => {
         userCreds.accessToken = await TokenService.getNewToken(userCreds);
         status = await updatePlaylist(userCreds.accessToken, queryParams);
     }
+
     return status;
 };
 
 
 async function updatePlaylist(accessToken, reqParams) {
-    console.log('PARAMS _', reqParams);
-    console.log('token _', accessToken);
-    console.log('trying...');
     const url = `https://api.spotify.com/v1/playlists/${reqParams.playlist_id}/tracks?uris=${reqParams.track_uri}&position=0`;
 
     const settings = {
@@ -200,9 +196,7 @@ async function updatePlaylist(accessToken, reqParams) {
     if (!response.ok) throw Error(response.message);
 
     try {
-        const data = await response.json();
-        console.log('response data == ', data)
-        return data;
+        return await response.json();
     } catch (err) {
         throw err;
     }
@@ -221,12 +215,6 @@ const createNewPlaylist = async (user, queryParams) => {
 
 
 async function newPlaylist(userCreds, reqParams) {//TODO test use fetch
-    console.log('PARAMS _', reqParams);
-    console.log('user creds _', userCreds);
-    console.log('trying create new playlist..');
-
-    reqParams.name = 'new pl name test';
-
     const url = `https://api.spotify.com/v1/users/${userCreds.userId}/playlists`;
     const reqData = {name: reqParams.name};
 
@@ -278,7 +266,6 @@ async function getTracks(accessToken, reqParam) {
 
 
 async function deleteTrackByUri(accessToken, reqParam) {
-
     let res;
     const qUrl = 'https://api.spotify.com/v1/playlists/' + reqParam.playlist_id + '/tracks';
     const reqData = '{"tracks": [{"uri": "' + reqParam.track_uri + '"}]' + ',"snapshot_id":"' + reqParam.snapshot_id + '"}';

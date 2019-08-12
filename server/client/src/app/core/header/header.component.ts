@@ -22,10 +22,6 @@ export class HeaderComponent {
     iconRegistry.addSvgIcon(
       'phi',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/phi.svg'));
-  }
-
-  logOutOfApp() {
-    this.authService.logOut();
-    this.router.navigate(['login']);
+    this.authService.isAuth().subscribe( res => console.log('is auth or .... ', res))
   }
 }

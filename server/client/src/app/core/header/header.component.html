@@ -11,10 +11,6 @@
         </a>
       </mat-nav-list>
       <span class="example-spacer"></span>
-      <span class="example-spacer"></span>
-      <mat-nav-list *ngIf="(authService.isAuth() | async)">
-      <a mat-raised-button color="accent" (click)="logOutOfApp()">Logout</a>
-      </mat-nav-list>
     </mat-toolbar-row>
   </mat-toolbar>
 </div>

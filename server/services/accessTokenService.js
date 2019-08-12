@@ -9,7 +9,6 @@ module.exports.getNewToken = async (user) => {
     const params = new URLSearchParams();
     params.append('grant_type', 'refresh_token');
     params.append('refresh_token', user.refreshToken);
-    console.log('closer to fetch post')
 
     const response = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',

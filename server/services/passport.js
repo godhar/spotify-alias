@@ -31,7 +31,7 @@ passport.use(
 
 
         const existingUser = await User.findOne({spotifyId: profile.id});
-
+        console.log('existing user = ', existingUser);
         if (existingUser) {
 
             let userCredentials = await UserCredential.findOne({userId: spotifyId});
@@ -49,6 +49,7 @@ passport.use(
         }
 
         if (!existingUser) {
+            console.log('NOT existing user; spotifyID = ', spotifyId);
             user = await new User({spotifyId}).save();
             await new UserCredential({userId: spotifyId, name, accessToken, refreshToken}).save();
         }

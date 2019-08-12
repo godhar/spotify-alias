@@ -1,19 +1,25 @@
-.example-section {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  height: 60px;
-}
 
 .example-margin {
   margin: 0 10px;
 
 }
 
-h2 {
+.example-spacer {
+  flex: 1 1 auto;
+}
 
-  font-family: "Verdana", "Arial";
-  color: #1BABC5;
+.example-header-image {
+  background-image: url('https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Black.png');
+  background-size: cover;
+}
+
+.mat-card-header {
+  margin-bottom: 0.9rem;
+}
+
+.mat-card-title {
+  font-family: 'Verdana', 'Arial';
+  color: #3ea8c5;
   white-space: nowrap;
 }
 

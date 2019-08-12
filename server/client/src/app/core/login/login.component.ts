@@ -24,7 +24,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         if (res && res['spotifyId']) {
           this.appStore.addCurrentUser(res['spotifyId']);
-          this.router.navigate(['playlists'])
+          this.authService._isAuthenticated.next(true);
+          if(authService._isAuthenticated) {
+            this.router.navigate(['playlists'])
+          }
         }
       }, error => {
         console.error(error);

@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 
 
@@ -17,28 +17,14 @@ export class AuthService implements OnDestroy {
     return this._isAuthenticated.asObservable();
   }
 
-  isSessionAlive(): Observable<any> {
-
-    return Observable.create((observer) => {
-
-      this.http.get('api/current_user')
-        .subscribe((res) => {
-          console.log(res)
-          if (res) {
-            this._isAuthenticated.next(true);
-          }
-          observer.next(res); //server response
-        }, () => {
-          this._isAuthenticated.next(false);
-          observer.next(false);
-        });
-    });
+  isSessionAlive() {
+      return this.http.get('api/current_user')
   }
 
   logOut(): void {
-    this.http.get('api/logout')
-      .subscribe((currentUser) => {
-        if (!currentUser) {
+    this.http.get('api/logout', {withCredentials: true})
+      .subscribe((res) => {
+        if (!res) {
           this._isAuthenticated.next(false);
         }
       });

@@ -15,7 +15,7 @@ export class AuthGuard implements CanLoad {
   }
 
   canLoad(): Observable<boolean> {
-    return this.authService.isSessionAlive()
+    return this.authService.isAuth()
       .pipe(
         take(1),
         map(res => {

@@ -12,10 +12,5 @@ export class LoaderComponent {
   value = 50;
   loading$: Subject<boolean> = this.loaderService.isLoading$;
 
-  constructor(private loaderService: LoaderService) {
-
-    this.loaderService.isLoading$.subscribe(
-      res => console.log('loading component async = ', res)
-    )
-  }
+  constructor(private loaderService: LoaderService) {}
 }

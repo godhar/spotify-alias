@@ -9,7 +9,7 @@
 
   <ng-container *ngIf="sEntity" fxFlex style="margin: 3rem;">
 
-    <app-display-result (navToActivePlaylist)="onUpdateNav($event)" (showTracksSelected)="getTracks($event)" [item]="sEntity"
+    <app-display-result fxFlex (navToActivePlaylist)="onUpdateNav($event)" (showTracksSelected)="getTracks($event)" [item]="sEntity"
                         [category]="sEntity.type">
     </app-display-result>
   </ng-container>
