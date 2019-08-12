@@ -25,23 +25,18 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (res && res['spotifyId']) {
           this.appStore.addCurrentUser(res['spotifyId']);
           this.authService._isAuthenticated.next(true);
-          if(authService._isAuthenticated) {
-            this.router.navigate(['playlists'])
-          }
+          this.router.navigate(['playlists'])
         }
       }, error => {
         console.error(error);
       });
   }
 
-  logUserOut(): void {
-    this.authService.logOut();
-  }
-
   ngOnInit() {
     this.backgroundImage = this.route.snapshot.data['data'];
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+  }
 
 }
