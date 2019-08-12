@@ -7,8 +7,6 @@
     <img mat-card-image [src]="backgroundImage">
     <mat-card-actions >
       <span *ngIf="!(authService.isAuth() | async)"><a fxFlex="center" href="/auth/spotify" mat-raised-button color="accent">Login with Spotify</a></span>
-      <span *ngIf="(authService.isAuth() | async)"><button fxFlex="center" (click)="logUserOut()" mat-raised-button color="accent">Logout</button></span>
     </mat-card-actions>
   </mat-card>
-
 </div>

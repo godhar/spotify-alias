@@ -9,7 +9,6 @@ export class PlaylistDataSource implements DataSource<PlaylistItem> {
 
     private playlistSubject = new BehaviorSubject<PlaylistItem[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
-    public loading$ = this.loadingSubject.asObservable();
 
 
     constructor(private playlistService: PlaylistService) { }

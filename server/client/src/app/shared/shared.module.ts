@@ -12,7 +12,6 @@ import {
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {ShowIfAuthDirective} from "./show-If-auth.directive";
 import {LoaderComponent} from "./loader/loader.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {RouterModule} from "@angular/router";
@@ -41,14 +40,12 @@ const uiModules = [
   declarations: [
     PlayListComponent,
     LoaderComponent,
-    ShowIfAuthDirective,
     PopUpComponent,
     NotFoundComponent
   ],
   entryComponents: [PopUpComponent],
   imports: [uiModules],
   exports: [
-    ShowIfAuthDirective,
     uiModules,
     PlayListComponent,
     LoaderComponent,
