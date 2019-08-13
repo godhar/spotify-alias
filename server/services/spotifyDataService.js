@@ -76,7 +76,8 @@ const getSinglePlaylistItem = async (user, params) => {//DUP above
                 },
                 track_duration: utils.convertMillisToSec(t.track.duration_ms),
                 track_number: t.track.track_number,
-                track_uri: t.track.external_urls.spotify
+                track_uri: t.track.uri,
+                listen_uri: t.track.external_urls.spotify
             };
         });
         if (sortOrder === 'asc') {

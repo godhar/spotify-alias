@@ -21,7 +21,7 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
   id: string;
   playlist: Playlist;
   dataSource: PlaylistDataSource;
-  displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist', 'delete', 'track_uri'];
+  displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist', 'delete', 'listen_uri'];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

@@ -9,6 +9,7 @@ export class PlaylistItem implements Deserializable {
   public track_number: number;
   public track_duration: string;
   public track_uri: string;
+  public listen_uri: string;
   public track_name: string;
 
   deserialize(input: any) {
