@@ -52,7 +52,7 @@
     <ng-container matColumnDef="track_uri">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell mat-cell *matCellDef="let p" (click)="$event.stopPropagation()" >
-          <a href="{{p.track_uri}}" target="blank"><mat-icon svgIcon="round-play"></mat-icon></a>
+          <a href="{{p.track_uri}}" target="blank"><mat-icon class="playButton" svgIcon="round-play"></mat-icon></a>
         </mat-cell>
     </ng-container>
 
