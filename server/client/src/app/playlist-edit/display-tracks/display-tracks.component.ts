@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {Album, Artist, Playlist, TrackFull} from "../../models/spotifyData.model";
 import {SearchService} from "../search/search.service";
 import {ActivatedRoute, Router} from "@angular/router";

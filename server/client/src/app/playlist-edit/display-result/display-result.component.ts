@@ -26,7 +26,7 @@ export class DisplayResultComponent implements OnDestroy{
               private dialog: MatDialog,
               iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer) {
-    this.store.state$.subscribe(res => this.currentPlaylist = res.currentPlaylist)
+    this.store.state$.pipe(untilComponentDestroyed(this)).subscribe(res => this.currentPlaylist = res.currentPlaylist);
     iconRegistry.addSvgIcon(
       'round-playlist-add',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/round-playlist-add.svg'));
