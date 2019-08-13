@@ -4,7 +4,7 @@
     <mat-toolbar-row>
       <span>Pavi-Phi</span>
       <mat-icon svgIcon="phi"></mat-icon>
-      <mat-nav-list *ngIf="(authService.isAuth() | async)">
+      <mat-nav-list *ngIf="(authService.isAuth() | async) && currentRoute !== 'playlists'">
         <a style="margin-left: 50% !important;" mat-raised-button color="accent" >
           <mat-icon  svgIcon="baseline-list" matTooltip="Playlists" [routerLink]="['/playlists']">
           </mat-icon>

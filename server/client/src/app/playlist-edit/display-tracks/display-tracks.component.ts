@@ -7,7 +7,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {PlaylistService} from "../../core/services/playlist.service";
 import {delay, switchMap, take, tap} from "rxjs/operators";
 import {Observable} from "rxjs";
-import {AppStateStore} from "../../store/app-state.store";
+import {AppStateStore} from "../../core/store/app-state.store";
 import {PopUpComponent} from "../../shared/pop-up/pop-up.component";
 import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 

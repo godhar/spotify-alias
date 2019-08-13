@@ -8,7 +8,7 @@ import {merge} from 'rxjs';
 import {PopUpComponent} from "../../shared/pop-up/pop-up.component";
 import {DomSanitizer} from "@angular/platform-browser";
 import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {AppStateStore} from "../../store/app-state.store";
+import {AppStateStore} from "../../core/store/app-state.store";
 import {Playlist} from "../../models/spotifyData.model";
 
 @Component({

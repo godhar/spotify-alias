@@ -4,7 +4,7 @@ import {Album, Artist, Playlist, Track} from "../../models/spotifyData.model";
 import {SearchService} from "../search/search.service";
 import {PlaylistService} from "../../core/services/playlist.service";
 import {LoaderService} from "../../shared/loader/loader.service";
-import {AppStateStore} from "../../store/app-state.store";
+import {AppStateStore} from "../../core/store/app-state.store";
 import {take} from "rxjs/operators";
 
 @Component({

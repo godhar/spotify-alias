@@ -4,7 +4,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {PlaylistService} from "../../core/services/playlist.service";
 import {map} from "rxjs/operators";
 import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {AppStateStore} from "../../store/app-state.store";
+import {AppStateStore} from "../../core/store/app-state.store";
 
 @Component({
   selector: 'app-play-lists',
@@ -27,12 +27,15 @@ export class PlayListsComponent implements OnDestroy {
       this.playLists = res['data']
     });
 
+    this.appStateStore.addCurrentRoute('playlists');
     this.appStateStore.state$
       .pipe(untilComponentDestroyed(this))
       .subscribe(res => this.currentUser = res['currentUser'])
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.appStateStore.addCurrentRoute('');
+  }
 
   handlePlaylist(pl) {
     this.playlistService.setCurrentPlaylist(pl);
