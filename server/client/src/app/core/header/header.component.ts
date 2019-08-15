@@ -5,6 +5,8 @@ import {AuthService} from "../auth/auth.service";
 import {Router} from "@angular/router";
 import {AppStateStore} from "../store/app-state.store";
 import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {PlaylistService} from "../services/playlist.service";
+import {Playlist} from "../../models/spotifyData.model";
 
 @Component({
   selector: 'app-header',
@@ -14,10 +16,12 @@ import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 export class HeaderComponent implements OnDestroy {
 
   currentRoute: string;
+  activePlaylist: Playlist;
 
   constructor(iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer,
               private router: Router,
+              private playlistService: PlaylistService,
               private appStore: AppStateStore,
               private authService: AuthService
   ) {
@@ -30,7 +34,14 @@ export class HeaderComponent implements OnDestroy {
 
     this.appStore.state$
       .pipe(untilComponentDestroyed(this))
-      .subscribe(res => this.currentRoute = res['currentRoute']);
+      .subscribe(res => {
+        this.currentRoute = res['currentRoute'];
+        this.activePlaylist = res['currentPlaylist'];
+      });
+  }
+
+  navToPlaylist(){
+    this.playlistService.fireNavigationToPlaylist();
   }
 
   ngOnDestroy():void {}

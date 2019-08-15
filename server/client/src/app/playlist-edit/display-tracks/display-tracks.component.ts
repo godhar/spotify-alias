@@ -35,6 +35,14 @@ export class DisplayTracksComponent implements OnDestroy {
               iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer) {
 
+    this.playlistService.passStream()
+      .pipe(untilComponentDestroyed(this))
+      .subscribe( res => {
+        if(res) {
+          this.navToCurrentPlaylist();
+        }
+      });
+
     this.appStateStore.state$
       .pipe(untilComponentDestroyed(this)).subscribe(
       res => {
@@ -58,12 +66,16 @@ export class DisplayTracksComponent implements OnDestroy {
       error => console.error(error)
     );
 
+    this.appStateStore.addCurrentRoute('display-tracks');
+
     iconRegistry.addSvgIcon(
       'baseline-arrow-back',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/baseline-arrow_back_ios-24px.svg'));
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy(): void {
+    this.appStateStore.addCurrentRoute('');
+  }
 
   navigateToSearch() {
     this.router.navigate(['./playlist-add'], {relativeTo: this.activatedRoute.parent});
@@ -96,10 +108,9 @@ export class DisplayTracksComponent implements OnDestroy {
     };
 
     this.dialog.open(PopUpComponent, dialogConfig);
+  }
 
-    this.dialog.afterAllClosed.pipe(untilComponentDestroyed(this))
-      .subscribe( () => {
-        this.router.navigate(['./playlist',{id: this.playlist.playlist_id}], {relativeTo: this.activatedRoute.parent})
-      });
+  navToCurrentPlaylist(): void {
+    this.router.navigate(['./playlist',{id: this.playlist.playlist_id}], {relativeTo: this.activatedRoute.parent})
   }
 }

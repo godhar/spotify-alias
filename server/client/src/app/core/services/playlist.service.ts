@@ -1,7 +1,7 @@
 import {catchError, map} from 'rxjs/operators';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, throwError} from 'rxjs';
+import {Observable, Subject, throwError} from 'rxjs';
 import {Album, ApiResponse, Artist, Playlist} from "../../models/spotifyData.model";
 import {AppStateStore} from "../store/app-state.store";
 import {PlaylistItem} from "../../models/playlist-item.model";
@@ -10,6 +10,8 @@ import {PlaylistItem} from "../../models/playlist-item.model";
   providedIn: 'root'
 })
 export class PlaylistService {
+
+  public navCurrentPlaylist$ = new Subject<boolean>();
 
   constructor(private http: HttpClient, private appStateStore: AppStateStore) {
   }
@@ -69,6 +71,14 @@ export class PlaylistService {
       catchError(err => throwError(err)),
       map(res => res['payload'])
     )
+  }
+
+  fireNavigationToPlaylist(){
+    this.navCurrentPlaylist$.next(true);
+  }
+
+  passStream() {
+    return this.navCurrentPlaylist$.asObservable();
   }
 
   handleError(error) {

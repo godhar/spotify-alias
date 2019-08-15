@@ -1,16 +1,25 @@
 
 <div style="height: 10%;">
   <mat-toolbar color="accent">
-    <mat-toolbar-row>
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="start center">
       <span>Pavi-Phi</span>
+
       <mat-icon svgIcon="phi"></mat-icon>
-      <mat-nav-list *ngIf="(authService.isAuth() | async) && currentRoute !== 'playlists'">
-        <a style="margin-left: 50% !important;" mat-raised-button color="accent" >
-          <mat-icon  svgIcon="baseline-list" matTooltip="Playlists" [routerLink]="['/playlists']">
-          </mat-icon>
-        </a>
+      <span fxFlex></span>
+
+      <mat-nav-list fxFlex *ngIf="(authService.isAuth() | async) && currentRoute !== 'playlists'">
+      <a fxFlex mat-raised-button color="accent" >
+        <mat-icon  svgIcon="baseline-list" matTooltip="Playlists" [routerLink]="['/playlists']">
+        </mat-icon>
+      </a>
       </mat-nav-list>
-      <span class="example-spacer"></span>
+      <mat-nav-list *ngIf="currentRoute === 'display-tracks' || currentRoute === 'playlist-add'">
+        <button fxFlex mat-raised-button color="accent" (click)="navToPlaylist()">
+        {{activePlaylist.name}}
+        </button>
+      </mat-nav-list>
+      <span fxFlex></span>
+      <span fxFlex></span>
     </mat-toolbar-row>
   </mat-toolbar>
 </div>

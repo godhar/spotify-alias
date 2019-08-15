@@ -65,8 +65,5 @@ export class DisplayResultComponent implements OnDestroy{
     };
 
     this.dialog.open(PopUpComponent, dialogConfig);
-    this.dialog.afterAllClosed
-      .pipe(untilComponentDestroyed(this))
-      .subscribe(() => this.navToActivePlaylist.emit(true))
   }
 }
