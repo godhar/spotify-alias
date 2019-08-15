@@ -5,7 +5,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {LoaderInterceptor} from "./interceptors/loader.interceptor";
 import {AuthService} from "./auth/auth.service";
 import {AuthGuard} from "./auth/auth.guard";
-import {AppStateStore} from "../store/app-state.store";
+import {AppStateStore} from "./store/app-state.store";
 import {PlaylistService} from "./services/playlist.service";
 import {NotFoundResolver} from "../shared/not-found/not-found.resolver";
 

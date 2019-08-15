@@ -8,7 +8,7 @@ import {merge} from 'rxjs';
 import {PopUpComponent} from "../../shared/pop-up/pop-up.component";
 import {DomSanitizer} from "@angular/platform-browser";
 import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {AppStateStore} from "../../store/app-state.store";
+import {AppStateStore} from "../../core/store/app-state.store";
 import {Playlist} from "../../models/spotifyData.model";
 
 @Component({
@@ -21,7 +21,7 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
   id: string;
   playlist: Playlist;
   dataSource: PlaylistDataSource;
-  displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist', 'delete'];
+  displayedColumns = ['trackNum', 'trackName', 'pName', 'duration', 'artist', 'delete', 'listen_uri'];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,14 +41,14 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
     iconRegistry.addSvgIcon(
       'round-playlist-add',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/round-playlist-add.svg'));
-  }
 
+    iconRegistry.addSvgIcon('round-play', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/round-play_circle.svg') )
+  }
 
   ngOnInit() {
     this.dataSource = new PlaylistDataSource(this.playlistService);
     this.dataSource.loadPlaylist(this.playlist.playlist_id, '', 'asc', 0, 6);
   }
-
 
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);

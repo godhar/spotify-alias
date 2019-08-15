@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {Album, Artist, Playlist, Track} from "../../models/spotifyData.model";
-import {AppStateStore} from "../../store/app-state.store";
+import {AppStateStore} from "../../core/store/app-state.store";
 import {PlaylistService} from "../../core/services/playlist.service";
 import {MatDialog, MatDialogConfig, MatIconRegistry} from "@angular/material";
 import {PopUpComponent} from "../../shared/pop-up/pop-up.component";
@@ -26,7 +26,7 @@ export class DisplayResultComponent implements OnDestroy{
               private dialog: MatDialog,
               iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer) {
-    this.store.state$.subscribe(res => this.currentPlaylist = res.currentPlaylist)
+    this.store.state$.pipe(untilComponentDestroyed(this)).subscribe(res => this.currentPlaylist = res.currentPlaylist);
     iconRegistry.addSvgIcon(
       'round-playlist-add',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/round-playlist-add.svg'));
@@ -65,8 +65,5 @@ export class DisplayResultComponent implements OnDestroy{
     };
 
     this.dialog.open(PopUpComponent, dialogConfig);
-    this.dialog.afterAllClosed
-      .pipe(untilComponentDestroyed(this))
-      .subscribe(() => this.navToActivePlaylist.emit(true))
   }
 }
