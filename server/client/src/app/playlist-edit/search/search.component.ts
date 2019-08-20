@@ -49,9 +49,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.filteredSearchItems$ = this.searchForm.get('searchInput').valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        startWith(null),
-        filter(val => val && val !== ''),
-        debounceTime(500),
+        startWith(''),
+        filter( str => str && str.trim()),
+        debounceTime(1000),
         distinctUntilChanged(),
         tap(() => this.isLoading = true),
         switchMap(value => {
