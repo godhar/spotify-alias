@@ -50,7 +50,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         startWith(''),
-        filter( str => str && str.trim()),
+        filter( str => str && str.toString().trim()),
         debounceTime(1000),
         distinctUntilChanged(),
         tap(() => this.isLoading = true),
