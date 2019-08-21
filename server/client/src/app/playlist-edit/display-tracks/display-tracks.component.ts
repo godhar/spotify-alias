@@ -31,14 +31,13 @@ export class DisplayTracksComponent implements OnDestroy {
               private activatedRoute: ActivatedRoute,
               private playlistService: PlaylistService,
               private appStateStore: AppStateStore,
-              private dialog: MatDialog,
-              iconRegistry: MatIconRegistry,
-              sanitizer: DomSanitizer) {
+              private dialog: MatDialog
+  ) {
 
     this.playlistService.passStream()
       .pipe(untilComponentDestroyed(this))
-      .subscribe( res => {
-        if(res) {
+      .subscribe(res => {
+        if (res) {
           this.navToCurrentPlaylist();
         }
       });
@@ -54,7 +53,7 @@ export class DisplayTracksComponent implements OnDestroy {
       .pipe(
         untilComponentDestroyed(this),
         tap(() => this.loading = true),
-        take(1),//immediately unsubscribe after 1 val (initial empty = 1, data = 2)//new test this
+        take(1),
         delay(5000),
         switchMap((data) => data.trackData));
 
@@ -67,10 +66,6 @@ export class DisplayTracksComponent implements OnDestroy {
     );
 
     this.appStateStore.addCurrentRoute('display-tracks');
-
-    iconRegistry.addSvgIcon(
-      'baseline-arrow-back',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/baseline-arrow_back_ios-24px.svg'));
   }
 
   ngOnDestroy(): void {

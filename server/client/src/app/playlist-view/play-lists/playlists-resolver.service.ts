@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable, of} from "rxjs";
 import {Playlist} from "../../models/spotifyData.model";
 import {catchError, map} from "rxjs/operators";
@@ -10,7 +10,7 @@ import {catchError, map} from "rxjs/operators";
 })
 export class PlayListsResolverService implements Resolve<Playlist[]> {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Observable<never> {
     return this.http.get('api/spotify/playlists')
@@ -25,7 +25,7 @@ export class PlayListsResolverService implements Resolve<Playlist[]> {
               return new Playlist().deserialize(pl);
             });
           } else {
-            return this.handleError();//navigate to error page
+            return this.handleError();
           }
         })
       );
@@ -33,7 +33,8 @@ export class PlayListsResolverService implements Resolve<Playlist[]> {
 
 
   handleError(): Observable<boolean[]> {
-    return of([false]);//new
+    this.router.navigate(['/not-found']);
+    return of([false]);
   }
 }
 
