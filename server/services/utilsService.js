@@ -39,7 +39,7 @@ module.exports.modifyResponseSearchData = (data, qType) => {
                 artist: item.artists[0].name,
                 album: item.album.name,
                 name: item.name,
-                uri: item.uri
+                uri: item.external_urls.spotify
             })
         });
     }
