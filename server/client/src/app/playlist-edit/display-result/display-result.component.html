@@ -9,10 +9,12 @@
       <mat-card-content>
         <h3>Artist - {{item.artist}}</h3>
         <h3>Album - {{item.album}}</h3>
-        <a href="{{item.uri}}" target="blank"><mat-icon class="playButton" svgIcon="round-play"></mat-icon></a>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="accent"><mat-icon svgIcon="round-playlist-add" matTooltip="Add new playlist track" (click)="addTrackToPlaylist(item)"></mat-icon></button>
+        <button mat-raised-button color="accent">
+          <mat-icon svgIcon="round-playlist-add" matTooltip="Add new playlist track" (click)="addTrackToPlaylist(item)"></mat-icon></button>
+        <div fxFlex></div>
+        <a href="{{item.external_url}}" mat-raised-button target="blank"><mat-icon class="playButton" matTooltip="Listen"  svgIcon="round-play"></mat-icon></a>
       </mat-card-actions>
     </mat-card>
   </ng-container>
