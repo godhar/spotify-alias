@@ -93,6 +93,26 @@ module.exports.modifyFullTrackData = (rawData, entityType) => {
     })
 };
 
+module.exports.modifyPlaylistData = (data) => {
+    if(!data.items)
+        return false;
+
+    return data.items.map((p) => {
+        let images = [];
+        p.images.forEach((i) => {
+            images.push(i.url);
+        });
+
+        return {
+            playlist_id: p.id,
+            name: p.name,
+            images: images,
+            snapshot_id: p.snapshot_id,
+            tracks: {url: p.tracks.href, total: p.tracks.total}
+        };
+    });
+};
+
 module.exports.convertMillisToSec = (millis) => {
     return convertMillis(millis);
 };

@@ -15,23 +15,9 @@ const getPlaylists = async (user) => {
     }
 
     const playlistData = status;
-    //TODO put below in utils service
-    if (playlistData && playlistData.data && playlistData.data.items) {
-        return playlistData.data.items.map((p) => {
-            let images = [];
-            p.images.forEach((i) => {
-                images.push(i.url);
-            });
 
-            return {
-                playlist_id: p.id,
-                name: p.name,
-                images: images,
-                snapshot_id: p.snapshot_id,
-                tracks: {url: p.tracks.href, total: p.tracks.total}
-            };
-        });
-    }
+    if (playlistData)
+        return utils.modifyPlaylistData(playlistData.data);
 };
 
 
