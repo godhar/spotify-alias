@@ -39,12 +39,7 @@ export class PlayListsComponent implements OnDestroy {
 
   handlePlaylist(pl) {
     this.playlistService.setCurrentPlaylist(pl);
-    this.router.navigate(['playlist',{
-      snapshotId: pl.snapshot_id,
-      id: pl.playlist_id,
-      totalTracks: pl.tracks.total,
-      playlistName: pl.name
-    }], { relativeTo: this.route });
+    this.router.navigate(['playlist'], { relativeTo: this.route });
   }
 
 }
