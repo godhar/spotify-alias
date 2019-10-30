@@ -16,4 +16,5 @@ to get a new access token once it has expired.
 * Search Spotify for tracks, albums or artists
 * Get **top-tracks** for searched entity
 * Listen to **top-tracks**
-* Add a searched track or top-track to a playlist
+* Add a track to a playlist
+* Update playlist name
