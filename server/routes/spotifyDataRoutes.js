@@ -48,6 +48,11 @@ module.exports = (app) => {
         const data = await spotifyService.newUserPlaylist(req.user, req.query);
         res.status(200).json({ payload: data});
     });
+
+    app.get('/api/spotify/new-playlist-name', isAuth, async (req, res) => {
+        const data = await spotifyService.modifyPlaylistName(req.user, req.query);
+        res.status(200).json({ payload: data});
+    });
 };
 
 

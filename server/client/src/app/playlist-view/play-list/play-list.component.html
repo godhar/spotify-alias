@@ -1,7 +1,11 @@
 
 <div class="playlist-table">
 
-  <h2> {{playlist.name}} </h2>
+
+  <div (click)="onClickPlaylisName()" fxLayout="row">
+    <h2 fxFlex="20" [matTooltip]="'Click to edit playlist name'" [matTooltipPosition]="'left'"> {{playlist.name}} </h2>
+    <span fxFlex="80"></span>
+  </div>
   <mat-card>
     <mat-card-actions>
       <button mat-raised-button color="accent" (click)="newPlaylistTrack()">

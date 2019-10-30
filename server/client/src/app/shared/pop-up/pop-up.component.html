@@ -13,7 +13,7 @@
 
 </ng-container>
 
-<ng-container *ngIf="newPlaylistConfig">
+<ng-container *ngIf="newPlaylistName">
   <h2 mat-dialog-title>{{ dialogueTitle }}</h2>
 
   <mat-dialog-content>
@@ -22,8 +22,12 @@
 
   </mat-dialog-content>
 
+  <mat-form-field>
+    <input matInput [(ngModel)]="playlistNewName" placeholder="New playlist name">
+  </mat-form-field>
+
   <mat-dialog-actions>
-    <button class="mat-raised-button" (click)="confirmPlaylistName()">Confirm New Playlist?</button>
+    <button class="mat-raised-button" (click)="confirmPlaylistName()">Confirm</button>
     <button class="mat-raised-button" (click)="close()">Close</button>
   </mat-dialog-actions>
 

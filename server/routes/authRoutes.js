@@ -3,7 +3,7 @@ const passport = require('passport');
 module.exports = (app) => {
 
     app.get('/auth/spotify', passport.authenticate('spotify', {
-        scope: ['user-read-private', 'playlist-read-collaborative', 'playlist-modify-private', 'playlist-modify-public'], showDialog:true
+        scope: ['user-read-private', 'playlist-read-private', 'playlist-read-collaborative', 'playlist-modify-private', 'playlist-modify-public'], showDialog:true
     }));
 
     app.get('/auth/spotify/callback', passport.authenticate('spotify'),

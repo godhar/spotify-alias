@@ -3,12 +3,23 @@
   background-image: url('https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Black.png');
   background-size: cover;
 }
+
 .example-card {
   max-width: 300px;
 }
+
 .mat-card-header {
   margin-bottom: 4%;
 }
+
 .h1 {
   font-family: Verdana, Arial;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.playButton {
+  fill: seagreen;
 }

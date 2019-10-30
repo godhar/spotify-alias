@@ -3,7 +3,7 @@ import {PlaylistDataSource} from './playlist-data-source';
 import {Component, OnInit, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatDialogConfig, MatIconRegistry, MatPaginator, MatSort} from '@angular/material';
-import {map, tap} from 'rxjs/operators';
+import {filter, map, mergeMap, take, tap} from 'rxjs/operators';
 import {merge} from 'rxjs';
 import {PopUpComponent} from "../../shared/pop-up/pop-up.component";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -94,7 +94,7 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     dialogConfig.data = {
       deleteTrack: true,
-      title: 'Delete track',
+      title: 'Track deleted',
       content: `${msg} deleted from ${this.playlist.name}`
     };
 
@@ -106,6 +106,30 @@ export class PlayListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['../playlist-edit'], {relativeTo: this.route.parent});
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+  }
+
+  onClickPlaylisName() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      newPlaylistName: true,
+      title: `Edit '${this.playlist.name}'`,
+    };
+
+    const dialogRef = this.dialog.open(PopUpComponent, dialogConfig);
+
+    dialogRef.afterClosed()
+      .pipe(
+        take(1),
+        filter(res => res && res.trim() !== 'false'),
+        mergeMap(res => {
+          this.playlist.name = res;
+          return this.playlistService.newPlaylistName(res, this.playlist.playlist_id);
+        })).subscribe();
+  }
 
 }

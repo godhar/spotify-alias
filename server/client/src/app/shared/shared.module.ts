@@ -1,56 +1,49 @@
 import {NgModule} from '@angular/core';
 import {PopUpComponent} from "./pop-up/pop-up.component";
 import {PlayListComponent} from "../playlist-view/play-list/play-list.component";
-import {FlexLayoutModule} from "@angular/flex-layout";
 import {
-  MatButtonModule,
-  MatCardModule, MatDialogModule,
-  MatIconModule, MatInputModule, MatListModule,
+   MatDialogModule,
+  MatInputModule,
   MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule,
-  MatToolbarModule,
   MatTooltipModule
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {LoaderComponent} from "./loader/loader.component";
-import {NotFoundComponent} from "./not-found/not-found.component";
 import {RouterModule} from "@angular/router";
+import {MainSharedModule} from "../main/main-shared.module";
 
 const uiModules = [
   CommonModule,
-  MatSortModule,
-  FlexLayoutModule,
+  MatDialogModule,
   MatTooltipModule,
-  MatButtonModule,
-  MatIconModule,
-  MatCardModule,
-  MatToolbarModule,
-  MatIconModule,
+  MatSortModule,
   MatTableModule,
   MatInputModule,
   MatPaginatorModule,
-  MatListModule,
   RouterModule,
   MatProgressSpinnerModule,
-  MatDialogModule,
   ReactiveFormsModule,
   FormsModule];
+
 
 @NgModule({
   declarations: [
     PlayListComponent,
     LoaderComponent,
     PopUpComponent,
-    NotFoundComponent
   ],
   entryComponents: [PopUpComponent],
-  imports: [uiModules],
+  imports: [
+    uiModules,
+    MainSharedModule
+  ],
   exports: [
     uiModules,
+    MainSharedModule,
     PlayListComponent,
     LoaderComponent,
-    PopUpComponent,
-    NotFoundComponent
+    PopUpComponent
   ]
 })
 export class SharedModule {

@@ -60,6 +60,17 @@ export class PlaylistService {
     );
   }
 
+  newPlaylistName(name: string, plId: string) {
+    return this.http.get<Response>('api/spotify/new-playlist-name', {
+      params: new HttpParams()
+        .set('name', name)
+        .set('id', plId)
+    }).pipe(
+      catchError(error => this.handleError(error)),
+      map(res => console.log(res))
+    );
+  }
+
   removeItemFromPlaylist(trackUri: string, snapshotId: string, playlistId: string, trackNumber: number): Observable<Object> {
     return this.http.get('api/spotify/delete-playlist-track', {
       params: new HttpParams()

@@ -5,7 +5,7 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const cors = require('cors');
 const path = require('path');
-
+const compression = require('compression');
 
 require('./Models/User');
 require('./Models/UserCredential');
@@ -13,6 +13,7 @@ require('./services/passport');
 mongoose.connect(keys.mongoURI);
 
 const app = express();
+app.use(compression());
 app.use(cors());
 
 app.use(

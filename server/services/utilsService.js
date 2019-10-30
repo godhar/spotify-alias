@@ -39,7 +39,8 @@ module.exports.modifyResponseSearchData = (data, qType) => {
                 artist: item.artists[0].name,
                 album: item.album.name,
                 name: item.name,
-                uri: item.uri
+                uri: item.uri,
+                external_url: item.external_urls.spotify
             })
         });
     }
@@ -90,6 +91,26 @@ module.exports.modifyFullTrackData = (rawData, entityType) => {
             track_uri: track.uri
         };
     })
+};
+
+module.exports.modifyPlaylistData = (data) => {
+    if(!data.items)
+        return false;
+
+    return data.items.map((p) => {
+        let images = [];
+        p.images.forEach((i) => {
+            images.push(i.url);
+        });
+
+        return {
+            playlist_id: p.id,
+            name: p.name,
+            images: images,
+            snapshot_id: p.snapshot_id,
+            tracks: {url: p.tracks.href, total: p.tracks.total}
+        };
+    });
 };
 
 module.exports.convertMillisToSec = (millis) => {

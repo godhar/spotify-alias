@@ -6,7 +6,10 @@
     </mat-card-header>
     <img mat-card-image [src]="backgroundImage">
     <mat-card-actions >
-      <span *ngIf="!(authService.isAuth() | async)"><a fxFlex="center" href="/auth/spotify" mat-raised-button color="accent">Login with Spotify</a></span>
+      <span *ngIf="!(auth.isAuth() | async); else loggedIn"><a fxFlex="center" href="/auth/spotify" mat-raised-button color="accent">Login with Spotify</a></span>
+      <ng-template #loggedIn >
+        <span><a fxFlex="center" mat-raised-button color="accent">Welcome back</a></span>
+      </ng-template>
     </mat-card-actions>
   </mat-card>
 </div>

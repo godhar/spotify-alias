@@ -15,23 +15,9 @@ const getPlaylists = async (user) => {
     }
 
     const playlistData = status;
-    //TODO put below in utils service
-    if (playlistData && playlistData.data && playlistData.data.items) {
-        return playlistData.data.items.map((p) => {
-            let images = [];
-            p.images.forEach((i) => {
-                images.push(i.url);
-            });
 
-            return {
-                playlist_id: p.id,
-                name: p.name,
-                images: images,
-                snapshot_id: p.snapshot_id,
-                tracks: {url: p.tracks.href, total: p.tracks.total}
-            };
-        });
-    }
+    if (playlistData)
+        return utils.modifyPlaylistData(playlistData.data);
 };
 
 
@@ -214,6 +200,16 @@ const createNewPlaylist = async (user, queryParams) => {
     return status;
 };
 
+const editPlaylistName = async (user, queryParams) => {
+    const userCreds = await TokenService.getUserCredentials(user);
+    let status = await newPlaylistName(userCreds, queryParams);
+    if (status.statusCode === 401) {
+        userCreds.accessToken = await TokenService.getNewToken(userCreds);
+        status = await newPlaylistName(userCreds, queryParams);
+    }
+    return status;
+};
+
 
 async function newPlaylist(userCreds, reqParams) {//TODO test use fetch
     const url = `https://api.spotify.com/v1/users/${userCreds.userId}/playlists`;
@@ -231,13 +227,37 @@ async function newPlaylist(userCreds, reqParams) {//TODO test use fetch
         return response;
 
     }).catch(err => {
-        console.log('errrring ', err)
         if (err.response.status === 401) {
             return {statusCode: 401};
         }
         console.error(err);
         throw new Error('Create new playlist call failed');
     });
+}
+
+async function newPlaylistName(userCreds, paramData) {
+    const url = `https://api.spotify.com/v1/users/${userCreds.userId}/playlists/${paramData.id}`;
+
+    const data = {
+        name: paramData.name
+    };
+
+    const config = {
+        headers: {
+            'Authorization': 'Bearer ' + userCreds.accessToken,
+            'Content-Type': 'application/json'
+        }
+    };
+
+    return axios.put(url, data, config)
+        .then((response) => {
+            return true;
+        }).catch(err => {
+            if (err.response.status === 401) {
+                return {statusCode: 401};
+            }
+            throw new Error('Create new playlist call failed');
+        });
 }
 
 
@@ -419,6 +439,7 @@ module.exports = {
     deletePlaylistTrack: deletePlaylistItem,
     getTracksByAlbumArtist: getTracksArtistAlbum,
     addTrackToPlaylist: addTrackToPlaylist,
-    newUserPlaylist: createNewPlaylist
+    newUserPlaylist: createNewPlaylist,
+    modifyPlaylistName: editPlaylistName
 };
 

@@ -13,17 +13,20 @@ import {AppStateStore} from "../store/app-state.store";
 export class LoginComponent implements OnInit, OnDestroy {
 
   backgroundImage: SafeUrl;
+  auth: AuthService;
 
   constructor(private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
               private appStore: AppStateStore) {
 
+    this.auth = this.authService;
     this.authService.isSessionAlive()
       .pipe(untilComponentDestroyed(this))
       .subscribe((res) => {
         if (res && res['spotifyId']) {
           this.appStore.addCurrentUser(res['spotifyId']);
+          this.appStore.addCurrentRoute('login');
           this.authService._isAuthenticated.next(true);
           this.router.navigate(['playlists'])
         }

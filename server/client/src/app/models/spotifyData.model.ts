@@ -40,6 +40,7 @@ export class Track implements Deserializable {
   public img: string[];
   public type: string;
   public uri: string;
+  public external_url: string;
 
   deserialize(input: any) {
     Object.assign(this, input);

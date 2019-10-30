@@ -17,6 +17,7 @@ export class HeaderComponent implements OnDestroy {
 
   currentRoute: string;
   activePlaylist: Playlist;
+  auth: AuthService;
 
   constructor(iconRegistry: MatIconRegistry,
               sanitizer: DomSanitizer,
@@ -25,6 +26,7 @@ export class HeaderComponent implements OnDestroy {
               private appStore: AppStateStore,
               private authService: AuthService
   ) {
+    this.auth = this.authService;
     iconRegistry.addSvgIcon(
       'baseline-list',
       sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/baseline-list-24px.svg'));
