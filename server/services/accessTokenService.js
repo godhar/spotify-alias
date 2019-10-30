@@ -25,7 +25,7 @@ module.exports.getNewToken = async (user) => {
 
     if (response.status !== 200) {
         console.error(`Invalid response status ${response.status}.`);
-        throw newAuthUserData;
+        throw new Error;
     }
     user.accessToken = newAuthUserData['access_token'];
     await user.save();

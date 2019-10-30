@@ -8,33 +8,31 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 })
 export class PopUpComponent implements OnInit {
 
-  private dialogueTitle: string;
-  private dynamicContent: string;
-  newPlaylistConfig: boolean = false;
+  dialogueTitle: string;
+  dynamicContent: string;
+  addTrack: boolean = false;
   displayConfirmation: boolean = false;
-  private addTrack: boolean = false;
+  newPlaylistName: boolean = false;
+  playlistNewName: string;
 
   constructor(private dialogRef: MatDialogRef<PopUpComponent>,
-              @Inject(MAT_DIALOG_DATA) data) {
-    this.handleDialogueData(data);
+              @Inject(MAT_DIALOG_DATA) data: {addTrack?: boolean; title: string; content?: string; newPlaylistName?: boolean;}) {
     this.dialogueTitle = data.title;
     this.dynamicContent = data.content;
+    this.handleDialogueData(data);
   }
 
   ngOnInit() {
   }
 
   handleDialogueData(data) {
-    if(data.newPlaylist) {
-      this.dialogueTitle = data.title;
-      this.dynamicContent = data.content;
-      this.newPlaylistConfig = true;
+
+    if(data.newPlaylistName) {
+      this.newPlaylistName = true;
     }
 
     if(data.deleteTrack|| data.addTrack) {
       data.addTrack ? this.addTrack = true:null;
-      this.dialogueTitle = data.title;
-      this.dynamicContent = data.content;
       this.displayConfirmation = true;
     }
   }
@@ -44,7 +42,7 @@ export class PopUpComponent implements OnInit {
   }
 
   confirmPlaylistName() {
-    this.dialogRef.close();
+    this.dialogRef.close(this.playlistNewName);
   }
 
 }
